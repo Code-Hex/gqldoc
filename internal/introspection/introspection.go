@@ -303,6 +303,17 @@ func (t *Type) UnderlyingName() string {
 	return ""
 }
 
+func (t *Type) UnderlyingKind() TypeKind {
+	if t == nil {
+		return ""
+	}
+	switch t.Kind {
+	case NON_NULL, LIST:
+		return t.OfType.UnderlyingKind()
+	}
+	return t.Kind
+}
+
 func (t *Type) String() string {
 	if t == nil {
 		return ""

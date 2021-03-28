@@ -2,6 +2,7 @@ package markdown
 
 import (
 	_ "embed"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -24,6 +25,28 @@ type Config struct {
 func (m *Config) Create(filename string) (*os.File, error) {
 	dest := filepath.Join(m.BaseDir, filename)
 	return os.Create(dest)
+}
+
+func (m *Config) MakeLinkFromType(typ *introspection.Type) (string, error) {
+	if typ == nil {
+		return "", errors.New("type is nil")
+	}
+	kind := typ.UnderlyingKind()
+	switch kind {
+	case introspection.SCALAR,
+		introspection.OBJECT,
+		introspection.INTERFACE,
+		introspection.UNION,
+		introspection.ENUM,
+		introspection.INPUT_OBJECT:
+		link := fmt.Sprintf(
+			"%ss.md#%s",
+			kind,
+			typ.UnderlyingName(),
+		)
+		return strings.ToLower(link), nil
+	}
+	return "", errors.Errorf("unexpected kind: %q", kind)
 }
 
 func (m *Config) Render(s *introspection.Schema) error {

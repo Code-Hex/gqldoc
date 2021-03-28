@@ -2,7 +2,6 @@ package markdown
 
 import (
 	_ "embed"
-	"strings"
 	"text/template"
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
@@ -53,9 +52,13 @@ func (m *Config) renderObjects(objectTypes []*introspection.Types) error {
 		}
 		implements := make([]*ObjectImplements, 0, len(typ.Interfaces))
 		for _, i := range typ.Interfaces {
+			implementedTypeLink, err := m.MakeLinkFromType(i)
+			if err != nil {
+				return errors.Wrapf(err, "implemented type %q has caused error", i.UnderlyingName())
+			}
 			implements = append(implements, &ObjectImplements{
 				Type:     i.String(),
-				TypeLink: "http://example.com",
+				TypeLink: implementedTypeLink,
 			})
 		}
 		fields := make([]*ObjectField, 0, len(typ.Fields))
@@ -64,25 +67,33 @@ func (m *Config) renderObjects(objectTypes []*introspection.Types) error {
 			if len(f.Args) > 0 {
 				args = make([]*ObjectFieldArg, 0, len(f.Args))
 				for _, arg := range f.Args {
+					argLink, err := m.MakeLinkFromType(arg.Type)
+					if err != nil {
+						return errors.Wrapf(err, "argument type %q has caused error", arg.Type.UnderlyingName())
+					}
 					args = append(args, &ObjectFieldArg{
 						Name:        arg.Name,
 						Type:        arg.Type.String(),
-						TypeLink:    "http://example.com",
+						TypeLink:    argLink,
 						Description: renderHTML(arg.Description),
 					})
 				}
 			}
+			fieldLink, err := m.MakeLinkFromType(f.Type)
+			if err != nil {
+				return errors.Wrapf(err, "field type %q has caused error", f.Type.UnderlyingName())
+			}
 			fields = append(fields, &ObjectField{
 				Name:        f.Name,
 				Type:        f.Type.String(),
-				TypeLink:    "http://example.com",
-				Description: strings.ReplaceAll(f.Description, "\n", " "),
+				TypeLink:    fieldLink,
+				Description: renderHTML(f.Description),
 				Args:        args,
 			})
 		}
 		objectList = append(objectList, &Object{
 			Name:        typ.Name,
-			Description: strings.ReplaceAll(typ.Description, "\n", " "),
+			Description: renderHTML(typ.Description),
 			Implements:  implements,
 			Fields:      fields,
 		})

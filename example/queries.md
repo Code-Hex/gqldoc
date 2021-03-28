@@ -6,7 +6,7 @@ The query root of GitHub's GraphQL interface.
 
 ### codeOfConduct
 
-#### Type: [CodeOfConduct](http://example.com)
+#### Type: [CodeOfConduct](objects.md#codeofconduct)
 
 Look up a code of conduct by its key 
 
@@ -14,13 +14,13 @@ Look up a code of conduct by its key
 
 | Name | Description |
 |------|-------------|
-| key ([String!](http://example.com)) | The code of conduct's key |
+| key ([String!](scalars.md#string)) | The code of conduct's key |
 
 ---
 
 ### codesOfConduct
 
-#### Type: [[CodeOfConduct]](http://example.com)
+#### Type: [[CodeOfConduct]](objects.md#codeofconduct)
 
 Look up a code of conduct by its key 
 
@@ -28,7 +28,7 @@ Look up a code of conduct by its key
 
 ### enterprise
 
-#### Type: [Enterprise](http://example.com)
+#### Type: [Enterprise](objects.md#enterprise)
 
 Look up an enterprise by URL slug. 
 
@@ -36,14 +36,14 @@ Look up an enterprise by URL slug.
 
 | Name | Description |
 |------|-------------|
-| invitationToken ([String](http://example.com)) | The enterprise invitation token. |
-| slug ([String!](http://example.com)) | The enterprise URL slug. |
+| invitationToken ([String](scalars.md#string)) | The enterprise invitation token. |
+| slug ([String!](scalars.md#string)) | The enterprise URL slug. |
 
 ---
 
 ### enterpriseAdministratorInvitation
 
-#### Type: [EnterpriseAdministratorInvitation](http://example.com)
+#### Type: [EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)
 
 Look up a pending enterprise administrator invitation by invitee, enterprise and role. 
 
@@ -51,15 +51,15 @@ Look up a pending enterprise administrator invitation by invitee, enterprise and
 
 | Name | Description |
 |------|-------------|
-| enterpriseSlug ([String!](http://example.com)) | The slug of the enterprise the user was invited to join. |
-| role ([EnterpriseAdministratorRole!](http://example.com)) | The role for the business member invitation. |
-| userLogin ([String!](http://example.com)) | The login of the user invited to join the business. |
+| enterpriseSlug ([String!](scalars.md#string)) | The slug of the enterprise the user was invited to join. |
+| role ([EnterpriseAdministratorRole!](enums.md#enterpriseadministratorrole)) | The role for the business member invitation. |
+| userLogin ([String!](scalars.md#string)) | The login of the user invited to join the business. |
 
 ---
 
 ### enterpriseAdministratorInvitationByToken
 
-#### Type: [EnterpriseAdministratorInvitation](http://example.com)
+#### Type: [EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)
 
 Look up a pending enterprise administrator invitation by invitation token. 
 
@@ -67,13 +67,13 @@ Look up a pending enterprise administrator invitation by invitation token.
 
 | Name | Description |
 |------|-------------|
-| invitationToken ([String!](http://example.com)) | The invitation token sent with the invitation email. |
+| invitationToken ([String!](scalars.md#string)) | The invitation token sent with the invitation email. |
 
 ---
 
 ### license
 
-#### Type: [License](http://example.com)
+#### Type: [License](objects.md#license)
 
 Look up an open source license by its key 
 
@@ -81,13 +81,13 @@ Look up an open source license by its key
 
 | Name | Description |
 |------|-------------|
-| key ([String!](http://example.com)) | The license's downcased SPDX ID |
+| key ([String!](scalars.md#string)) | The license's downcased SPDX ID |
 
 ---
 
 ### licenses
 
-#### Type: [[License]!](http://example.com)
+#### Type: [[License]!](objects.md#license)
 
 Return a list of known open source licenses 
 
@@ -95,7 +95,7 @@ Return a list of known open source licenses
 
 ### marketplaceCategories
 
-#### Type: [[MarketplaceCategory!]!](http://example.com)
+#### Type: [[MarketplaceCategory!]!](objects.md#marketplacecategory)
 
 Get alphabetically sorted list of Marketplace categories 
 
@@ -103,15 +103,15 @@ Get alphabetically sorted list of Marketplace categories
 
 | Name | Description |
 |------|-------------|
-| excludeEmpty ([Boolean](http://example.com)) | Exclude categories with no listings. |
-| excludeSubcategories ([Boolean](http://example.com)) | Returns top level categories only, excluding any subcategories. |
-| includeCategories ([[String!]](http://example.com)) | Return only the specified categories. |
+| excludeEmpty ([Boolean](scalars.md#boolean)) | Exclude categories with no listings. |
+| excludeSubcategories ([Boolean](scalars.md#boolean)) | Returns top level categories only, excluding any subcategories. |
+| includeCategories ([[String!]](scalars.md#string)) | Return only the specified categories. |
 
 ---
 
 ### marketplaceCategory
 
-#### Type: [MarketplaceCategory](http://example.com)
+#### Type: [MarketplaceCategory](objects.md#marketplacecategory)
 
 Look up a Marketplace category by its slug. 
 
@@ -119,14 +119,14 @@ Look up a Marketplace category by its slug.
 
 | Name | Description |
 |------|-------------|
-| slug ([String!](http://example.com)) | The URL slug of the category. |
-| useTopicAliases ([Boolean](http://example.com)) | Also check topic aliases for the category slug |
+| slug ([String!](scalars.md#string)) | The URL slug of the category. |
+| useTopicAliases ([Boolean](scalars.md#boolean)) | Also check topic aliases for the category slug |
 
 ---
 
 ### marketplaceListing
 
-#### Type: [MarketplaceListing](http://example.com)
+#### Type: [MarketplaceListing](objects.md#marketplacelisting)
 
 Look up a single Marketplace listing 
 
@@ -134,13 +134,13 @@ Look up a single Marketplace listing
 
 | Name | Description |
 |------|-------------|
-| slug ([String!](http://example.com)) | Select the listing that matches this slug. It's the short name of the listing used in its URL. |
+| slug ([String!](scalars.md#string)) | Select the listing that matches this slug. It's the short name of the listing used in its URL. |
 
 ---
 
 ### marketplaceListings
 
-#### Type: [MarketplaceListingConnection!](http://example.com)
+#### Type: [MarketplaceListingConnection!](objects.md#marketplacelistingconnection)
 
 Look up Marketplace listings 
 
@@ -148,25 +148,25 @@ Look up Marketplace listings
 
 | Name | Description |
 |------|-------------|
-| adminId ([ID](http://example.com)) | Select listings that can be administered by the specified user. |
-| after ([String](http://example.com)) | Returns the elements in the list that come after the specified cursor. |
-| allStates ([Boolean](http://example.com)) | Select listings visible to the viewer even if they are not approved. If omitted or false, only approved listings will be returned. |
-| before ([String](http://example.com)) | Returns the elements in the list that come before the specified cursor. |
-| categorySlug ([String](http://example.com)) | Select only listings with the given category. |
-| first ([Int](http://example.com)) | Returns the first _n_ elements from the list. |
-| last ([Int](http://example.com)) | Returns the last _n_ elements from the list. |
-| organizationId ([ID](http://example.com)) | Select listings for products owned by the specified organization. |
-| primaryCategoryOnly ([Boolean](http://example.com)) | Select only listings where the primary category matches the given category slug. |
-| slugs ([[String]](http://example.com)) | Select the listings with these slugs, if they are visible to the viewer. |
-| useTopicAliases ([Boolean](http://example.com)) | Also check topic aliases for the category slug |
-| viewerCanAdmin ([Boolean](http://example.com)) | Select listings to which user has admin access. If omitted, listings visible to the viewer are returned. |
-| withFreeTrialsOnly ([Boolean](http://example.com)) | Select only listings that offer a free trial. |
+| adminId ([ID](scalars.md#id)) | Select listings that can be administered by the specified user. |
+| after ([String](scalars.md#string)) | Returns the elements in the list that come after the specified cursor. |
+| allStates ([Boolean](scalars.md#boolean)) | Select listings visible to the viewer even if they are not approved. If omitted or false, only approved listings will be returned. |
+| before ([String](scalars.md#string)) | Returns the elements in the list that come before the specified cursor. |
+| categorySlug ([String](scalars.md#string)) | Select only listings with the given category. |
+| first ([Int](scalars.md#int)) | Returns the first _n_ elements from the list. |
+| last ([Int](scalars.md#int)) | Returns the last _n_ elements from the list. |
+| organizationId ([ID](scalars.md#id)) | Select listings for products owned by the specified organization. |
+| primaryCategoryOnly ([Boolean](scalars.md#boolean)) | Select only listings where the primary category matches the given category slug. |
+| slugs ([[String]](scalars.md#string)) | Select the listings with these slugs, if they are visible to the viewer. |
+| useTopicAliases ([Boolean](scalars.md#boolean)) | Also check topic aliases for the category slug |
+| viewerCanAdmin ([Boolean](scalars.md#boolean)) | Select listings to which user has admin access. If omitted, listings visible to the viewer are returned. |
+| withFreeTrialsOnly ([Boolean](scalars.md#boolean)) | Select only listings that offer a free trial. |
 
 ---
 
 ### meta
 
-#### Type: [GitHubMetadata!](http://example.com)
+#### Type: [GitHubMetadata!](objects.md#githubmetadata)
 
 Return information about the GitHub instance 
 
@@ -174,7 +174,7 @@ Return information about the GitHub instance
 
 ### node
 
-#### Type: [Node](http://example.com)
+#### Type: [Node](interfaces.md#node)
 
 Fetches an object given its ID. 
 
@@ -182,13 +182,13 @@ Fetches an object given its ID.
 
 | Name | Description |
 |------|-------------|
-| id ([ID!](http://example.com)) | ID of the object. |
+| id ([ID!](scalars.md#id)) | ID of the object. |
 
 ---
 
 ### nodes
 
-#### Type: [[Node]!](http://example.com)
+#### Type: [[Node]!](interfaces.md#node)
 
 Lookup nodes by a list of IDs. 
 
@@ -196,13 +196,13 @@ Lookup nodes by a list of IDs.
 
 | Name | Description |
 |------|-------------|
-| ids ([[ID!]!](http://example.com)) | The list of node IDs. |
+| ids ([[ID!]!](scalars.md#id)) | The list of node IDs. |
 
 ---
 
 ### organization
 
-#### Type: [Organization](http://example.com)
+#### Type: [Organization](objects.md#organization)
 
 Lookup a organization by login. 
 
@@ -210,13 +210,13 @@ Lookup a organization by login.
 
 | Name | Description |
 |------|-------------|
-| login ([String!](http://example.com)) | The organization's login. |
+| login ([String!](scalars.md#string)) | The organization's login. |
 
 ---
 
 ### rateLimit
 
-#### Type: [RateLimit](http://example.com)
+#### Type: [RateLimit](objects.md#ratelimit)
 
 The client's rate limit information. 
 
@@ -224,13 +224,13 @@ The client's rate limit information.
 
 | Name | Description |
 |------|-------------|
-| dryRun ([Boolean](http://example.com)) | If true, calculate the cost for the query without evaluating it |
+| dryRun ([Boolean](scalars.md#boolean)) | If true, calculate the cost for the query without evaluating it |
 
 ---
 
 ### relay
 
-#### Type: [Query!](http://example.com)
+#### Type: [Query!](objects.md#query)
 
 Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the root query object 
 
@@ -238,7 +238,7 @@ Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the 
 
 ### repository
 
-#### Type: [Repository](http://example.com)
+#### Type: [Repository](objects.md#repository)
 
 Lookup a given repository by the owner and repository name. 
 
@@ -246,14 +246,14 @@ Lookup a given repository by the owner and repository name.
 
 | Name | Description |
 |------|-------------|
-| name ([String!](http://example.com)) | The name of the repository |
-| owner ([String!](http://example.com)) | The login field of a user or organization |
+| name ([String!](scalars.md#string)) | The name of the repository |
+| owner ([String!](scalars.md#string)) | The login field of a user or organization |
 
 ---
 
 ### repositoryOwner
 
-#### Type: [RepositoryOwner](http://example.com)
+#### Type: [RepositoryOwner](interfaces.md#repositoryowner)
 
 Lookup a repository owner (ie. either a User or an Organization) by login. 
 
@@ -261,13 +261,13 @@ Lookup a repository owner (ie. either a User or an Organization) by login.
 
 | Name | Description |
 |------|-------------|
-| login ([String!](http://example.com)) | The username to lookup the owner by. |
+| login ([String!](scalars.md#string)) | The username to lookup the owner by. |
 
 ---
 
 ### resource
 
-#### Type: [UniformResourceLocatable](http://example.com)
+#### Type: [UniformResourceLocatable](interfaces.md#uniformresourcelocatable)
 
 Lookup resource by a URL. 
 
@@ -275,13 +275,13 @@ Lookup resource by a URL.
 
 | Name | Description |
 |------|-------------|
-| url ([URI!](http://example.com)) | The URL. |
+| url ([URI!](scalars.md#uri)) | The URL. |
 
 ---
 
 ### search
 
-#### Type: [SearchResultItemConnection!](http://example.com)
+#### Type: [SearchResultItemConnection!](objects.md#searchresultitemconnection)
 
 Perform a search across resources. 
 
@@ -289,18 +289,18 @@ Perform a search across resources.
 
 | Name | Description |
 |------|-------------|
-| after ([String](http://example.com)) | Returns the elements in the list that come after the specified cursor. |
-| before ([String](http://example.com)) | Returns the elements in the list that come before the specified cursor. |
-| first ([Int](http://example.com)) | Returns the first _n_ elements from the list. |
-| last ([Int](http://example.com)) | Returns the last _n_ elements from the list. |
-| query ([String!](http://example.com)) | The search string to look for. |
-| type ([SearchType!](http://example.com)) | The types of search items to search within. |
+| after ([String](scalars.md#string)) | Returns the elements in the list that come after the specified cursor. |
+| before ([String](scalars.md#string)) | Returns the elements in the list that come before the specified cursor. |
+| first ([Int](scalars.md#int)) | Returns the first _n_ elements from the list. |
+| last ([Int](scalars.md#int)) | Returns the last _n_ elements from the list. |
+| query ([String!](scalars.md#string)) | The search string to look for. |
+| type ([SearchType!](enums.md#searchtype)) | The types of search items to search within. |
 
 ---
 
 ### securityAdvisories
 
-#### Type: [SecurityAdvisoryConnection!](http://example.com)
+#### Type: [SecurityAdvisoryConnection!](objects.md#securityadvisoryconnection)
 
 GitHub Security Advisories 
 
@@ -308,20 +308,20 @@ GitHub Security Advisories
 
 | Name | Description |
 |------|-------------|
-| after ([String](http://example.com)) | Returns the elements in the list that come after the specified cursor. |
-| before ([String](http://example.com)) | Returns the elements in the list that come before the specified cursor. |
-| first ([Int](http://example.com)) | Returns the first _n_ elements from the list. |
-| identifier ([SecurityAdvisoryIdentifierFilter](http://example.com)) | Filter advisories by identifier, e.g. GHSA or CVE. |
-| last ([Int](http://example.com)) | Returns the last _n_ elements from the list. |
-| orderBy ([SecurityAdvisoryOrder](http://example.com)) | Ordering options for the returned topics. |
-| publishedSince ([DateTime](http://example.com)) | Filter advisories to those published since a time in the past. |
-| updatedSince ([DateTime](http://example.com)) | Filter advisories to those updated since a time in the past. |
+| after ([String](scalars.md#string)) | Returns the elements in the list that come after the specified cursor. |
+| before ([String](scalars.md#string)) | Returns the elements in the list that come before the specified cursor. |
+| first ([Int](scalars.md#int)) | Returns the first _n_ elements from the list. |
+| identifier ([SecurityAdvisoryIdentifierFilter](input_objects.md#securityadvisoryidentifierfilter)) | Filter advisories by identifier, e.g. GHSA or CVE. |
+| last ([Int](scalars.md#int)) | Returns the last _n_ elements from the list. |
+| orderBy ([SecurityAdvisoryOrder](input_objects.md#securityadvisoryorder)) | Ordering options for the returned topics. |
+| publishedSince ([DateTime](scalars.md#datetime)) | Filter advisories to those published since a time in the past. |
+| updatedSince ([DateTime](scalars.md#datetime)) | Filter advisories to those updated since a time in the past. |
 
 ---
 
 ### securityAdvisory
 
-#### Type: [SecurityAdvisory](http://example.com)
+#### Type: [SecurityAdvisory](objects.md#securityadvisory)
 
 Fetch a Security Advisory by its GHSA ID 
 
@@ -329,13 +329,13 @@ Fetch a Security Advisory by its GHSA ID
 
 | Name | Description |
 |------|-------------|
-| ghsaId ([String!](http://example.com)) | GitHub Security Advisory ID. |
+| ghsaId ([String!](scalars.md#string)) | GitHub Security Advisory ID. |
 
 ---
 
 ### securityVulnerabilities
 
-#### Type: [SecurityVulnerabilityConnection!](http://example.com)
+#### Type: [SecurityVulnerabilityConnection!](objects.md#securityvulnerabilityconnection)
 
 Software Vulnerabilities documented by GitHub Security Advisories 
 
@@ -343,20 +343,20 @@ Software Vulnerabilities documented by GitHub Security Advisories
 
 | Name | Description |
 |------|-------------|
-| after ([String](http://example.com)) | Returns the elements in the list that come after the specified cursor. |
-| before ([String](http://example.com)) | Returns the elements in the list that come before the specified cursor. |
-| ecosystem ([SecurityAdvisoryEcosystem](http://example.com)) | An ecosystem to filter vulnerabilities by. |
-| first ([Int](http://example.com)) | Returns the first _n_ elements from the list. |
-| last ([Int](http://example.com)) | Returns the last _n_ elements from the list. |
-| orderBy ([SecurityVulnerabilityOrder](http://example.com)) | Ordering options for the returned topics. |
-| package ([String](http://example.com)) | A package name to filter vulnerabilities by. |
-| severities ([[SecurityAdvisorySeverity!]](http://example.com)) | A list of severities to filter vulnerabilities by. |
+| after ([String](scalars.md#string)) | Returns the elements in the list that come after the specified cursor. |
+| before ([String](scalars.md#string)) | Returns the elements in the list that come before the specified cursor. |
+| ecosystem ([SecurityAdvisoryEcosystem](enums.md#securityadvisoryecosystem)) | An ecosystem to filter vulnerabilities by. |
+| first ([Int](scalars.md#int)) | Returns the first _n_ elements from the list. |
+| last ([Int](scalars.md#int)) | Returns the last _n_ elements from the list. |
+| orderBy ([SecurityVulnerabilityOrder](input_objects.md#securityvulnerabilityorder)) | Ordering options for the returned topics. |
+| package ([String](scalars.md#string)) | A package name to filter vulnerabilities by. |
+| severities ([[SecurityAdvisorySeverity!]](enums.md#securityadvisoryseverity)) | A list of severities to filter vulnerabilities by. |
 
 ---
 
 ### sponsorables
 
-#### Type: [SponsorableItemConnection!](http://example.com)
+#### Type: [SponsorableItemConnection!](objects.md#sponsorableitemconnection)
 
 Users and organizations who can be sponsored via GitHub Sponsors. 
 
@@ -364,20 +364,20 @@ Users and organizations who can be sponsored via GitHub Sponsors.
 
 | Name | Description |
 |------|-------------|
-| after ([String](http://example.com)) | Returns the elements in the list that come after the specified cursor. |
-| before ([String](http://example.com)) | Returns the elements in the list that come before the specified cursor. |
-| dependencyEcosystem ([SecurityAdvisoryEcosystem](http://example.com)) | Optional filter for which dependencies should be checked for sponsorable owners. Only sponsorable owners of dependencies in this ecosystem will be included. Used when onlyDependencies = true. |
-| first ([Int](http://example.com)) | Returns the first _n_ elements from the list. |
-| last ([Int](http://example.com)) | Returns the last _n_ elements from the list. |
-| onlyDependencies ([Boolean](http://example.com)) | Whether only sponsorables who own the viewer's dependencies will be returned. Must be authenticated to use. Can check an organization instead for their dependencies owned by sponsorables by passing orgLoginForDependencies. |
-| orderBy ([SponsorableOrder](http://example.com)) | Ordering options for users and organizations returned from the connection. |
-| orgLoginForDependencies ([String](http://example.com)) | Optional organization username for whose dependencies should be checked. Used when onlyDependencies = true. Omit to check your own dependencies. If you are not an administrator of the organization, only dependencies from its public repositories will be considered. |
+| after ([String](scalars.md#string)) | Returns the elements in the list that come after the specified cursor. |
+| before ([String](scalars.md#string)) | Returns the elements in the list that come before the specified cursor. |
+| dependencyEcosystem ([SecurityAdvisoryEcosystem](enums.md#securityadvisoryecosystem)) | Optional filter for which dependencies should be checked for sponsorable owners. Only sponsorable owners of dependencies in this ecosystem will be included. Used when onlyDependencies = true. |
+| first ([Int](scalars.md#int)) | Returns the first _n_ elements from the list. |
+| last ([Int](scalars.md#int)) | Returns the last _n_ elements from the list. |
+| onlyDependencies ([Boolean](scalars.md#boolean)) | Whether only sponsorables who own the viewer's dependencies will be returned. Must be authenticated to use. Can check an organization instead for their dependencies owned by sponsorables by passing orgLoginForDependencies. |
+| orderBy ([SponsorableOrder](input_objects.md#sponsorableorder)) | Ordering options for users and organizations returned from the connection. |
+| orgLoginForDependencies ([String](scalars.md#string)) | Optional organization username for whose dependencies should be checked. Used when onlyDependencies = true. Omit to check your own dependencies. If you are not an administrator of the organization, only dependencies from its public repositories will be considered. |
 
 ---
 
 ### sponsorsListing
 
-#### Type: [SponsorsListing](http://example.com)
+#### Type: [SponsorsListing](objects.md#sponsorslisting)
 
 Look up a single Sponsors Listing 
 
@@ -385,13 +385,13 @@ Look up a single Sponsors Listing
 
 | Name | Description |
 |------|-------------|
-| slug ([String!](http://example.com)) | Select the Sponsors listing which matches this slug |
+| slug ([String!](scalars.md#string)) | Select the Sponsors listing which matches this slug |
 
 ---
 
 ### topic
 
-#### Type: [Topic](http://example.com)
+#### Type: [Topic](objects.md#topic)
 
 Look up a topic by name. 
 
@@ -399,13 +399,13 @@ Look up a topic by name.
 
 | Name | Description |
 |------|-------------|
-| name ([String!](http://example.com)) | The topic's name. |
+| name ([String!](scalars.md#string)) | The topic's name. |
 
 ---
 
 ### user
 
-#### Type: [User](http://example.com)
+#### Type: [User](objects.md#user)
 
 Lookup a user by login. 
 
@@ -413,13 +413,13 @@ Lookup a user by login.
 
 | Name | Description |
 |------|-------------|
-| login ([String!](http://example.com)) | The user's login. |
+| login ([String!](scalars.md#string)) | The user's login. |
 
 ---
 
 ### viewer
 
-#### Type: [User!](http://example.com)
+#### Type: [User!](objects.md#user)
 
 The currently authenticated user. 
 

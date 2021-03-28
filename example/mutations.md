@@ -6,2630 +6,2647 @@ The root query for implementing GraphQL mutations.
 
 ### acceptEnterpriseAdministratorInvitation
 
-Accepts a pending invitation for a user to become an administrator of an enterprise.
+<p>Accepts a pending invitation for a user to become an administrator of an enterprise.</p>
 
 #### Input fields
 
-- input ([AcceptEnterpriseAdministratorInvitationInput!](http://example.com))
+- input ([AcceptEnterpriseAdministratorInvitationInput!](input_objects.md#acceptenterpriseadministratorinvitationinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| invitation ([EnterpriseAdministratorInvitation](http://example.com)) | The invitation that was accepted. |
-| message ([String](http://example.com)) | A message confirming the result of accepting an administrator invitation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| invitation ([EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)) | <p>The invitation that was accepted.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of accepting an administrator invitation.</p> |
 
 ---
 
 ### acceptTopicSuggestion
 
-Applies a suggested topic to the repository.
+<p>Applies a suggested topic to the repository.</p>
 
 #### Input fields
 
-- input ([AcceptTopicSuggestionInput!](http://example.com))
+- input ([AcceptTopicSuggestionInput!](input_objects.md#accepttopicsuggestioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| topic ([Topic](http://example.com)) | The accepted topic. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| topic ([Topic](objects.md#topic)) | <p>The accepted topic.</p> |
 
 ---
 
 ### addAssigneesToAssignable
 
-Adds assignees to an assignable object.
+<p>Adds assignees to an assignable object.</p>
 
 #### Input fields
 
-- input ([AddAssigneesToAssignableInput!](http://example.com))
+- input ([AddAssigneesToAssignableInput!](input_objects.md#addassigneestoassignableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| assignable ([Assignable](http://example.com)) | The item that was assigned. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| assignable ([Assignable](interfaces.md#assignable)) | <p>The item that was assigned.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### addComment
 
-Adds a comment to an Issue or Pull Request.
+<p>Adds a comment to an Issue or Pull Request.</p>
 
 #### Input fields
 
-- input ([AddCommentInput!](http://example.com))
+- input ([AddCommentInput!](input_objects.md#addcommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| commentEdge ([IssueCommentEdge](http://example.com)) | The edge from the subject's comment connection. |
-| subject ([Node](http://example.com)) | The subject |
-| timelineEdge ([IssueTimelineItemEdge](http://example.com)) | The edge from the subject's timeline connection. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| commentEdge ([IssueCommentEdge](objects.md#issuecommentedge)) | <p>The edge from the subject&rsquo;s comment connection.</p> |
+| subject ([Node](interfaces.md#node)) | <p>The subject</p> |
+| timelineEdge ([IssueTimelineItemEdge](objects.md#issuetimelineitemedge)) | <p>The edge from the subject&rsquo;s timeline connection.</p> |
 
 ---
 
 ### addEnterpriseSupportEntitlement
 
-Adds a support entitlement to an enterprise member.
+<p>Adds a support entitlement to an enterprise member.</p>
 
 #### Input fields
 
-- input ([AddEnterpriseSupportEntitlementInput!](http://example.com))
+- input ([AddEnterpriseSupportEntitlementInput!](input_objects.md#addenterprisesupportentitlementinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| message ([String](http://example.com)) | A message confirming the result of adding the support entitlement. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of adding the support entitlement.</p> |
 
 ---
 
 ### addLabelsToLabelable
 
-Adds labels to a labelable object.
+<p>Adds labels to a labelable object.</p>
 
 #### Input fields
 
-- input ([AddLabelsToLabelableInput!](http://example.com))
+- input ([AddLabelsToLabelableInput!](input_objects.md#addlabelstolabelableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| labelable ([Labelable](http://example.com)) | The item that was labeled. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| labelable ([Labelable](interfaces.md#labelable)) | <p>The item that was labeled.</p> |
 
 ---
 
 ### addProjectCard
 
-Adds a card to a ProjectColumn. Either `contentId` or `note` must be provided but **not** both.
+<p>Adds a card to a ProjectColumn. Either <code>contentId</code> or <code>note</code> must be provided but <strong>not</strong> both.</p>
 
 #### Input fields
 
-- input ([AddProjectCardInput!](http://example.com))
+- input ([AddProjectCardInput!](input_objects.md#addprojectcardinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| cardEdge ([ProjectCardEdge](http://example.com)) | The edge from the ProjectColumn's card connection. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| projectColumn ([ProjectColumn](http://example.com)) | The ProjectColumn |
+| cardEdge ([ProjectCardEdge](objects.md#projectcardedge)) | <p>The edge from the ProjectColumn&rsquo;s card connection.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectColumn ([ProjectColumn](objects.md#projectcolumn)) | <p>The ProjectColumn</p> |
 
 ---
 
 ### addProjectColumn
 
-Adds a column to a Project.
+<p>Adds a column to a Project.</p>
 
 #### Input fields
 
-- input ([AddProjectColumnInput!](http://example.com))
+- input ([AddProjectColumnInput!](input_objects.md#addprojectcolumninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| columnEdge ([ProjectColumnEdge](http://example.com)) | The edge from the project's column connection. |
-| project ([Project](http://example.com)) | The project |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| columnEdge ([ProjectColumnEdge](objects.md#projectcolumnedge)) | <p>The edge from the project&rsquo;s column connection.</p> |
+| project ([Project](objects.md#project)) | <p>The project</p> |
 
 ---
 
 ### addPullRequestReview
 
-Adds a review to a Pull Request.
+<p>Adds a review to a Pull Request.</p>
 
 #### Input fields
 
-- input ([AddPullRequestReviewInput!](http://example.com))
+- input ([AddPullRequestReviewInput!](input_objects.md#addpullrequestreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The newly created pull request review. |
-| reviewEdge ([PullRequestReviewEdge](http://example.com)) | The edge from the pull request's review connection. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The newly created pull request review.</p> |
+| reviewEdge ([PullRequestReviewEdge](objects.md#pullrequestreviewedge)) | <p>The edge from the pull request&rsquo;s review connection.</p> |
 
 ---
 
 ### addPullRequestReviewComment
 
-Adds a comment to a review.
+<p>Adds a comment to a review.</p>
 
 #### Input fields
 
-- input ([AddPullRequestReviewCommentInput!](http://example.com))
+- input ([AddPullRequestReviewCommentInput!](input_objects.md#addpullrequestreviewcommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| comment ([PullRequestReviewComment](http://example.com)) | The newly created comment. |
-| commentEdge ([PullRequestReviewCommentEdge](http://example.com)) | The edge from the review's comment connection. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| comment ([PullRequestReviewComment](objects.md#pullrequestreviewcomment)) | <p>The newly created comment.</p> |
+| commentEdge ([PullRequestReviewCommentEdge](objects.md#pullrequestreviewcommentedge)) | <p>The edge from the review&rsquo;s comment connection.</p> |
 
 ---
 
 ### addPullRequestReviewThread
 
-Adds a new thread to a pending Pull Request Review.
+<p>Adds a new thread to a pending Pull Request Review.</p>
 
 #### Input fields
 
-- input ([AddPullRequestReviewThreadInput!](http://example.com))
+- input ([AddPullRequestReviewThreadInput!](input_objects.md#addpullrequestreviewthreadinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| thread ([PullRequestReviewThread](http://example.com)) | The newly created thread. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| thread ([PullRequestReviewThread](objects.md#pullrequestreviewthread)) | <p>The newly created thread.</p> |
 
 ---
 
 ### addReaction
 
-Adds a reaction to a subject.
+<p>Adds a reaction to a subject.</p>
 
 #### Input fields
 
-- input ([AddReactionInput!](http://example.com))
+- input ([AddReactionInput!](input_objects.md#addreactioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| reaction ([Reaction](http://example.com)) | The reaction object. |
-| subject ([Reactable](http://example.com)) | The reactable subject. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| reaction ([Reaction](objects.md#reaction)) | <p>The reaction object.</p> |
+| subject ([Reactable](interfaces.md#reactable)) | <p>The reactable subject.</p> |
 
 ---
 
 ### addStar
 
-Adds a star to a Starrable.
+<p>Adds a star to a Starrable.</p>
 
 #### Input fields
 
-- input ([AddStarInput!](http://example.com))
+- input ([AddStarInput!](input_objects.md#addstarinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| starrable ([Starrable](http://example.com)) | The starrable. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| starrable ([Starrable](interfaces.md#starrable)) | <p>The starrable.</p> |
 
 ---
 
 ### addVerifiableDomain
 
-Adds a verifiable domain to an owning account.
+<p>Adds a verifiable domain to an owning account.</p>
 
 #### Input fields
 
-- input ([AddVerifiableDomainInput!](http://example.com))
+- input ([AddVerifiableDomainInput!](input_objects.md#addverifiabledomaininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| domain ([VerifiableDomain](http://example.com)) | The verifiable domain that was added. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| domain ([VerifiableDomain](objects.md#verifiabledomain)) | <p>The verifiable domain that was added.</p> |
 
 ---
 
 ### approveVerifiableDomain
 
-Approve a verifiable domain for notification delivery.
+<p>Approve a verifiable domain for notification delivery.</p>
 
 #### Input fields
 
-- input ([ApproveVerifiableDomainInput!](http://example.com))
+- input ([ApproveVerifiableDomainInput!](input_objects.md#approveverifiabledomaininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| domain ([VerifiableDomain](http://example.com)) | The verifiable domain that was approved. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| domain ([VerifiableDomain](objects.md#verifiabledomain)) | <p>The verifiable domain that was approved.</p> |
 
 ---
 
 ### archiveRepository
 
-Marks a repository as archived.
+<p>Marks a repository as archived.</p>
 
 #### Input fields
 
-- input ([ArchiveRepositoryInput!](http://example.com))
+- input ([ArchiveRepositoryInput!](input_objects.md#archiverepositoryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The repository that was marked as archived. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The repository that was marked as archived.</p> |
 
 ---
 
 ### cancelEnterpriseAdminInvitation
 
-Cancels a pending invitation for an administrator to join an enterprise.
+<p>Cancels a pending invitation for an administrator to join an enterprise.</p>
 
 #### Input fields
 
-- input ([CancelEnterpriseAdminInvitationInput!](http://example.com))
+- input ([CancelEnterpriseAdminInvitationInput!](input_objects.md#cancelenterpriseadmininvitationinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| invitation ([EnterpriseAdministratorInvitation](http://example.com)) | The invitation that was canceled. |
-| message ([String](http://example.com)) | A message confirming the result of canceling an administrator invitation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| invitation ([EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)) | <p>The invitation that was canceled.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of canceling an administrator invitation.</p> |
 
 ---
 
 ### changeUserStatus
 
-Update your status on GitHub.
+<p>Update your status on GitHub.</p>
 
 #### Input fields
 
-- input ([ChangeUserStatusInput!](http://example.com))
+- input ([ChangeUserStatusInput!](input_objects.md#changeuserstatusinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| status ([UserStatus](http://example.com)) | Your updated status. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| status ([UserStatus](objects.md#userstatus)) | <p>Your updated status.</p> |
 
 ---
 
 ### clearLabelsFromLabelable
 
-Clears all labels from a labelable object.
+<p>Clears all labels from a labelable object.</p>
 
 #### Input fields
 
-- input ([ClearLabelsFromLabelableInput!](http://example.com))
+- input ([ClearLabelsFromLabelableInput!](input_objects.md#clearlabelsfromlabelableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| labelable ([Labelable](http://example.com)) | The item that was unlabeled. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| labelable ([Labelable](interfaces.md#labelable)) | <p>The item that was unlabeled.</p> |
 
 ---
 
 ### cloneProject
 
-Creates a new project by cloning configuration from an existing project.
+<p>Creates a new project by cloning configuration from an existing project.</p>
 
 #### Input fields
 
-- input ([CloneProjectInput!](http://example.com))
+- input ([CloneProjectInput!](input_objects.md#cloneprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| jobStatusId ([String](http://example.com)) | The id of the JobStatus for populating cloned fields. |
-| project ([Project](http://example.com)) | The new cloned project. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| jobStatusId ([String](scalars.md#string)) | <p>The id of the JobStatus for populating cloned fields.</p> |
+| project ([Project](objects.md#project)) | <p>The new cloned project.</p> |
 
 ---
 
 ### cloneTemplateRepository
 
-Create a new repository with the same files and directory structure as a template repository.
+<p>Create a new repository with the same files and directory structure as a template repository.</p>
 
 #### Input fields
 
-- input ([CloneTemplateRepositoryInput!](http://example.com))
+- input ([CloneTemplateRepositoryInput!](input_objects.md#clonetemplaterepositoryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The new repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The new repository.</p> |
 
 ---
 
 ### closeIssue
 
-Close an issue.
+<p>Close an issue.</p>
 
 #### Input fields
 
-- input ([CloseIssueInput!](http://example.com))
+- input ([CloseIssueInput!](input_objects.md#closeissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue that was closed. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue that was closed.</p> |
 
 ---
 
 ### closePullRequest
 
-Close a pull request.
+<p>Close a pull request.</p>
 
 #### Input fields
 
-- input ([ClosePullRequestInput!](http://example.com))
+- input ([ClosePullRequestInput!](input_objects.md#closepullrequestinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request that was closed. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that was closed.</p> |
 
 ---
 
 ### convertProjectCardNoteToIssue
 
-Convert a project note card to one associated with a newly created issue.
+<p>Convert a project note card to one associated with a newly created issue.</p>
 
 #### Input fields
 
-- input ([ConvertProjectCardNoteToIssueInput!](http://example.com))
+- input ([ConvertProjectCardNoteToIssueInput!](input_objects.md#convertprojectcardnotetoissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| projectCard ([ProjectCard](http://example.com)) | The updated ProjectCard. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectCard ([ProjectCard](objects.md#projectcard)) | <p>The updated ProjectCard.</p> |
 
 ---
 
 ### createBranchProtectionRule
 
-Create a new branch protection rule
+<p>Create a new branch protection rule</p>
 
 #### Input fields
 
-- input ([CreateBranchProtectionRuleInput!](http://example.com))
+- input ([CreateBranchProtectionRuleInput!](input_objects.md#createbranchprotectionruleinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| branchProtectionRule ([BranchProtectionRule](http://example.com)) | The newly created BranchProtectionRule. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| branchProtectionRule ([BranchProtectionRule](objects.md#branchprotectionrule)) | <p>The newly created BranchProtectionRule.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### createCheckRun
 
-Create a check run.
+<p>Create a check run.</p>
 
 #### Input fields
 
-- input ([CreateCheckRunInput!](http://example.com))
+- input ([CreateCheckRunInput!](input_objects.md#createcheckruninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| checkRun ([CheckRun](http://example.com)) | The newly created check run. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| checkRun ([CheckRun](objects.md#checkrun)) | <p>The newly created check run.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### createCheckSuite
 
-Create a check suite
+<p>Create a check suite</p>
 
 #### Input fields
 
-- input ([CreateCheckSuiteInput!](http://example.com))
+- input ([CreateCheckSuiteInput!](input_objects.md#createchecksuiteinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| checkSuite ([CheckSuite](http://example.com)) | The newly created check suite. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| checkSuite ([CheckSuite](objects.md#checksuite)) | <p>The newly created check suite.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### createContentAttachment
 
-Create a content attachment.
+<p>Create a content attachment.</p>
 
 #### Input fields
 
-- input ([CreateContentAttachmentInput!](http://example.com))
+- input ([CreateContentAttachmentInput!](input_objects.md#createcontentattachmentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| contentAttachment ([ContentAttachment](http://example.com)) | The newly created content attachment. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| contentAttachment ([ContentAttachment](objects.md#contentattachment)) | <p>The newly created content attachment.</p> |
 
 ---
 
 ### createDeployment
 
-Creates a new deployment event.
+<p>Creates a new deployment event.</p>
 
 #### Input fields
 
-- input ([CreateDeploymentInput!](http://example.com))
+- input ([CreateDeploymentInput!](input_objects.md#createdeploymentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| autoMerged ([Boolean](http://example.com)) | True if the default branch has been auto-merged into the deployment ref. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| deployment ([Deployment](http://example.com)) | The new deployment. |
+| autoMerged ([Boolean](scalars.md#boolean)) | <p>True if the default branch has been auto-merged into the deployment ref.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deployment ([Deployment](objects.md#deployment)) | <p>The new deployment.</p> |
 
 ---
 
 ### createDeploymentStatus
 
-Create a deployment status.
+<p>Create a deployment status.</p>
 
 #### Input fields
 
-- input ([CreateDeploymentStatusInput!](http://example.com))
+- input ([CreateDeploymentStatusInput!](input_objects.md#createdeploymentstatusinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| deploymentStatus ([DeploymentStatus](http://example.com)) | The new deployment status. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deploymentStatus ([DeploymentStatus](objects.md#deploymentstatus)) | <p>The new deployment status.</p> |
 
 ---
 
 ### createEnterpriseOrganization
 
-Creates an organization as part of an enterprise account.
+<p>Creates an organization as part of an enterprise account.</p>
 
 #### Input fields
 
-- input ([CreateEnterpriseOrganizationInput!](http://example.com))
+- input ([CreateEnterpriseOrganizationInput!](input_objects.md#createenterpriseorganizationinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise that owns the created organization. |
-| organization ([Organization](http://example.com)) | The organization that was created. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise that owns the created organization.</p> |
+| organization ([Organization](objects.md#organization)) | <p>The organization that was created.</p> |
 
 ---
 
 ### createIpAllowListEntry
 
-Creates a new IP allow list entry.
+<p>Creates a new IP allow list entry.</p>
 
 #### Input fields
 
-- input ([CreateIpAllowListEntryInput!](http://example.com))
+- input ([CreateIpAllowListEntryInput!](input_objects.md#createipallowlistentryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| ipAllowListEntry ([IpAllowListEntry](http://example.com)) | The IP allow list entry that was created. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| ipAllowListEntry ([IpAllowListEntry](objects.md#ipallowlistentry)) | <p>The IP allow list entry that was created.</p> |
 
 ---
 
 ### createIssue
 
-Creates a new issue.
+<p>Creates a new issue.</p>
 
 #### Input fields
 
-- input ([CreateIssueInput!](http://example.com))
+- input ([CreateIssueInput!](input_objects.md#createissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The new issue. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The new issue.</p> |
 
 ---
 
 ### createLabel
 
-Creates a new label.
+<p>Creates a new label.</p>
 
 #### Input fields
 
-- input ([CreateLabelInput!](http://example.com))
+- input ([CreateLabelInput!](input_objects.md#createlabelinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| label ([Label](http://example.com)) | The new label. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| label ([Label](objects.md#label)) | <p>The new label.</p> |
 
 ---
 
 ### createProject
 
-Creates a new project.
+<p>Creates a new project.</p>
 
 #### Input fields
 
-- input ([CreateProjectInput!](http://example.com))
+- input ([CreateProjectInput!](input_objects.md#createprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| project ([Project](http://example.com)) | The new project. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| project ([Project](objects.md#project)) | <p>The new project.</p> |
 
 ---
 
 ### createPullRequest
 
-Create a new pull request
+<p>Create a new pull request</p>
 
 #### Input fields
 
-- input ([CreatePullRequestInput!](http://example.com))
+- input ([CreatePullRequestInput!](input_objects.md#createpullrequestinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The new pull request. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The new pull request.</p> |
 
 ---
 
 ### createRef
 
-Create a new Git Ref.
+<p>Create a new Git Ref.</p>
 
 #### Input fields
 
-- input ([CreateRefInput!](http://example.com))
+- input ([CreateRefInput!](input_objects.md#createrefinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| ref ([Ref](http://example.com)) | The newly created ref. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| ref ([Ref](objects.md#ref)) | <p>The newly created ref.</p> |
 
 ---
 
 ### createRepository
 
-Create a new repository.
+<p>Create a new repository.</p>
 
 #### Input fields
 
-- input ([CreateRepositoryInput!](http://example.com))
+- input ([CreateRepositoryInput!](input_objects.md#createrepositoryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The new repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The new repository.</p> |
 
 ---
 
 ### createTeamDiscussion
 
-Creates a new team discussion.
+<p>Creates a new team discussion.</p>
 
 #### Input fields
 
-- input ([CreateTeamDiscussionInput!](http://example.com))
+- input ([CreateTeamDiscussionInput!](input_objects.md#createteamdiscussioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| teamDiscussion ([TeamDiscussion](http://example.com)) | The new discussion. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| teamDiscussion ([TeamDiscussion](objects.md#teamdiscussion)) | <p>The new discussion.</p> |
 
 ---
 
 ### createTeamDiscussionComment
 
-Creates a new team discussion comment.
+<p>Creates a new team discussion comment.</p>
 
 #### Input fields
 
-- input ([CreateTeamDiscussionCommentInput!](http://example.com))
+- input ([CreateTeamDiscussionCommentInput!](input_objects.md#createteamdiscussioncommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| teamDiscussionComment ([TeamDiscussionComment](http://example.com)) | The new comment. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| teamDiscussionComment ([TeamDiscussionComment](objects.md#teamdiscussioncomment)) | <p>The new comment.</p> |
 
 ---
 
 ### declineTopicSuggestion
 
-Rejects a suggested topic for the repository.
+<p>Rejects a suggested topic for the repository.</p>
 
 #### Input fields
 
-- input ([DeclineTopicSuggestionInput!](http://example.com))
+- input ([DeclineTopicSuggestionInput!](input_objects.md#declinetopicsuggestioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| topic ([Topic](http://example.com)) | The declined topic. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| topic ([Topic](objects.md#topic)) | <p>The declined topic.</p> |
 
 ---
 
 ### deleteBranchProtectionRule
 
-Delete a branch protection rule
+<p>Delete a branch protection rule</p>
 
 #### Input fields
 
-- input ([DeleteBranchProtectionRuleInput!](http://example.com))
+- input ([DeleteBranchProtectionRuleInput!](input_objects.md#deletebranchprotectionruleinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteDeployment
 
-Deletes a deployment.
+<p>Deletes a deployment.</p>
 
 #### Input fields
 
-- input ([DeleteDeploymentInput!](http://example.com))
+- input ([DeleteDeploymentInput!](input_objects.md#deletedeploymentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteIpAllowListEntry
 
-Deletes an IP allow list entry.
+<p>Deletes an IP allow list entry.</p>
 
 #### Input fields
 
-- input ([DeleteIpAllowListEntryInput!](http://example.com))
+- input ([DeleteIpAllowListEntryInput!](input_objects.md#deleteipallowlistentryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| ipAllowListEntry ([IpAllowListEntry](http://example.com)) | The IP allow list entry that was deleted. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| ipAllowListEntry ([IpAllowListEntry](objects.md#ipallowlistentry)) | <p>The IP allow list entry that was deleted.</p> |
 
 ---
 
 ### deleteIssue
 
-Deletes an Issue object.
+<p>Deletes an Issue object.</p>
 
 #### Input fields
 
-- input ([DeleteIssueInput!](http://example.com))
+- input ([DeleteIssueInput!](input_objects.md#deleteissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The repository the issue belonged to |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The repository the issue belonged to</p> |
 
 ---
 
 ### deleteIssueComment
 
-Deletes an IssueComment object.
+<p>Deletes an IssueComment object.</p>
 
 #### Input fields
 
-- input ([DeleteIssueCommentInput!](http://example.com))
+- input ([DeleteIssueCommentInput!](input_objects.md#deleteissuecommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteLabel
 
-Deletes a label.
+<p>Deletes a label.</p>
 
 #### Input fields
 
-- input ([DeleteLabelInput!](http://example.com))
+- input ([DeleteLabelInput!](input_objects.md#deletelabelinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deletePackageVersion
 
-Delete a package version.
+<p>Delete a package version.</p>
 
 #### Input fields
 
-- input ([DeletePackageVersionInput!](http://example.com))
+- input ([DeletePackageVersionInput!](input_objects.md#deletepackageversioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| success ([Boolean](http://example.com)) | Whether or not the operation succeeded. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| success ([Boolean](scalars.md#boolean)) | <p>Whether or not the operation succeeded.</p> |
 
 ---
 
 ### deleteProject
 
-Deletes a project.
+<p>Deletes a project.</p>
 
 #### Input fields
 
-- input ([DeleteProjectInput!](http://example.com))
+- input ([DeleteProjectInput!](input_objects.md#deleteprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| owner ([ProjectOwner](http://example.com)) | The repository or organization the project was removed from. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| owner ([ProjectOwner](interfaces.md#projectowner)) | <p>The repository or organization the project was removed from.</p> |
 
 ---
 
 ### deleteProjectCard
 
-Deletes a project card.
+<p>Deletes a project card.</p>
 
 #### Input fields
 
-- input ([DeleteProjectCardInput!](http://example.com))
+- input ([DeleteProjectCardInput!](input_objects.md#deleteprojectcardinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| column ([ProjectColumn](http://example.com)) | The column the deleted card was in. |
-| deletedCardId ([ID](http://example.com)) | The deleted card ID. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| column ([ProjectColumn](objects.md#projectcolumn)) | <p>The column the deleted card was in.</p> |
+| deletedCardId ([ID](scalars.md#id)) | <p>The deleted card ID.</p> |
 
 ---
 
 ### deleteProjectColumn
 
-Deletes a project column.
+<p>Deletes a project column.</p>
 
 #### Input fields
 
-- input ([DeleteProjectColumnInput!](http://example.com))
+- input ([DeleteProjectColumnInput!](input_objects.md#deleteprojectcolumninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| deletedColumnId ([ID](http://example.com)) | The deleted column ID. |
-| project ([Project](http://example.com)) | The project the deleted column was in. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deletedColumnId ([ID](scalars.md#id)) | <p>The deleted column ID.</p> |
+| project ([Project](objects.md#project)) | <p>The project the deleted column was in.</p> |
 
 ---
 
 ### deletePullRequestReview
 
-Deletes a pull request review.
+<p>Deletes a pull request review.</p>
 
 #### Input fields
 
-- input ([DeletePullRequestReviewInput!](http://example.com))
+- input ([DeletePullRequestReviewInput!](input_objects.md#deletepullrequestreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The deleted pull request review. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The deleted pull request review.</p> |
 
 ---
 
 ### deletePullRequestReviewComment
 
-Deletes a pull request review comment.
+<p>Deletes a pull request review comment.</p>
 
 #### Input fields
 
-- input ([DeletePullRequestReviewCommentInput!](http://example.com))
+- input ([DeletePullRequestReviewCommentInput!](input_objects.md#deletepullrequestreviewcommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The pull request review the deleted comment belonged to. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The pull request review the deleted comment belonged to.</p> |
 
 ---
 
 ### deleteRef
 
-Delete a Git Ref.
+<p>Delete a Git Ref.</p>
 
 #### Input fields
 
-- input ([DeleteRefInput!](http://example.com))
+- input ([DeleteRefInput!](input_objects.md#deleterefinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteTeamDiscussion
 
-Deletes a team discussion.
+<p>Deletes a team discussion.</p>
 
 #### Input fields
 
-- input ([DeleteTeamDiscussionInput!](http://example.com))
+- input ([DeleteTeamDiscussionInput!](input_objects.md#deleteteamdiscussioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteTeamDiscussionComment
 
-Deletes a team discussion comment.
+<p>Deletes a team discussion comment.</p>
 
 #### Input fields
 
-- input ([DeleteTeamDiscussionCommentInput!](http://example.com))
+- input ([DeleteTeamDiscussionCommentInput!](input_objects.md#deleteteamdiscussioncommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### deleteVerifiableDomain
 
-Deletes a verifiable domain.
+<p>Deletes a verifiable domain.</p>
 
 #### Input fields
 
-- input ([DeleteVerifiableDomainInput!](http://example.com))
+- input ([DeleteVerifiableDomainInput!](input_objects.md#deleteverifiabledomaininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| owner ([VerifiableDomainOwner](http://example.com)) | The owning account from which the domain was deleted. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| owner ([VerifiableDomainOwner](unions.md#verifiabledomainowner)) | <p>The owning account from which the domain was deleted.</p> |
 
 ---
 
 ### disablePullRequestAutoMerge
 
-Disable auto merge on the given pull request
+<p>Disable auto merge on the given pull request</p>
 
 #### Input fields
 
-- input ([DisablePullRequestAutoMergeInput!](http://example.com))
+- input ([DisablePullRequestAutoMergeInput!](input_objects.md#disablepullrequestautomergeinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request auto merge was disabled on. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request auto merge was disabled on.</p> |
 
 ---
 
 ### dismissPullRequestReview
 
-Dismisses an approved or rejected pull request review.
+<p>Dismisses an approved or rejected pull request review.</p>
 
 #### Input fields
 
-- input ([DismissPullRequestReviewInput!](http://example.com))
+- input ([DismissPullRequestReviewInput!](input_objects.md#dismisspullrequestreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The dismissed pull request review. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The dismissed pull request review.</p> |
 
 ---
 
 ### enablePullRequestAutoMerge
 
-Enable the default auto-merge on a pull request.
+<p>Enable the default auto-merge on a pull request.</p>
 
 #### Input fields
 
-- input ([EnablePullRequestAutoMergeInput!](http://example.com))
+- input ([EnablePullRequestAutoMergeInput!](input_objects.md#enablepullrequestautomergeinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request auto-merge was enabled on. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request auto-merge was enabled on.</p> |
 
 ---
 
 ### followUser
 
-Follow a user.
+<p>Follow a user.</p>
 
 #### Input fields
 
-- input ([FollowUserInput!](http://example.com))
+- input ([FollowUserInput!](input_objects.md#followuserinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| user ([User](http://example.com)) | The user that was followed. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| user ([User](objects.md#user)) | <p>The user that was followed.</p> |
 
 ---
 
 ### importProject
 
-Creates a new project by importing columns and a list of issues/PRs.
+<p>Creates a new project by importing columns and a list of issues/PRs.</p>
 
 #### Input fields
 
-- input ([ImportProjectInput!](http://example.com))
+- input ([ImportProjectInput!](input_objects.md#importprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| project ([Project](http://example.com)) | The new Project! |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| project ([Project](objects.md#project)) | <p>The new Project!</p> |
 
 ---
 
 ### inviteEnterpriseAdmin
 
-Invite someone to become an administrator of the enterprise.
+<p>Invite someone to become an administrator of the enterprise.</p>
 
 #### Input fields
 
-- input ([InviteEnterpriseAdminInput!](http://example.com))
+- input ([InviteEnterpriseAdminInput!](input_objects.md#inviteenterpriseadmininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| invitation ([EnterpriseAdministratorInvitation](http://example.com)) | The created enterprise administrator invitation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| invitation ([EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)) | <p>The created enterprise administrator invitation.</p> |
 
 ---
 
 ### linkRepositoryToProject
 
-Creates a repository link for a project.
+<p>Creates a repository link for a project.</p>
 
 #### Input fields
 
-- input ([LinkRepositoryToProjectInput!](http://example.com))
+- input ([LinkRepositoryToProjectInput!](input_objects.md#linkrepositorytoprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| project ([Project](http://example.com)) | The linked Project. |
-| repository ([Repository](http://example.com)) | The linked Repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| project ([Project](objects.md#project)) | <p>The linked Project.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The linked Repository.</p> |
 
 ---
 
 ### lockLockable
 
-Lock a lockable object
+<p>Lock a lockable object</p>
 
 #### Input fields
 
-- input ([LockLockableInput!](http://example.com))
+- input ([LockLockableInput!](input_objects.md#locklockableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| lockedRecord ([Lockable](http://example.com)) | The item that was locked. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| lockedRecord ([Lockable](interfaces.md#lockable)) | <p>The item that was locked.</p> |
 
 ---
 
 ### markFileAsViewed
 
-Mark a pull request file as viewed
+<p>Mark a pull request file as viewed</p>
 
 #### Input fields
 
-- input ([MarkFileAsViewedInput!](http://example.com))
+- input ([MarkFileAsViewedInput!](input_objects.md#markfileasviewedinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The updated pull request. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The updated pull request.</p> |
 
 ---
 
 ### markPullRequestReadyForReview
 
-Marks a pull request ready for review.
+<p>Marks a pull request ready for review.</p>
 
 #### Input fields
 
-- input ([MarkPullRequestReadyForReviewInput!](http://example.com))
+- input ([MarkPullRequestReadyForReviewInput!](input_objects.md#markpullrequestreadyforreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request that is ready for review. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that is ready for review.</p> |
 
 ---
 
 ### mergeBranch
 
-Merge a head into a branch.
+<p>Merge a head into a branch.</p>
 
 #### Input fields
 
-- input ([MergeBranchInput!](http://example.com))
+- input ([MergeBranchInput!](input_objects.md#mergebranchinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| mergeCommit ([Commit](http://example.com)) | The resulting merge Commit. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| mergeCommit ([Commit](objects.md#commit)) | <p>The resulting merge Commit.</p> |
 
 ---
 
 ### mergePullRequest
 
-Merge a pull request.
+<p>Merge a pull request.</p>
 
 #### Input fields
 
-- input ([MergePullRequestInput!](http://example.com))
+- input ([MergePullRequestInput!](input_objects.md#mergepullrequestinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request that was merged. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that was merged.</p> |
 
 ---
 
 ### minimizeComment
 
-Minimizes a comment on an Issue, Commit, Pull Request, or Gist
+<p>Minimizes a comment on an Issue, Commit, Pull Request, or Gist</p>
 
 #### Input fields
 
-- input ([MinimizeCommentInput!](http://example.com))
+- input ([MinimizeCommentInput!](input_objects.md#minimizecommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| minimizedComment ([Minimizable](http://example.com)) | The comment that was minimized. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| minimizedComment ([Minimizable](interfaces.md#minimizable)) | <p>The comment that was minimized.</p> |
 
 ---
 
 ### moveProjectCard
 
-Moves a project card to another place.
+<p>Moves a project card to another place.</p>
 
 #### Input fields
 
-- input ([MoveProjectCardInput!](http://example.com))
+- input ([MoveProjectCardInput!](input_objects.md#moveprojectcardinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| cardEdge ([ProjectCardEdge](http://example.com)) | The new edge of the moved card. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| cardEdge ([ProjectCardEdge](objects.md#projectcardedge)) | <p>The new edge of the moved card.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### moveProjectColumn
 
-Moves a project column to another place.
+<p>Moves a project column to another place.</p>
 
 #### Input fields
 
-- input ([MoveProjectColumnInput!](http://example.com))
+- input ([MoveProjectColumnInput!](input_objects.md#moveprojectcolumninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| columnEdge ([ProjectColumnEdge](http://example.com)) | The new edge of the moved column. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| columnEdge ([ProjectColumnEdge](objects.md#projectcolumnedge)) | <p>The new edge of the moved column.</p> |
 
 ---
 
 ### pinIssue
 
-Pin an issue to a repository
+<p>Pin an issue to a repository</p>
 
 #### Input fields
 
-- input ([PinIssueInput!](http://example.com))
+- input ([PinIssueInput!](input_objects.md#pinissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue that was pinned |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue that was pinned</p> |
 
 ---
 
 ### regenerateEnterpriseIdentityProviderRecoveryCodes
 
-Regenerates the identity provider recovery codes for an enterprise
+<p>Regenerates the identity provider recovery codes for an enterprise</p>
 
 #### Input fields
 
-- input ([RegenerateEnterpriseIdentityProviderRecoveryCodesInput!](http://example.com))
+- input ([RegenerateEnterpriseIdentityProviderRecoveryCodesInput!](input_objects.md#regenerateenterpriseidentityproviderrecoverycodesinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| identityProvider ([EnterpriseIdentityProvider](http://example.com)) | The identity provider for the enterprise. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| identityProvider ([EnterpriseIdentityProvider](objects.md#enterpriseidentityprovider)) | <p>The identity provider for the enterprise.</p> |
 
 ---
 
 ### regenerateVerifiableDomainToken
 
-Regenerates a verifiable domain's verification token.
+<p>Regenerates a verifiable domain&rsquo;s verification token.</p>
 
 #### Input fields
 
-- input ([RegenerateVerifiableDomainTokenInput!](http://example.com))
+- input ([RegenerateVerifiableDomainTokenInput!](input_objects.md#regenerateverifiabledomaintokeninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| verificationToken ([String](http://example.com)) | The verification token that was generated. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| verificationToken ([String](scalars.md#string)) | <p>The verification token that was generated.</p> |
 
 ---
 
 ### removeAssigneesFromAssignable
 
-Removes assignees from an assignable object.
+<p>Removes assignees from an assignable object.</p>
 
 #### Input fields
 
-- input ([RemoveAssigneesFromAssignableInput!](http://example.com))
+- input ([RemoveAssigneesFromAssignableInput!](input_objects.md#removeassigneesfromassignableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| assignable ([Assignable](http://example.com)) | The item that was unassigned. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| assignable ([Assignable](interfaces.md#assignable)) | <p>The item that was unassigned.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### removeEnterpriseAdmin
 
-Removes an administrator from the enterprise.
+<p>Removes an administrator from the enterprise.</p>
 
 #### Input fields
 
-- input ([RemoveEnterpriseAdminInput!](http://example.com))
+- input ([RemoveEnterpriseAdminInput!](input_objects.md#removeenterpriseadmininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| admin ([User](http://example.com)) | The user who was removed as an administrator. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The updated enterprise. |
-| message ([String](http://example.com)) | A message confirming the result of removing an administrator. |
-| viewer ([User](http://example.com)) | The viewer performing the mutation. |
+| admin ([User](objects.md#user)) | <p>The user who was removed as an administrator.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The updated enterprise.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of removing an administrator.</p> |
+| viewer ([User](objects.md#user)) | <p>The viewer performing the mutation.</p> |
 
 ---
 
 ### removeEnterpriseIdentityProvider
 
-Removes the identity provider from an enterprise
+<p>Removes the identity provider from an enterprise</p>
 
 #### Input fields
 
-- input ([RemoveEnterpriseIdentityProviderInput!](http://example.com))
+- input ([RemoveEnterpriseIdentityProviderInput!](input_objects.md#removeenterpriseidentityproviderinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| identityProvider ([EnterpriseIdentityProvider](http://example.com)) | The identity provider that was removed from the enterprise. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| identityProvider ([EnterpriseIdentityProvider](objects.md#enterpriseidentityprovider)) | <p>The identity provider that was removed from the enterprise.</p> |
 
 ---
 
 ### removeEnterpriseOrganization
 
-Removes an organization from the enterprise
+<p>Removes an organization from the enterprise</p>
 
 #### Input fields
 
-- input ([RemoveEnterpriseOrganizationInput!](http://example.com))
+- input ([RemoveEnterpriseOrganizationInput!](input_objects.md#removeenterpriseorganizationinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The updated enterprise. |
-| organization ([Organization](http://example.com)) | The organization that was removed from the enterprise. |
-| viewer ([User](http://example.com)) | The viewer performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The updated enterprise.</p> |
+| organization ([Organization](objects.md#organization)) | <p>The organization that was removed from the enterprise.</p> |
+| viewer ([User](objects.md#user)) | <p>The viewer performing the mutation.</p> |
 
 ---
 
 ### removeEnterpriseSupportEntitlement
 
-Removes a support entitlement from an enterprise member.
+<p>Removes a support entitlement from an enterprise member.</p>
 
 #### Input fields
 
-- input ([RemoveEnterpriseSupportEntitlementInput!](http://example.com))
+- input ([RemoveEnterpriseSupportEntitlementInput!](input_objects.md#removeenterprisesupportentitlementinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| message ([String](http://example.com)) | A message confirming the result of removing the support entitlement. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of removing the support entitlement.</p> |
 
 ---
 
 ### removeLabelsFromLabelable
 
-Removes labels from a Labelable object.
+<p>Removes labels from a Labelable object.</p>
 
 #### Input fields
 
-- input ([RemoveLabelsFromLabelableInput!](http://example.com))
+- input ([RemoveLabelsFromLabelableInput!](input_objects.md#removelabelsfromlabelableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| labelable ([Labelable](http://example.com)) | The Labelable the labels were removed from. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| labelable ([Labelable](interfaces.md#labelable)) | <p>The Labelable the labels were removed from.</p> |
 
 ---
 
 ### removeOutsideCollaborator
 
-Removes outside collaborator from all repositories in an organization.
+<p>Removes outside collaborator from all repositories in an organization.</p>
 
 #### Input fields
 
-- input ([RemoveOutsideCollaboratorInput!](http://example.com))
+- input ([RemoveOutsideCollaboratorInput!](input_objects.md#removeoutsidecollaboratorinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| removedUser ([User](http://example.com)) | The user that was removed as an outside collaborator. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| removedUser ([User](objects.md#user)) | <p>The user that was removed as an outside collaborator.</p> |
 
 ---
 
 ### removeReaction
 
-Removes a reaction from a subject.
+<p>Removes a reaction from a subject.</p>
 
 #### Input fields
 
-- input ([RemoveReactionInput!](http://example.com))
+- input ([RemoveReactionInput!](input_objects.md#removereactioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| reaction ([Reaction](http://example.com)) | The reaction object. |
-| subject ([Reactable](http://example.com)) | The reactable subject. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| reaction ([Reaction](objects.md#reaction)) | <p>The reaction object.</p> |
+| subject ([Reactable](interfaces.md#reactable)) | <p>The reactable subject.</p> |
 
 ---
 
 ### removeStar
 
-Removes a star from a Starrable.
+<p>Removes a star from a Starrable.</p>
 
 #### Input fields
 
-- input ([RemoveStarInput!](http://example.com))
+- input ([RemoveStarInput!](input_objects.md#removestarinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| starrable ([Starrable](http://example.com)) | The starrable. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| starrable ([Starrable](interfaces.md#starrable)) | <p>The starrable.</p> |
 
 ---
 
 ### reopenIssue
 
-Reopen a issue.
+<p>Reopen a issue.</p>
 
 #### Input fields
 
-- input ([ReopenIssueInput!](http://example.com))
+- input ([ReopenIssueInput!](input_objects.md#reopenissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue that was opened. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue that was opened.</p> |
 
 ---
 
 ### reopenPullRequest
 
-Reopen a pull request.
+<p>Reopen a pull request.</p>
 
 #### Input fields
 
-- input ([ReopenPullRequestInput!](http://example.com))
+- input ([ReopenPullRequestInput!](input_objects.md#reopenpullrequestinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request that was reopened. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that was reopened.</p> |
 
 ---
 
 ### requestReviews
 
-Set review requests on a pull request.
+<p>Set review requests on a pull request.</p>
 
 #### Input fields
 
-- input ([RequestReviewsInput!](http://example.com))
+- input ([RequestReviewsInput!](input_objects.md#requestreviewsinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The pull request that is getting requests. |
-| requestedReviewersEdge ([UserEdge](http://example.com)) | The edge from the pull request to the requested reviewers. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that is getting requests.</p> |
+| requestedReviewersEdge ([UserEdge](objects.md#useredge)) | <p>The edge from the pull request to the requested reviewers.</p> |
 
 ---
 
 ### rerequestCheckSuite
 
-Rerequests an existing check suite.
+<p>Rerequests an existing check suite.</p>
 
 #### Input fields
 
-- input ([RerequestCheckSuiteInput!](http://example.com))
+- input ([RerequestCheckSuiteInput!](input_objects.md#rerequestchecksuiteinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| checkSuite ([CheckSuite](http://example.com)) | The requested check suite. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| checkSuite ([CheckSuite](objects.md#checksuite)) | <p>The requested check suite.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### resolveReviewThread
 
-Marks a review thread as resolved.
+<p>Marks a review thread as resolved.</p>
 
 #### Input fields
 
-- input ([ResolveReviewThreadInput!](http://example.com))
+- input ([ResolveReviewThreadInput!](input_objects.md#resolvereviewthreadinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| thread ([PullRequestReviewThread](http://example.com)) | The thread to resolve. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| thread ([PullRequestReviewThread](objects.md#pullrequestreviewthread)) | <p>The thread to resolve.</p> |
 
 ---
 
 ### setEnterpriseIdentityProvider
 
-Creates or updates the identity provider for an enterprise.
+<p>Creates or updates the identity provider for an enterprise.</p>
 
 #### Input fields
 
-- input ([SetEnterpriseIdentityProviderInput!](http://example.com))
+- input ([SetEnterpriseIdentityProviderInput!](input_objects.md#setenterpriseidentityproviderinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| identityProvider ([EnterpriseIdentityProvider](http://example.com)) | The identity provider for the enterprise. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| identityProvider ([EnterpriseIdentityProvider](objects.md#enterpriseidentityprovider)) | <p>The identity provider for the enterprise.</p> |
 
 ---
 
 ### setOrganizationInteractionLimit
 
-Set an organization level interaction limit for an organization's public repositories.
+<p>Set an organization level interaction limit for an organization&rsquo;s public repositories.</p>
 
 #### Input fields
 
-- input ([SetOrganizationInteractionLimitInput!](http://example.com))
+- input ([SetOrganizationInteractionLimitInput!](input_objects.md#setorganizationinteractionlimitinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| organization ([Organization](http://example.com)) | The organization that the interaction limit was set for. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| organization ([Organization](objects.md#organization)) | <p>The organization that the interaction limit was set for.</p> |
 
 ---
 
 ### setRepositoryInteractionLimit
 
-Sets an interaction limit setting for a repository.
+<p>Sets an interaction limit setting for a repository.</p>
 
 #### Input fields
 
-- input ([SetRepositoryInteractionLimitInput!](http://example.com))
+- input ([SetRepositoryInteractionLimitInput!](input_objects.md#setrepositoryinteractionlimitinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The repository that the interaction limit was set for. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The repository that the interaction limit was set for.</p> |
 
 ---
 
 ### setUserInteractionLimit
 
-Set a user level interaction limit for an user's public repositories.
+<p>Set a user level interaction limit for an user&rsquo;s public repositories.</p>
 
 #### Input fields
 
-- input ([SetUserInteractionLimitInput!](http://example.com))
+- input ([SetUserInteractionLimitInput!](input_objects.md#setuserinteractionlimitinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| user ([User](http://example.com)) | The user that the interaction limit was set for. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| user ([User](objects.md#user)) | <p>The user that the interaction limit was set for.</p> |
 
 ---
 
 ### submitPullRequestReview
 
-Submits a pending pull request review.
+<p>Submits a pending pull request review.</p>
 
 #### Input fields
 
-- input ([SubmitPullRequestReviewInput!](http://example.com))
+- input ([SubmitPullRequestReviewInput!](input_objects.md#submitpullrequestreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The submitted pull request review. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The submitted pull request review.</p> |
 
 ---
 
 ### transferIssue
 
-Transfer an issue to a different repository
+<p>Transfer an issue to a different repository</p>
 
 #### Input fields
 
-- input ([TransferIssueInput!](http://example.com))
+- input ([TransferIssueInput!](input_objects.md#transferissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue that was transferred |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue that was transferred</p> |
 
 ---
 
 ### unarchiveRepository
 
-Unarchives a repository.
+<p>Unarchives a repository.</p>
 
 #### Input fields
 
-- input ([UnarchiveRepositoryInput!](http://example.com))
+- input ([UnarchiveRepositoryInput!](input_objects.md#unarchiverepositoryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The repository that was unarchived. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The repository that was unarchived.</p> |
 
 ---
 
 ### unfollowUser
 
-Unfollow a user.
+<p>Unfollow a user.</p>
 
 #### Input fields
 
-- input ([UnfollowUserInput!](http://example.com))
+- input ([UnfollowUserInput!](input_objects.md#unfollowuserinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| user ([User](http://example.com)) | The user that was unfollowed. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| user ([User](objects.md#user)) | <p>The user that was unfollowed.</p> |
 
 ---
 
 ### unlinkRepositoryFromProject
 
-Deletes a repository link from a project.
+<p>Deletes a repository link from a project.</p>
 
 #### Input fields
 
-- input ([UnlinkRepositoryFromProjectInput!](http://example.com))
+- input ([UnlinkRepositoryFromProjectInput!](input_objects.md#unlinkrepositoryfromprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| project ([Project](http://example.com)) | The linked Project. |
-| repository ([Repository](http://example.com)) | The linked Repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| project ([Project](objects.md#project)) | <p>The linked Project.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The linked Repository.</p> |
 
 ---
 
 ### unlockLockable
 
-Unlock a lockable object
+<p>Unlock a lockable object</p>
 
 #### Input fields
 
-- input ([UnlockLockableInput!](http://example.com))
+- input ([UnlockLockableInput!](input_objects.md#unlocklockableinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| unlockedRecord ([Lockable](http://example.com)) | The item that was unlocked. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| unlockedRecord ([Lockable](interfaces.md#lockable)) | <p>The item that was unlocked.</p> |
 
 ---
 
 ### unmarkFileAsViewed
 
-Unmark a pull request file as viewed
+<p>Unmark a pull request file as viewed</p>
 
 #### Input fields
 
-- input ([UnmarkFileAsViewedInput!](http://example.com))
+- input ([UnmarkFileAsViewedInput!](input_objects.md#unmarkfileasviewedinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The updated pull request. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The updated pull request.</p> |
 
 ---
 
 ### unmarkIssueAsDuplicate
 
-Unmark an issue as a duplicate of another issue.
+<p>Unmark an issue as a duplicate of another issue.</p>
 
 #### Input fields
 
-- input ([UnmarkIssueAsDuplicateInput!](http://example.com))
+- input ([UnmarkIssueAsDuplicateInput!](input_objects.md#unmarkissueasduplicateinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| duplicate ([IssueOrPullRequest](http://example.com)) | The issue or pull request that was marked as a duplicate. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| duplicate ([IssueOrPullRequest](unions.md#issueorpullrequest)) | <p>The issue or pull request that was marked as a duplicate.</p> |
 
 ---
 
 ### unminimizeComment
 
-Unminimizes a comment on an Issue, Commit, Pull Request, or Gist
+<p>Unminimizes a comment on an Issue, Commit, Pull Request, or Gist</p>
 
 #### Input fields
 
-- input ([UnminimizeCommentInput!](http://example.com))
+- input ([UnminimizeCommentInput!](input_objects.md#unminimizecommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| unminimizedComment ([Minimizable](http://example.com)) | The comment that was unminimized. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| unminimizedComment ([Minimizable](interfaces.md#minimizable)) | <p>The comment that was unminimized.</p> |
 
 ---
 
 ### unpinIssue
 
-Unpin a pinned issue from a repository
+<p>Unpin a pinned issue from a repository</p>
 
 #### Input fields
 
-- input ([UnpinIssueInput!](http://example.com))
+- input ([UnpinIssueInput!](input_objects.md#unpinissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue that was unpinned |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue that was unpinned</p> |
 
 ---
 
 ### unresolveReviewThread
 
-Marks a review thread as unresolved.
+<p>Marks a review thread as unresolved.</p>
 
 #### Input fields
 
-- input ([UnresolveReviewThreadInput!](http://example.com))
+- input ([UnresolveReviewThreadInput!](input_objects.md#unresolvereviewthreadinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| thread ([PullRequestReviewThread](http://example.com)) | The thread to resolve. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| thread ([PullRequestReviewThread](objects.md#pullrequestreviewthread)) | <p>The thread to resolve.</p> |
 
 ---
 
 ### updateBranchProtectionRule
 
-Create a new branch protection rule
+<p>Create a new branch protection rule</p>
 
 #### Input fields
 
-- input ([UpdateBranchProtectionRuleInput!](http://example.com))
+- input ([UpdateBranchProtectionRuleInput!](input_objects.md#updatebranchprotectionruleinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| branchProtectionRule ([BranchProtectionRule](http://example.com)) | The newly created BranchProtectionRule. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| branchProtectionRule ([BranchProtectionRule](objects.md#branchprotectionrule)) | <p>The newly created BranchProtectionRule.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### updateCheckRun
 
-Update a check run
+<p>Update a check run</p>
 
 #### Input fields
 
-- input ([UpdateCheckRunInput!](http://example.com))
+- input ([UpdateCheckRunInput!](input_objects.md#updatecheckruninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| checkRun ([CheckRun](http://example.com)) | The updated check run. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| checkRun ([CheckRun](objects.md#checkrun)) | <p>The updated check run.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### updateCheckSuitePreferences
 
-Modifies the settings of an existing check suite
+<p>Modifies the settings of an existing check suite</p>
 
 #### Input fields
 
-- input ([UpdateCheckSuitePreferencesInput!](http://example.com))
+- input ([UpdateCheckSuitePreferencesInput!](input_objects.md#updatechecksuitepreferencesinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The updated repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The updated repository.</p> |
 
 ---
 
 ### updateEnterpriseAdministratorRole
 
-Updates the role of an enterprise administrator.
+<p>Updates the role of an enterprise administrator.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseAdministratorRoleInput!](http://example.com))
+- input ([UpdateEnterpriseAdministratorRoleInput!](input_objects.md#updateenterpriseadministratorroleinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| message ([String](http://example.com)) | A message confirming the result of changing the administrator's role. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of changing the administrator&rsquo;s role.</p> |
 
 ---
 
 ### updateEnterpriseAllowPrivateRepositoryForkingSetting
 
-Sets whether private repository forks are enabled for an enterprise.
+<p>Sets whether private repository forks are enabled for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput!](http://example.com))
+- input ([UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput!](input_objects.md#updateenterpriseallowprivaterepositoryforkingsettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated allow private repository forking setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the allow private repository forking setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated allow private repository forking setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the allow private repository forking setting.</p> |
 
 ---
 
 ### updateEnterpriseDefaultRepositoryPermissionSetting
 
-Sets the default repository permission for organizations in an enterprise.
+<p>Sets the default repository permission for organizations in an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseDefaultRepositoryPermissionSettingInput!](http://example.com))
+- input ([UpdateEnterpriseDefaultRepositoryPermissionSettingInput!](input_objects.md#updateenterprisedefaultrepositorypermissionsettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated default repository permission setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the default repository permission setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated default repository permission setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the default repository permission setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanChangeRepositoryVisibilitySetting
 
-Sets whether organization members with admin permissions on a repository can change repository visibility.
+<p>Sets whether organization members with admin permissions on a repository can change repository visibility.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput!](input_objects.md#updateenterprisememberscanchangerepositoryvisibilitysettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can change repository visibility setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can change repository visibility setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can change repository visibility setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can change repository visibility setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanCreateRepositoriesSetting
 
-Sets the members can create repositories setting for an enterprise.
+<p>Sets the members can create repositories setting for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanCreateRepositoriesSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanCreateRepositoriesSettingInput!](input_objects.md#updateenterprisememberscancreaterepositoriessettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can create repositories setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can create repositories setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can create repositories setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can create repositories setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanDeleteIssuesSetting
 
-Sets the members can delete issues setting for an enterprise.
+<p>Sets the members can delete issues setting for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanDeleteIssuesSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanDeleteIssuesSettingInput!](input_objects.md#updateenterprisememberscandeleteissuessettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can delete issues setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can delete issues setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can delete issues setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can delete issues setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanDeleteRepositoriesSetting
 
-Sets the members can delete repositories setting for an enterprise.
+<p>Sets the members can delete repositories setting for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanDeleteRepositoriesSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanDeleteRepositoriesSettingInput!](input_objects.md#updateenterprisememberscandeleterepositoriessettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can delete repositories setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can delete repositories setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can delete repositories setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can delete repositories setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanInviteCollaboratorsSetting
 
-Sets whether members can invite collaborators are enabled for an enterprise.
+<p>Sets whether members can invite collaborators are enabled for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanInviteCollaboratorsSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanInviteCollaboratorsSettingInput!](input_objects.md#updateenterprisememberscaninvitecollaboratorssettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can invite collaborators setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can invite collaborators setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can invite collaborators setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can invite collaborators setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanMakePurchasesSetting
 
-Sets whether or not an organization admin can make purchases.
+<p>Sets whether or not an organization admin can make purchases.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanMakePurchasesSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanMakePurchasesSettingInput!](input_objects.md#updateenterprisememberscanmakepurchasessettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can make purchases setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can make purchases setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can make purchases setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can make purchases setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanUpdateProtectedBranchesSetting
 
-Sets the members can update protected branches setting for an enterprise.
+<p>Sets the members can update protected branches setting for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingInput!](input_objects.md#updateenterprisememberscanupdateprotectedbranchessettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can update protected branches setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can update protected branches setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can update protected branches setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can update protected branches setting.</p> |
 
 ---
 
 ### updateEnterpriseMembersCanViewDependencyInsightsSetting
 
-Sets the members can view dependency insights for an enterprise.
+<p>Sets the members can view dependency insights for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseMembersCanViewDependencyInsightsSettingInput!](http://example.com))
+- input ([UpdateEnterpriseMembersCanViewDependencyInsightsSettingInput!](input_objects.md#updateenterprisememberscanviewdependencyinsightssettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated members can view dependency insights setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the members can view dependency insights setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated members can view dependency insights setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the members can view dependency insights setting.</p> |
 
 ---
 
 ### updateEnterpriseOrganizationProjectsSetting
 
-Sets whether organization projects are enabled for an enterprise.
+<p>Sets whether organization projects are enabled for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseOrganizationProjectsSettingInput!](http://example.com))
+- input ([UpdateEnterpriseOrganizationProjectsSettingInput!](input_objects.md#updateenterpriseorganizationprojectssettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated organization projects setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the organization projects setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated organization projects setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the organization projects setting.</p> |
 
 ---
 
 ### updateEnterpriseProfile
 
-Updates an enterprise's profile.
+<p>Updates an enterprise&rsquo;s profile.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseProfileInput!](http://example.com))
+- input ([UpdateEnterpriseProfileInput!](input_objects.md#updateenterpriseprofileinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The updated enterprise. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The updated enterprise.</p> |
 
 ---
 
 ### updateEnterpriseRepositoryProjectsSetting
 
-Sets whether repository projects are enabled for a enterprise.
+<p>Sets whether repository projects are enabled for a enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseRepositoryProjectsSettingInput!](http://example.com))
+- input ([UpdateEnterpriseRepositoryProjectsSettingInput!](input_objects.md#updateenterpriserepositoryprojectssettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated repository projects setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the repository projects setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated repository projects setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the repository projects setting.</p> |
 
 ---
 
 ### updateEnterpriseTeamDiscussionsSetting
 
-Sets whether team discussions are enabled for an enterprise.
+<p>Sets whether team discussions are enabled for an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseTeamDiscussionsSettingInput!](http://example.com))
+- input ([UpdateEnterpriseTeamDiscussionsSettingInput!](input_objects.md#updateenterpriseteamdiscussionssettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated team discussions setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the team discussions setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated team discussions setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the team discussions setting.</p> |
 
 ---
 
 ### updateEnterpriseTwoFactorAuthenticationRequiredSetting
 
-Sets whether two factor authentication is required for all users in an enterprise.
+<p>Sets whether two factor authentication is required for all users in an enterprise.</p>
 
 #### Input fields
 
-- input ([UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput!](http://example.com))
+- input ([UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput!](input_objects.md#updateenterprisetwofactorauthenticationrequiredsettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| enterprise ([Enterprise](http://example.com)) | The enterprise with the updated two factor authentication required setting. |
-| message ([String](http://example.com)) | A message confirming the result of updating the two factor authentication required setting. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated two factor authentication required setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the two factor authentication required setting.</p> |
 
 ---
 
 ### updateIpAllowListEnabledSetting
 
-Sets whether an IP allow list is enabled on an owner.
+<p>Sets whether an IP allow list is enabled on an owner.</p>
 
 #### Input fields
 
-- input ([UpdateIpAllowListEnabledSettingInput!](http://example.com))
+- input ([UpdateIpAllowListEnabledSettingInput!](input_objects.md#updateipallowlistenabledsettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| owner ([IpAllowListOwner](http://example.com)) | The IP allow list owner on which the setting was updated. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| owner ([IpAllowListOwner](unions.md#ipallowlistowner)) | <p>The IP allow list owner on which the setting was updated.</p> |
 
 ---
 
 ### updateIpAllowListEntry
 
-Updates an IP allow list entry.
+<p>Updates an IP allow list entry.</p>
 
 #### Input fields
 
-- input ([UpdateIpAllowListEntryInput!](http://example.com))
+- input ([UpdateIpAllowListEntryInput!](input_objects.md#updateipallowlistentryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| ipAllowListEntry ([IpAllowListEntry](http://example.com)) | The IP allow list entry that was updated. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| ipAllowListEntry ([IpAllowListEntry](objects.md#ipallowlistentry)) | <p>The IP allow list entry that was updated.</p> |
 
 ---
 
 ### updateIssue
 
-Updates an Issue.
+<p>Updates an Issue.</p>
 
 #### Input fields
 
-- input ([UpdateIssueInput!](http://example.com))
+- input ([UpdateIssueInput!](input_objects.md#updateissueinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issue ([Issue](http://example.com)) | The issue. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issue ([Issue](objects.md#issue)) | <p>The issue.</p> |
 
 ---
 
 ### updateIssueComment
 
-Updates an IssueComment object.
+<p>Updates an IssueComment object.</p>
 
 #### Input fields
 
-- input ([UpdateIssueCommentInput!](http://example.com))
+- input ([UpdateIssueCommentInput!](input_objects.md#updateissuecommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| issueComment ([IssueComment](http://example.com)) | The updated comment. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| issueComment ([IssueComment](objects.md#issuecomment)) | <p>The updated comment.</p> |
 
 ---
 
 ### updateLabel
 
-Updates an existing label.
+<p>Updates an existing label.</p>
 
 #### Input fields
 
-- input ([UpdateLabelInput!](http://example.com))
+- input ([UpdateLabelInput!](input_objects.md#updatelabelinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| label ([Label](http://example.com)) | The updated label. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| label ([Label](objects.md#label)) | <p>The updated label.</p> |
 
 ---
 
 ### updateNotificationRestrictionSetting
 
-Update the setting to restrict notifications to only verified domains available to an owner.
+<p>Update the setting to restrict notifications to only verified domains available to an owner.</p>
 
 #### Input fields
 
-- input ([UpdateNotificationRestrictionSettingInput!](http://example.com))
+- input ([UpdateNotificationRestrictionSettingInput!](input_objects.md#updatenotificationrestrictionsettinginput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| owner ([VerifiableDomainOwner](http://example.com)) | The owner on which the setting was updated. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| owner ([VerifiableDomainOwner](unions.md#verifiabledomainowner)) | <p>The owner on which the setting was updated.</p> |
 
 ---
 
 ### updateProject
 
-Updates an existing project.
+<p>Updates an existing project.</p>
 
 #### Input fields
 
-- input ([UpdateProjectInput!](http://example.com))
+- input ([UpdateProjectInput!](input_objects.md#updateprojectinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| project ([Project](http://example.com)) | The updated project. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| project ([Project](objects.md#project)) | <p>The updated project.</p> |
 
 ---
 
 ### updateProjectCard
 
-Updates an existing project card.
+<p>Updates an existing project card.</p>
 
 #### Input fields
 
-- input ([UpdateProjectCardInput!](http://example.com))
+- input ([UpdateProjectCardInput!](input_objects.md#updateprojectcardinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| projectCard ([ProjectCard](http://example.com)) | The updated ProjectCard. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectCard ([ProjectCard](objects.md#projectcard)) | <p>The updated ProjectCard.</p> |
 
 ---
 
 ### updateProjectColumn
 
-Updates an existing project column.
+<p>Updates an existing project column.</p>
 
 #### Input fields
 
-- input ([UpdateProjectColumnInput!](http://example.com))
+- input ([UpdateProjectColumnInput!](input_objects.md#updateprojectcolumninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| projectColumn ([ProjectColumn](http://example.com)) | The updated project column. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectColumn ([ProjectColumn](objects.md#projectcolumn)) | <p>The updated project column.</p> |
 
 ---
 
 ### updatePullRequest
 
-Update a pull request
+<p>Update a pull request</p>
 
 #### Input fields
 
-- input ([UpdatePullRequestInput!](http://example.com))
+- input ([UpdatePullRequestInput!](input_objects.md#updatepullrequestinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| actor ([Actor](http://example.com)) | Identifies the actor who performed the event. |
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequest ([PullRequest](http://example.com)) | The updated pull request. |
+| actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The updated pull request.</p> |
 
 ---
 
 ### updatePullRequestReview
 
-Updates the body of a pull request review.
+<p>Updates the body of a pull request review.</p>
 
 #### Input fields
 
-- input ([UpdatePullRequestReviewInput!](http://example.com))
+- input ([UpdatePullRequestReviewInput!](input_objects.md#updatepullrequestreviewinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReview ([PullRequestReview](http://example.com)) | The updated pull request review. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReview ([PullRequestReview](objects.md#pullrequestreview)) | <p>The updated pull request review.</p> |
 
 ---
 
 ### updatePullRequestReviewComment
 
-Updates a pull request review comment.
+<p>Updates a pull request review comment.</p>
 
 #### Input fields
 
-- input ([UpdatePullRequestReviewCommentInput!](http://example.com))
+- input ([UpdatePullRequestReviewCommentInput!](input_objects.md#updatepullrequestreviewcommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| pullRequestReviewComment ([PullRequestReviewComment](http://example.com)) | The updated comment. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequestReviewComment ([PullRequestReviewComment](objects.md#pullrequestreviewcomment)) | <p>The updated comment.</p> |
 
 ---
 
 ### updateRef
 
-Update a Git Ref.
+<p>Update a Git Ref.</p>
 
 #### Input fields
 
-- input ([UpdateRefInput!](http://example.com))
+- input ([UpdateRefInput!](input_objects.md#updaterefinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| ref ([Ref](http://example.com)) | The updated Ref. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| ref ([Ref](objects.md#ref)) | <p>The updated Ref.</p> |
 
 ---
 
 ### updateRefs
 
-Creates, updates and/or deletes multiple refs in a repository.  This mutation takes a list of `RefUpdate`s and performs these updates on the repository. All updates are performed atomically, meaning that if one of them is rejected, no other ref will be modified.  `RefUpdate.beforeOid` specifies that the given reference needs to point to the given value before performing any updates. A value of `0000000000000000000000000000000000000000` can be used to verify that the references should not exist.  `RefUpdate.afterOid` specifies the value that the given reference will point to after performing all updates. A value of `0000000000000000000000000000000000000000` can be used to delete a reference.  If `RefUpdate.force` is set to `true`, a non-fast-forward updates for the given reference will be allowed.
+<p>Creates, updates and/or deletes multiple refs in a repository.</p>
+
+<p>This mutation takes a list of <code>RefUpdate</code>s and performs these updates
+on the repository. All updates are performed atomically, meaning that
+if one of them is rejected, no other ref will be modified.</p>
+
+<p><code>RefUpdate.beforeOid</code> specifies that the given reference needs to point
+to the given value before performing any updates. A value of
+<code>0000000000000000000000000000000000000000</code> can be used to verify that
+the references should not exist.</p>
+
+<p><code>RefUpdate.afterOid</code> specifies the value that the given reference
+will point to after performing all updates. A value of
+<code>0000000000000000000000000000000000000000</code> can be used to delete a
+reference.</p>
+
+<p>If <code>RefUpdate.force</code> is set to <code>true</code>, a non-fast-forward updates
+for the given reference will be allowed.</p>
 
 #### Input fields
 
-- input ([UpdateRefsInput!](http://example.com))
+- input ([UpdateRefsInput!](input_objects.md#updaterefsinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 
 ---
 
 ### updateRepository
 
-Update information about a repository.
+<p>Update information about a repository.</p>
 
 #### Input fields
 
-- input ([UpdateRepositoryInput!](http://example.com))
+- input ([UpdateRepositoryInput!](input_objects.md#updaterepositoryinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| repository ([Repository](http://example.com)) | The updated repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The updated repository.</p> |
 
 ---
 
 ### updateSubscription
 
-Updates the state for subscribable subjects.
+<p>Updates the state for subscribable subjects.</p>
 
 #### Input fields
 
-- input ([UpdateSubscriptionInput!](http://example.com))
+- input ([UpdateSubscriptionInput!](input_objects.md#updatesubscriptioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| subscribable ([Subscribable](http://example.com)) | The input subscribable entity. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| subscribable ([Subscribable](interfaces.md#subscribable)) | <p>The input subscribable entity.</p> |
 
 ---
 
 ### updateTeamDiscussion
 
-Updates a team discussion.
+<p>Updates a team discussion.</p>
 
 #### Input fields
 
-- input ([UpdateTeamDiscussionInput!](http://example.com))
+- input ([UpdateTeamDiscussionInput!](input_objects.md#updateteamdiscussioninput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| teamDiscussion ([TeamDiscussion](http://example.com)) | The updated discussion. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| teamDiscussion ([TeamDiscussion](objects.md#teamdiscussion)) | <p>The updated discussion.</p> |
 
 ---
 
 ### updateTeamDiscussionComment
 
-Updates a discussion comment.
+<p>Updates a discussion comment.</p>
 
 #### Input fields
 
-- input ([UpdateTeamDiscussionCommentInput!](http://example.com))
+- input ([UpdateTeamDiscussionCommentInput!](input_objects.md#updateteamdiscussioncommentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| teamDiscussionComment ([TeamDiscussionComment](http://example.com)) | The updated comment. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| teamDiscussionComment ([TeamDiscussionComment](objects.md#teamdiscussioncomment)) | <p>The updated comment.</p> |
 
 ---
 
 ### updateTeamReviewAssignment
 
-Updates team review assignment.
+<p>Updates team review assignment.</p>
 
 #### Input fields
 
-- input ([UpdateTeamReviewAssignmentInput!](http://example.com))
+- input ([UpdateTeamReviewAssignmentInput!](input_objects.md#updateteamreviewassignmentinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| team ([Team](http://example.com)) | The team that was modified |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| team ([Team](objects.md#team)) | <p>The team that was modified</p> |
 
 ---
 
 ### updateTopics
 
-Replaces the repository's topics with the given topics.
+<p>Replaces the repository&rsquo;s topics with the given topics.</p>
 
 #### Input fields
 
-- input ([UpdateTopicsInput!](http://example.com))
+- input ([UpdateTopicsInput!](input_objects.md#updatetopicsinput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| invalidTopicNames ([[String!]](http://example.com)) | Names of the provided topics that are not valid. |
-| repository ([Repository](http://example.com)) | The updated repository. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| invalidTopicNames ([[String!]](scalars.md#string)) | <p>Names of the provided topics that are not valid.</p> |
+| repository ([Repository](objects.md#repository)) | <p>The updated repository.</p> |
 
 ---
 
 ### verifyVerifiableDomain
 
-Verify that a verifiable domain has the expected DNS record.
+<p>Verify that a verifiable domain has the expected DNS record.</p>
 
 #### Input fields
 
-- input ([VerifyVerifiableDomainInput!](http://example.com))
+- input ([VerifyVerifiableDomainInput!](input_objects.md#verifyverifiabledomaininput))
  
 
 #### Returns
 
 | Name | Description |
 |------|-------------|
-| clientMutationId ([String](http://example.com)) | A unique identifier for the client performing the mutation. |
-| domain ([VerifiableDomain](http://example.com)) | The verifiable domain that was verified. |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| domain ([VerifiableDomain](objects.md#verifiabledomain)) | <p>The verifiable domain that was verified.</p> |
 
 ---

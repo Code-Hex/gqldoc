@@ -53,21 +53,29 @@ func (m *Config) renderQuery(s *introspection.Schema) error {
 	for _, f := range types.Fields {
 		mfa := make([]*QueryFieldArg, 0, len(f.Args))
 		for _, arg := range f.Args {
+			link, err := m.MakeLinkFromType(arg.Type)
+			if err != nil {
+				return errors.Wrapf(err, "argument %q has caused error", arg.Type.UnderlyingName())
+			}
 			mfa = append(mfa, &QueryFieldArg{
 				Name:        arg.Name,
 				Description: strings.ReplaceAll(arg.Description, "\n", " "),
 				Type:        arg.Type.String(),
-				TypeLink:    "http://example.com",
+				TypeLink:    link,
 			})
 		}
 
+		fieldTypeLink, err := m.MakeLinkFromType(f.Type)
+		if err != nil {
+			return errors.Wrapf(err, "field %q has caused error", f.Type.UnderlyingName())
+		}
 		mf = append(mf, &QueryField{
 			Name:        f.Name,
 			Description: f.Description,
 			Args:        mfa,
 			Return: &QueryFieldReturn{
 				Type:     f.Type.String(),
-				TypeLink: "http://example.com",
+				TypeLink: fieldTypeLink,
 			},
 		})
 	}

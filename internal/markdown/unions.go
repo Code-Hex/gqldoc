@@ -33,9 +33,13 @@ func (m *Config) renderUnions(unionTypes []*introspection.Types) error {
 	for _, typ := range unionTypes {
 		possibleTypes := make([]*UnionPossibleType, 0, len(typ.PossibleTypes))
 		for _, v := range typ.PossibleTypes {
+			link, err := m.MakeLinkFromType(v)
+			if err != nil {
+				return errors.Wrapf(err, "possible type %q has caused error", v.UnderlyingName())
+			}
 			possibleTypes = append(possibleTypes, &UnionPossibleType{
 				Name: v.String(),
-				Link: "http://example.com",
+				Link: link,
 			})
 		}
 		unionList = append(unionList, &Union{

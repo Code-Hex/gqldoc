@@ -2,7 +2,6 @@ package markdown
 
 import (
 	_ "embed"
-	"strings"
 	"text/template"
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
@@ -50,9 +49,13 @@ func (m *Config) renderInterfaces(interfaceTypes []*introspection.Types) error {
 	for _, typ := range interfaceTypes {
 		implementedBy := make([]*ImplementedBy, 0, len(typ.Interfaces))
 		for _, i := range typ.PossibleTypes {
+			link, err := m.MakeLinkFromType(i)
+			if err != nil {
+				return errors.Wrapf(err, "possible type %q has caused error", i.UnderlyingName())
+			}
 			implementedBy = append(implementedBy, &ImplementedBy{
 				Type:     i.String(),
-				TypeLink: "http://example.com",
+				TypeLink: link,
 			})
 		}
 		fields := make([]*InterfaceField, 0, len(typ.Fields))
@@ -61,19 +64,27 @@ func (m *Config) renderInterfaces(interfaceTypes []*introspection.Types) error {
 			if len(f.Args) > 0 {
 				args = make([]*InterfaceFieldArg, 0, len(f.Args))
 				for _, arg := range f.Args {
+					link, err := m.MakeLinkFromType(arg.Type)
+					if err != nil {
+						return errors.Wrapf(err, "argument type %q has caused error", arg.Type.UnderlyingName())
+					}
 					args = append(args, &InterfaceFieldArg{
 						Name:        arg.Name,
 						Type:        arg.Type.String(),
-						TypeLink:    "http://example.com",
+						TypeLink:    link,
 						Description: renderHTML(arg.Description),
 					})
 				}
 			}
+			link, err := m.MakeLinkFromType(f.Type)
+			if err != nil {
+				return errors.Wrapf(err, "field type %q has caused error", f.Type.UnderlyingName())
+			}
 			fields = append(fields, &InterfaceField{
 				Name:        f.Name,
 				Type:        f.Type.String(),
-				TypeLink:    "http://example.com",
-				Description: strings.ReplaceAll(f.Description, "\n", " "),
+				TypeLink:    link,
+				Description: renderHTML(f.Description),
 				Args:        args,
 			})
 		}

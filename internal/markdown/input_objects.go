@@ -36,10 +36,14 @@ func (m *Config) renderInputObjects(inputObjectTypes []*introspection.Types) err
 
 		fields := make([]*InputObjectField, 0, len(typ.InputFields))
 		for _, f := range typ.InputFields {
+			link, err := m.MakeLinkFromType(f.Type)
+			if err != nil {
+				return errors.Wrapf(err, "field type %q has caused error", f.Type.UnderlyingName())
+			}
 			fields = append(fields, &InputObjectField{
 				Name:        f.Name,
 				Type:        f.Type.String(),
-				TypeLink:    "http://example.com",
+				TypeLink:    link,
 				Description: renderHTML(f.Description),
 			})
 		}

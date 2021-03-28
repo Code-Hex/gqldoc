@@ -2,7 +2,6 @@ package markdown
 
 import (
 	_ "embed"
-	"strings"
 	"text/template"
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
@@ -54,10 +53,14 @@ func (m *Config) renderMutation(s *introspection.Schema) error {
 	for _, f := range types.Fields {
 		mfa := make([]*MutationFieldArg, 0, len(f.Args))
 		for _, arg := range f.Args {
+			link, err := m.MakeLinkFromType(arg.Type)
+			if err != nil {
+				return errors.Wrapf(err, "argument type %q has caused error", arg.Type.UnderlyingName())
+			}
 			mfa = append(mfa, &MutationFieldArg{
 				Name:     arg.Name,
 				Type:     arg.Type.String(),
-				TypeLink: "http://example.com",
+				TypeLink: link,
 			})
 		}
 
@@ -67,17 +70,21 @@ func (m *Config) renderMutation(s *introspection.Schema) error {
 		}
 		rfs := make([]*MutationFieldReturn, 0, len(retType.Fields))
 		for _, rf := range retType.Fields {
+			link, err := m.MakeLinkFromType(rf.Type)
+			if err != nil {
+				return errors.Wrapf(err, "return type %q has caused error", rf.Type.UnderlyingName())
+			}
 			rfs = append(rfs, &MutationFieldReturn{
 				Name:        rf.Name,
-				Description: strings.ReplaceAll(rf.Description, "\n", " "),
+				Description: renderHTML(rf.Description),
 				Type:        rf.Type.String(),
-				TypeLink:    "http://example.com",
+				TypeLink:    link,
 			})
 		}
 
 		mf = append(mf, &MutationField{
 			Name:        f.Name,
-			Description: strings.ReplaceAll(f.Description, "\n", " "),
+			Description: renderHTML(f.Description),
 			Args:        mfa,
 			Returns:     rfs,
 		})
