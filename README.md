@@ -34,6 +34,14 @@ If you want to specify multiple schema, you can use `--schema` flag repeatedly.
 $ gqldoc -s a.graphql -s b.graphql -o ./doc_dir
 ```
 
+## Installation
+
+Again, this tool is supported Go 1.16 and above. If you are one of those users, you can install like below.
+
+```sh
+$ go install github.com/Code-Hex/gqldoc/cmd/gqldoc
+```
+
 ## Todo
 
 This todo list is written the order of priority.
