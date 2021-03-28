@@ -64,7 +64,7 @@ func (m *Config) renderMutation(s *introspection.Schema) error {
 			})
 		}
 
-		retType, err := s.FindTypes(f.Type.String())
+		retType, err := s.FindTypes(f.Type.UnderlyingName())
 		if err != nil {
 			return errors.Wrapf(err, "failed to find types: %q", f.Name)
 		}

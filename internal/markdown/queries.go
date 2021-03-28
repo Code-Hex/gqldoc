@@ -2,7 +2,6 @@ package markdown
 
 import (
 	_ "embed"
-	"strings"
 	"text/template"
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
@@ -59,7 +58,7 @@ func (m *Config) renderQuery(s *introspection.Schema) error {
 			}
 			mfa = append(mfa, &QueryFieldArg{
 				Name:        arg.Name,
-				Description: strings.ReplaceAll(arg.Description, "\n", " "),
+				Description: renderHTML(arg.Description),
 				Type:        arg.Type.String(),
 				TypeLink:    link,
 			})
