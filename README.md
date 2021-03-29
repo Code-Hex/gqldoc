@@ -64,8 +64,9 @@ You can download binary from [here](https://github.com/Code-Hex/gqldoc/releases)
 
 This todo list is written the order of priority.
 
-- [ ] GitHub Actions for this
+- [x] ~~GitHub Actions for this~~ **Available**
   - Update document and push it to current branch If target schema has diff
+  - https://github.com/Code-Hex/gqldoc-actions
 - [ ] Subscription
 - [ ] Directive and it's location.
 - [ ] Put README.md in output directory
