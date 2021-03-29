@@ -30,25 +30,8 @@ func main() {
 func run(ctx context.Context) error {
 	app := cli.NewApp()
 	app.Name = "gqldoc"
-	app.Usage = genCmd.Usage
 	app.Description = "This is a command for quickly generating documents from graphql schema in golang."
-	app.HideVersion = true
-	app.Flags = genCmd.Flags
-	app.Version = Version
-
-	app.Action = genCmd.Action
-	app.Commands = []*cli.Command{
-		genCmd,
-	}
-
-	return app.Run(os.Args)
-}
-
-var genCmd = &cli.Command{
-	Name:    "generate",
-	Aliases: []string{"gen"},
-	Usage:   "generate documents based on graphql schema or server",
-	Flags: []cli.Flag{
+	app.Flags = []cli.Flag{
 		&cli.StringFlag{
 			Name:    "endpoint",
 			Aliases: []string{"e"},
@@ -67,17 +50,20 @@ var genCmd = &cli.Command{
 		&cli.StringSliceFlag{
 			Name:    "schema",
 			Aliases: []string{"s"},
-			Usage:   `GraphQL schema file. "1 json graphql schema" or "1 or more graphql files (.graphql, .qgl)".`,
+			Usage:   `GraphQL schema file. "1 json graphql schema" or "1 or more graphql files (.graphqls, .graphql, .gql)".`,
 		},
 		&cli.StringFlag{
 			Name:    "output",
 			Aliases: []string{"o"},
 			Usage:   `Output directory.`,
 		},
-	},
-	Action: func(ctx *cli.Context) error {
+	}
+	app.Version = Version
+	app.Action = func(ctx *cli.Context) error {
 		return generateCommand(ctx)
-	},
+	}
+
+	return app.Run(os.Args)
 }
 
 func generateCommand(ctx *cli.Context) (err error) {
@@ -132,19 +118,19 @@ func convertSchemaTree(schemaFiles []string) (*introspection.Root, error) {
 		return &schema, nil
 	}
 
-	gqlfiles := make([]string, 0, len(schemaFiles))
-	for _, schema := range schemaFiles {
-		switch filepath.Ext(schema) {
-		case ".graphql", ".gql":
-			gqlfiles = append(gqlfiles, schema)
-		}
-	}
-
-	if len(gqlfiles) == 0 {
+	if len(schemaFiles) == 0 {
 		return nil, errHelp
 	}
 
-	schema, err := loader.LoadSchema(gqlfiles...)
+	for _, schema := range schemaFiles {
+		switch filepath.Ext(schema) {
+		case ".graphqls", ".graphql", ".gql":
+		default:
+			return nil, errHelp
+		}
+	}
+
+	schema, err := loader.LoadSchema(schemaFiles...)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
