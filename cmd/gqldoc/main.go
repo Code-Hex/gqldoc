@@ -130,7 +130,7 @@ func convertSchemaTree(schemaFiles []string) (*introspection.Root, error) {
 			return nil, errors.WithStack(err)
 		}
 		for _, maybeSchema := range matches {
-			switch filepath.Ext(schema) {
+			switch filepath.Ext(maybeSchema) {
 			case ".graphqls", ".graphql", ".gql":
 				gqlfiles = append(gqlfiles, maybeSchema)
 			default:
