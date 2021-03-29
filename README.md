@@ -53,7 +53,7 @@ $ brew install Code-Hex/tap/gqldoc
 Again, this tool is supported Go 1.16 and above. If you are one of those users, you can install like below.
 
 ```sh
-$ go install github.com/Code-Hex/gqldoc/cmd/gqldoc
+$ go install github.com/Code-Hex/gqldoc/cmd/gqldoc@latest
 ```
 
 ### Manually download
