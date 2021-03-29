@@ -143,6 +143,7 @@ func convertSchemaTree(schemaFiles []string) (*introspection.Root, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
+
 	return schema, nil
 }
 

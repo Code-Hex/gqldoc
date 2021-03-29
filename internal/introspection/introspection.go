@@ -1,9 +1,10 @@
 package introspection
 
 import (
+	"encoding/json"
 	"errors"
+	"sort"
 	"strings"
-	"sync"
 
 	"github.com/Code-Hex/gqldoc/internal/pool"
 )
@@ -137,33 +138,48 @@ type Schema struct {
 	SubscriptionType *OperationType `json:"subscriptionType"`
 	Types            []*Types       `json:"types"`
 	Directives       []*Directives  `json:"directives"`
+
+	memoizeTypes map[string]*Types
 }
+
+var _ json.Unmarshaler = (*Schema)(nil)
 
 var ErrNotFoundTypes = errors.New("not found types")
 
-var (
-	memoizeTypes map[string]*Types
-	mu           sync.Mutex
-)
-
 func (s *Schema) FindTypes(typName string) (*Types, error) {
-	// Make a memo
-	mu.Lock()
-	if len(memoizeTypes) == 0 && len(s.Types) > 0 {
-		memoizeTypes = make(map[string]*Types, len(s.Types))
-		mid := len(s.Types) / 2
-		for i, j := 0, len(s.Types)-1; i < mid; i, j = i+1, j-1 {
-			memoizeTypes[s.Types[i].Name] = s.Types[i]
-			memoizeTypes[s.Types[j].Name] = s.Types[j]
-		}
-	}
-	mu.Unlock()
-
-	memo, ok := memoizeTypes[typName]
+	memo, ok := s.memoizeTypes[typName]
 	if ok {
 		return memo, nil
 	}
 	return nil, ErrNotFoundTypes
+}
+
+func (s *Schema) UnmarshalJSON(data []byte) error {
+	// HACK(codehex): To avoid stackoverflow, I assigned to tmp type.
+	type HookSchema Schema
+	var schema HookSchema
+	if err := json.Unmarshal(data, &schema); err != nil {
+		return err
+	}
+	sort.Slice(schema.Types, func(i, j int) bool {
+		return strings.Compare(schema.Types[i].Name, schema.Types[j].Name) < 0
+	})
+	sort.Slice(schema.Directives, func(i, j int) bool {
+		return strings.Compare(schema.Directives[i].Name, schema.Directives[j].Name) < 0
+	})
+	*s = (Schema(schema))
+
+	// Make a memo
+	memoizeTypes := make(map[string]*Types, len(s.Types))
+	mid := len(s.Types) / 2
+	for i, j := 0, len(schema.Types)-1; i < mid; i, j = i+1, j-1 {
+		memoizeTypes[schema.Types[i].Name] = schema.Types[i]
+		memoizeTypes[schema.Types[j].Name] = schema.Types[j]
+	}
+
+	s.memoizeTypes = memoizeTypes
+
+	return nil
 }
 
 func (s *Schema) String() string {
@@ -196,6 +212,37 @@ type Types struct {
 	Interfaces    []*Type       `json:"interfaces"`
 	EnumValues    []*EnumValue  `json:"enumValues"`
 	PossibleTypes []*Type       `json:"possibleTypes"`
+}
+
+var _ json.Unmarshaler = (*Types)(nil)
+
+func (t *Types) UnmarshalJSON(data []byte) error {
+	// HACK(codehex): To avoid stackoverflow, I assigned to tmp type.
+	type HookType Types
+
+	var types HookType
+	if err := json.Unmarshal(data, &types); err != nil {
+		return err
+	}
+
+	sort.Slice(types.Fields, func(i, j int) bool {
+		return strings.Compare(types.Fields[i].Name, types.Fields[j].Name) < 0
+	})
+	sort.Slice(types.InputFields, func(i, j int) bool {
+		return strings.Compare(types.InputFields[i].Name, types.InputFields[j].Name) < 0
+	})
+	sort.Slice(types.Interfaces, func(i, j int) bool {
+		return strings.Compare(types.Interfaces[i].UnderlyingName(), types.Interfaces[j].UnderlyingName()) < 0
+	})
+	sort.Slice(types.EnumValues, func(i, j int) bool {
+		return strings.Compare(types.EnumValues[i].Name, types.EnumValues[j].Name) < 0
+	})
+	sort.Slice(types.PossibleTypes, func(i, j int) bool {
+		return strings.Compare(types.PossibleTypes[i].UnderlyingName(), types.PossibleTypes[j].UnderlyingName()) < 0
+	})
+
+	*t = Types(types)
+	return nil
 }
 
 const indent = "  "
