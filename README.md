@@ -36,11 +36,23 @@ $ gqldoc -s a.graphql -s b.graphql -o ./doc_dir
 
 ## Installation
 
+### Mac and Linux users via Homebrew
+
+```sh
+$ brew install Code-Hex/tap/gqldoc
+```
+
+### Manually via go command
+
 Again, this tool is supported Go 1.16 and above. If you are one of those users, you can install like below.
 
 ```sh
 $ go install github.com/Code-Hex/gqldoc/cmd/gqldoc
 ```
+
+### Manually download
+
+You can download binary from [here](https://github.com/Code-Hex/gqldoc/releases)
 
 ## Todo
 
