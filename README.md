@@ -2,7 +2,7 @@
 
 > gqldoc is now alpha
 
-gqldoc is command line tool to generate documents from GraphQL schema or your GraphQL endpoint. the command is written by Go 1.16. So You need Go 1.16 and above If you want to build or install this tool.
+gqldoc is command line tool to generate documents from GraphQL schema or your GraphQL endpoint. the command is written by Go 1.16. So You need Go 1.16 and above If you want to build.
 
 ## Demo
 
