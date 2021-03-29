@@ -47,6 +47,7 @@ $ go install github.com/Code-Hex/gqldoc/cmd/gqldoc
 This todo list is written the order of priority.
 
 - [ ] GitHub Actions for this
+  - Update document and push it to current branch If target schema has diff
 - [ ] Subscription
 - [ ] Directive and it's location.
 - [ ] Put README.md in output directory
