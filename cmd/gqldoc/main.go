@@ -31,6 +31,7 @@ func main() {
 func run(ctx context.Context) error {
 	app := cli.NewApp()
 	app.Name = "gqldoc"
+	app.Usage = "The easiest way to generate documents for GraphQL"
 	app.Description = "This is a command for quickly generating documents from graphql schema in golang."
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
