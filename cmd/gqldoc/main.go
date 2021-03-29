@@ -17,14 +17,15 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Version holds the complete version number. Filled in at linking time.
+var Version = "v0.0.0+unknown"
+
 func main() {
 	if err := run(context.Background()); err != nil {
 		fmt.Fprintf(os.Stderr, "err: %+v", err)
 		os.Exit(1)
 	}
 }
-
-const Version = "v0.0.1"
 
 func run(ctx context.Context) error {
 	app := cli.NewApp()
