@@ -12,12 +12,6 @@ When calling the GraphQL API, you must specify nested subfields until you return
 
 ---
 
-### String
-
-<p>The <code>String</code>scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.</p>
-
----
-
 ### Float
 
 <p>The <code>Float</code> scalar type represents signed double-precision fractional values as specified by <a href="http://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a>.</p>
@@ -33,5 +27,11 @@ When calling the GraphQL API, you must specify nested subfields until you return
 ### Int
 
 <p>The <code>Int</code> scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.</p>
+
+---
+
+### String
+
+<p>The <code>String</code>scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.</p>
 
 ---
