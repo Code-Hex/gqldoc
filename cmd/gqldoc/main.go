@@ -13,6 +13,7 @@ import (
 	"github.com/Code-Hex/gqldoc/loader"
 	"github.com/machinebox/graphql"
 	gqlcli "github.com/machinebox/graphql"
+	"github.com/mattn/go-zglob"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli/v2"
 )
@@ -122,15 +123,23 @@ func convertSchemaTree(schemaFiles []string) (*introspection.Root, error) {
 		return nil, errHelp
 	}
 
+	gqlfiles := make([]string, 0, len(schemaFiles))
 	for _, schema := range schemaFiles {
-		switch filepath.Ext(schema) {
-		case ".graphqls", ".graphql", ".gql":
-		default:
-			return nil, errHelp
+		matches, err := zglob.Glob(schema)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		for _, maybeSchema := range matches {
+			switch filepath.Ext(schema) {
+			case ".graphqls", ".graphql", ".gql":
+				gqlfiles = append(gqlfiles, maybeSchema)
+			default:
+				return nil, errHelp
+			}
 		}
 	}
 
-	schema, err := loader.LoadSchema(schemaFiles...)
+	schema, err := loader.LoadSchema(gqlfiles...)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
