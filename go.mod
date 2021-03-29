@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.13.0
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
+	github.com/mattn/go-zglob v0.0.3
 	github.com/pkg/errors v0.8.1
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/urfave/cli/v2 v2.3.0
