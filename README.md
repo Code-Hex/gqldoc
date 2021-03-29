@@ -34,6 +34,12 @@ If you want to specify multiple schema, you can use `--schema` flag repeatedly.
 $ gqldoc -s a.graphql -s b.graphql -o ./doc_dir
 ```
 
+You can also use glob.
+
+```sh
+$ gqldoc -s "schema/**/*.graphql" -o ./doc_dir
+```
+
 ## Installation
 
 ### Mac and Linux users via Homebrew
