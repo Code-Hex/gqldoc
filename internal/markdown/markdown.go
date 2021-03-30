@@ -23,12 +23,8 @@ type Config struct {
 	BaseDir string
 }
 
-func (m *Config) MakePath(filename string) string {
-	return filepath.Join(m.BaseDir, filename)
-}
-
 func (m *Config) Create(filename string) (*os.File, error) {
-	dest := m.MakePath(filename)
+	dest := filepath.Join(m.BaseDir, filename)
 	return os.Create(dest)
 }
 
@@ -63,7 +59,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 		}
 		readmeContent.Items = append(readmeContent.Items, &READMEItem{
 			Type: "Query",
-			Link: m.MakePath("queries.md"),
+			Link: "queries.md",
 		})
 	}
 	if s.MutationType != nil {
@@ -72,7 +68,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 		}
 		readmeContent.Items = append(readmeContent.Items, &READMEItem{
 			Type: "Mutations",
-			Link: m.MakePath("mutations.md"),
+			Link: "mutations.md",
 		})
 	}
 	if len(s.Types) > 0 {
@@ -86,7 +82,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Objects",
-				Link: m.MakePath("objects.md"),
+				Link: "objects.md",
 			})
 		}
 		if typs := types[introspection.INTERFACE]; len(typs) > 0 {
@@ -95,7 +91,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Interfaces",
-				Link: m.MakePath("interfaces.md"),
+				Link: "interfaces.md",
 			})
 		}
 		if typs := types[introspection.ENUM]; len(typs) > 0 {
@@ -104,7 +100,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Enums",
-				Link: m.MakePath("enums.md"),
+				Link: "enums.md",
 			})
 		}
 		if typs := types[introspection.UNION]; len(typs) > 0 {
@@ -113,7 +109,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Unions",
-				Link: m.MakePath("unions.md"),
+				Link: "unions.md",
 			})
 		}
 		if typs := types[introspection.INPUT_OBJECT]; len(typs) > 0 {
@@ -122,7 +118,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Input objects",
-				Link: m.MakePath("input_objects.md"),
+				Link: "input_objects.md",
 			})
 		}
 		if typs := types[introspection.SCALAR]; len(typs) > 0 {
@@ -131,7 +127,7 @@ func (m *Config) Render(s *introspection.Schema) error {
 			}
 			readmeContent.Items = append(readmeContent.Items, &READMEItem{
 				Type: "Scalars",
-				Link: m.MakePath("scalars.md"),
+				Link: "scalars.md",
 			})
 		}
 	}
