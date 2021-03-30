@@ -69,7 +69,7 @@ This todo list is written the order of priority.
   - https://github.com/Code-Hex/gqldoc-actions
 - [ ] Subscription
 - [ ] Directive and it's location.
-- [ ] Put README.md in output directory
+- [x] ~~Put README.md in output directory~~
   - TOC purpose
 - [ ] Custom Template
 - [ ] Render HTML
