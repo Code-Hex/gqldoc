@@ -1,0 +1,34 @@
+# https://github.com/octokit/graphql-schema/blob/master/.github/workflows/update.yml
+on:
+  schedule:
+    # https://crontab.guru/every-hour
+    - cron: 0 * * * *
+  workflow_dispatch: {}
+name: Update
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      TARGET_SCHEMA: example/github/schema.graphql
+    steps:
+      - uses: actions/checkout@v2
+      - run: git checkout schema-update || true
+      - run: |
+          curl https://api.github.com/graphql \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H 'Accept: application/vnd.github.v4.idl' | jq --raw-output .data > $TARGET_SCHEMA
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: create pull request
+        uses: gr2m/create-or-update-pull-request-action@v1.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: "🚧 🤖📯 GraphQL Schema changed"
+          body: |
+            I found new changes in GitHub's GraphQL Schema 👋🤖
+            I can't tell if the changes are fixes, features or breaking, you'll have to figure that out on yourself and adapt the commit messages accordingly to trigger the right release, see [our commit message conventions](https://github.com/octokit/openapi/blob/main/CONTRIBUTING.md#merging-the-pull-request--releasing-a-new-version).
+          branch: "schema-update"
+          path: env.TARGET_SCHEMA
+          commit-message: "WIP: github schema.graphql changed - please review"
+          labels: maintenance
