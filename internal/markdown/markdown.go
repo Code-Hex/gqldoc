@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"text/template"
 	"unsafe"
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
@@ -50,40 +51,120 @@ func (m *Config) MakeLinkFromType(typ *introspection.Type) (string, error) {
 }
 
 func (m *Config) Render(s *introspection.Schema) error {
+	readmeContent := &README{}
+
 	if s.QueryType != nil {
 		if err := m.renderQuery(s); err != nil {
 			return errors.WithStack(err)
 		}
+		readmeContent.Items = append(readmeContent.Items, &READMEItem{
+			Type: "Query",
+			Link: "queries.md",
+		})
 	}
 	if s.MutationType != nil {
 		if err := m.renderMutation(s); err != nil {
 			return errors.WithStack(err)
 		}
+		readmeContent.Items = append(readmeContent.Items, &READMEItem{
+			Type: "Mutations",
+			Link: "mutations.md",
+		})
 	}
 	if len(s.Types) > 0 {
 		types := make(map[introspection.TypeKind][]*introspection.Types, len(s.Types))
 		for _, typ := range s.Types {
 			types[typ.Kind] = append(types[typ.Kind], typ)
 		}
-		if err := m.renderObjects(types[introspection.OBJECT]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.OBJECT]; len(typs) > 0 {
+			if err := m.renderObjects(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Objects",
+				Link: "objects.md",
+			})
 		}
-		if err := m.renderInterfaces(types[introspection.INTERFACE]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.INTERFACE]; len(typs) > 0 {
+			if err := m.renderInterfaces(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Interfaces",
+				Link: "interfaces.md",
+			})
 		}
-		if err := m.renderEnums(types[introspection.ENUM]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.ENUM]; len(typs) > 0 {
+			if err := m.renderEnums(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Enums",
+				Link: "enums.md",
+			})
 		}
-		if err := m.renderUnions(types[introspection.UNION]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.UNION]; len(typs) > 0 {
+			if err := m.renderUnions(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Unions",
+				Link: "unions.md",
+			})
 		}
-		if err := m.renderInputObjects(types[introspection.INPUT_OBJECT]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.INPUT_OBJECT]; len(typs) > 0 {
+			if err := m.renderInputObjects(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Input objects",
+				Link: "input_objects.md",
+			})
 		}
-		if err := m.renderScalars(types[introspection.SCALAR]); err != nil {
-			return errors.WithStack(err)
+		if typs := types[introspection.SCALAR]; len(typs) > 0 {
+			if err := m.renderScalars(typs); err != nil {
+				return errors.WithStack(err)
+			}
+			readmeContent.Items = append(readmeContent.Items, &READMEItem{
+				Type: "Scalars",
+				Link: "scalars.md",
+			})
 		}
 	}
 
+	if err := m.renderREADME(readmeContent); err != nil {
+		return errors.WithStack(err)
+	}
+
+	return nil
+}
+
+//go:embed README.md
+var readme string
+
+type README struct {
+	Items []*READMEItem
+}
+
+type READMEItem struct {
+	Type string
+	Link string
+}
+
+func (m *Config) renderREADME(r *README) error {
+	f, err := m.Create("README.md")
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	defer f.Close()
+
+	t, err := template.New("README").Parse(readme)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	if err := t.Execute(f, r); err != nil {
+		return errors.WithStack(err)
+	}
 	return nil
 }
