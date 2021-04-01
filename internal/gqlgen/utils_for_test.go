@@ -1,0 +1,3 @@
+package gqlgen
+
+var Deprecated_NewExecutableSchema = __deprecated_NewExecutableSchema
