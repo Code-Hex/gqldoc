@@ -1915,6 +1915,7 @@ range&rsquo;s change.</p></td>
 
 
 - [Node](interfaces.md#node)
+- [RequirableByPullRequest](interfaces.md#requirablebypullrequest)
 - [UniformResourceLocatable](interfaces.md#uniformresourcelocatable) 
 
 #### Fields
@@ -1990,15 +1991,21 @@ range&rsquo;s change.</p></td>
   <tr>
     <td><strong>isRequired</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
     <td>
-      <p><p>Whether this check run is required to pass before merging.</p></p>
+      <p><p>Whether this is required to pass before merging for a specific pull request.</p></p>
       <table>
         <tr>
           <th><strong>Arguments</strong></th>
         </tr>
         <tr>
           <td>
-            <p>pullRequestId (<a href="scalars.md#id">ID!</a>)</p>
-            <p><p>The pull request this check is required for</p></p>
+            <p>pullRequestId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>The id of the pull request this is required for</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>pullRequestNumber (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>The number of the pull request this is required for</p></p>
           </td>
         </tr>
       </table>
@@ -2616,7 +2623,9 @@ range&rsquo;s change.</p></td>
   <tr>
     <td><strong>associatedPullRequests</strong> (<a href="objects.md#pullrequestconnection">PullRequestConnection</a>)</td> 
     <td>
-      <p><p>The pull requests associated with a commit</p></p>
+      <p><p>The merged Pull Request that introduced the commit to the repository. If the
+commit is not present in the default branch, additionally returns open Pull
+Requests associated with the commit</p></p>
       <table>
         <tr>
           <th><strong>Arguments</strong></th>
@@ -8903,7 +8912,7 @@ repository can change repository visibility.</p></td>
   </tr>
   <tr>
     <td><strong>isPrivate</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
-    <td><p>Identifies if the repository is private.</p></td>
+    <td><p>Identifies if the repository is private or internal.</p></td>
   </tr>
   <tr>
     <td><strong>name</strong> (<a href="scalars.md#string">String!</a>)</td> 
@@ -21170,6 +21179,14 @@ merged, or if the test merge commit is still being generated. See the
     <td><p>Did the viewer author this comment.</p></td>
   </tr>
   <tr>
+    <td><strong>viewerLatestReview</strong> (<a href="objects.md#pullrequestreview">PullRequestReview</a>)</td> 
+    <td><p>The latest review given from the viewer.</p></td>
+  </tr>
+  <tr>
+    <td><strong>viewerLatestReviewRequest</strong> (<a href="objects.md#reviewrequest">ReviewRequest</a>)</td> 
+    <td><p>The person who has requested the viewer for review on this pull request.</p></td>
+  </tr>
+  <tr>
     <td><strong>viewerMergeBodyText</strong> (<a href="scalars.md#string">String!</a>)</td> 
     <td>
       <p><p>The merge body text for the viewer and method.</p></p>
@@ -26767,7 +26784,7 @@ organization or user being viewed owns.</p></p>
   </tr>
   <tr>
     <td><strong>isPrivate</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
-    <td><p>Identifies if the repository is private.</p></td>
+    <td><p>Identifies if the repository is private or internal.</p></td>
   </tr>
   <tr>
     <td><strong>isSecurityPolicyEnabled</strong> (<a href="scalars.md#boolean">Boolean</a>)</td> 
@@ -29950,6 +29967,12 @@ amount goals. Represents a count of unique sponsors for total sponsors count goa
     <td><p>SponsorsTier information only visible to users that can administer the associated Sponsors listing.</p></td>
   </tr>
   <tr>
+    <td><strong>closestLesserValueTier</strong> (<a href="objects.md#sponsorstier">SponsorsTier</a>)</td> 
+    <td><p>Get a different tier for this tier&rsquo;s maintainer that is at the same frequency
+as this tier but with a lesser cost. Returns the published tier with the
+monthly price closest to this tier&rsquo;s without going over.</p></td>
+  </tr>
+  <tr>
     <td><strong>createdAt</strong> (<a href="scalars.md#datetime">DateTime!</a>)</td> 
     <td><p>Identifies the date and time when the object was created.</p></td>
   </tr>
@@ -29964,6 +29987,15 @@ amount goals. Represents a count of unique sponsors for total sponsors count goa
   <tr>
     <td><strong>id</strong> (<a href="scalars.md#id">ID!</a>)</td> 
     <td></td>
+  </tr>
+  <tr>
+    <td><strong>isCustomAmount</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>Whether this tier was chosen at checkout time by the sponsor rather than
+defined ahead of time by the maintainer who manages the Sponsors listing.</p></td>
+  </tr>
+  <tr>
+    <td><strong>isOneTime</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>Whether this tier is only for use with one-time sponsorships.</p></td>
   </tr>
   <tr>
     <td><strong>monthlyPriceInCents</strong> (<a href="scalars.md#int">Int!</a>)</td> 
@@ -30129,6 +30161,10 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
   <tr>
     <td><strong>id</strong> (<a href="scalars.md#id">ID!</a>)</td> 
     <td></td>
+  </tr>
+  <tr>
+    <td><strong>isOneTimePayment</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>Whether this sponsorship represents a one-time payment versus a recurring sponsorship.</p></td>
   </tr>
   <tr>
     <td><strong>maintainer</strong> (<a href="objects.md#user">User!</a>)</td> 
@@ -30548,7 +30584,8 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
 #### Implements
 
 
-- [Node](interfaces.md#node) 
+- [Node](interfaces.md#node)
+- [RequirableByPullRequest](interfaces.md#requirablebypullrequest) 
 
 #### Fields
 
@@ -30601,15 +30638,21 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
   <tr>
     <td><strong>isRequired</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
     <td>
-      <p><p>Whether this status is required to pass before merging.</p></p>
+      <p><p>Whether this is required to pass before merging for a specific pull request.</p></p>
       <table>
         <tr>
           <th><strong>Arguments</strong></th>
         </tr>
         <tr>
           <td>
-            <p>pullRequestId (<a href="scalars.md#id">ID!</a>)</p>
-            <p><p>The pull request this status is required for</p></p>
+            <p>pullRequestId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>The id of the pull request this is required for</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>pullRequestNumber (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>The number of the pull request this is required for</p></p>
           </td>
         </tr>
       </table>
