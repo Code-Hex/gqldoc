@@ -1740,7 +1740,7 @@ either curated or that have been selected automatically based on popularity.</p>
   </tr>
   <tr>
     <td><strong>isPrivate</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
-    <td><p>Identifies if the repository is private.</p></td>
+    <td><p>Identifies if the repository is private or internal.</p></td>
   </tr>
   <tr>
     <td><strong>isTemplate</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
@@ -1988,6 +1988,50 @@ organization or user being viewed owns.</p></p>
   <tr>
     <td><strong>url</strong> (<a href="scalars.md#uri">URI!</a>)</td> 
     <td><p>The HTTP URL for the owner.</p></td>
+  </tr>
+</table>
+
+---
+
+### RequirableByPullRequest
+
+<p>Represents a type that can be required by a pull request for merging.</p> 
+
+#### Implemented by
+
+
+- [CheckRun](objects.md#checkrun)
+- [StatusContext](objects.md#statuscontext) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>isRequired</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td>
+      <p><p>Whether this is required to pass before merging for a specific pull request.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>pullRequestId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>The id of the pull request this is required for</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>pullRequestNumber (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>The number of the pull request this is required for</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 
