@@ -50,6 +50,23 @@ func TestStarwarsSchema(t *testing.T) {
 	}
 }
 
+func TestShopifySchema(t *testing.T) {
+	schema := filepath.Join("..", "..", "example", "shopify", "schema.graphql")
+	root, err := loader.LoadSchema(schema)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	root2, err := LoadSchema(schema)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(root2, root, cmpopts.IgnoreUnexported(introspection.Schema{})); diff != "" {
+		t.Fatalf("-want, +got\n%s", diff)
+	}
+}
+
 func LoadSchema(filenames ...string) (*introspection.Root, error) {
 	es, err := gqlgen.Deprecated_NewExecutableSchema(filenames...)
 	if err != nil {
