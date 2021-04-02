@@ -20,7 +20,7 @@ func TestGitHubSchema(t *testing.T) {
 	schema := filepath.Join("..", "..", "example", "github", "schema.graphql")
 	root, err := loader.LoadSchema(schema)
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("%+v", err)
 	}
 
 	root2, err := LoadSchema(schema)
