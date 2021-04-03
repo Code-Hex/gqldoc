@@ -16,54 +16,29 @@ import (
 	"github.com/pkg/errors"
 )
 
-func TestGitHubSchema(t *testing.T) {
-	schema := filepath.Join("..", "..", "example", "github", "schema.graphql")
-	root, err := loader.LoadSchema(schema)
-	if err != nil {
-		t.Fatalf("%+v", err)
+func TestExampleSchema(t *testing.T) {
+	cases := []string{
+		"github",
+		"shopify",
+		"starwars",
 	}
+	for _, example := range cases {
+		t.Run("example "+example, func(t *testing.T) {
+			schema := filepath.Join("..", "..", "example", example, "schema.graphql")
+			root, err := loader.LoadSchema(schema)
+			if err != nil {
+				t.Fatalf("%+v", err)
+			}
 
-	root2, err := LoadSchema(schema)
-	if err != nil {
-		t.Fatal(err)
-	}
+			root2, err := LoadSchema(schema)
+			if err != nil {
+				t.Fatal(err)
+			}
 
-	if diff := cmp.Diff(root2, root, cmpopts.IgnoreUnexported(introspection.Schema{})); diff != "" {
-		t.Fatalf("-want, +got\n%s", diff)
-	}
-}
-
-func TestStarwarsSchema(t *testing.T) {
-	schema := filepath.Join("..", "..", "example", "starwars", "schema.graphql")
-	root, err := loader.LoadSchema(schema)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	root2, err := LoadSchema(schema)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if diff := cmp.Diff(root2, root, cmpopts.IgnoreUnexported(introspection.Schema{})); diff != "" {
-		t.Fatalf("-want, +got\n%s", diff)
-	}
-}
-
-func TestShopifySchema(t *testing.T) {
-	schema := filepath.Join("..", "..", "example", "shopify", "schema.graphql")
-	root, err := loader.LoadSchema(schema)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	root2, err := LoadSchema(schema)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if diff := cmp.Diff(root2, root, cmpopts.IgnoreUnexported(introspection.Schema{})); diff != "" {
-		t.Fatalf("-want, +got\n%s", diff)
+			if diff := cmp.Diff(root2, root, cmpopts.IgnoreUnexported(introspection.Schema{})); diff != "" {
+				t.Fatalf("-want, +got\n%s", diff)
+			}
+		})
 	}
 }
 
