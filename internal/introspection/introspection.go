@@ -1,3 +1,4 @@
+// introspection implements the spec defined in https://github.com/facebook/graphql/blob/master/spec/Section%204%20--%20Introspection.md#schema-introspection
 package introspection
 
 import (
@@ -9,6 +10,7 @@ import (
 	"github.com/Code-Hex/gqldoc/internal/pool"
 )
 
+// https://github.com/graphql/graphql-js/blob/main/src/utilities/getIntrospectionQuery.js
 const Query = `
 query IntrospectionQuery {
   __schema {
@@ -137,7 +139,7 @@ type Schema struct {
 	MutationType     *OperationType `json:"mutationType"`
 	SubscriptionType *OperationType `json:"subscriptionType"`
 	Types            []*Types       `json:"types"`
-	Directives       []*Directives  `json:"directives"`
+	Directives       []*Directive   `json:"directives"`
 
 	memoizeTypes map[string]*Types
 }
@@ -400,10 +402,12 @@ func (a Args) String() string {
 }
 
 type Arg struct {
-	Name         string  `json:"name"`
-	Description  string  `json:"description"`
-	Type         *Type   `json:"type"`
-	DefaultValue *string `json:"defaultValue"`
+	Name              string  `json:"name"`
+	Description       string  `json:"description"`
+	Type              *Type   `json:"type"`
+	DefaultValue      *string `json:"defaultValue"`
+	IsDeprecated      bool    `json:"isDeprecated"`
+	DeprecationReason string  `json:"deprecationReason"`
 }
 
 func (a *Arg) String() string {
@@ -417,14 +421,14 @@ func (a *Arg) String() string {
 	return ret
 }
 
-type Directives struct {
+type Directive struct {
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
 	Locations   []string `json:"locations"`
 	Args        Args     `json:"args"`
 }
 
-func (d *Directives) String() string {
+func (d *Directive) String() string {
 	if d == nil {
 		return ""
 	}
@@ -473,10 +477,12 @@ func (f *Field) String() string {
 }
 
 type InputValue struct {
-	Name         string  `json:"name"`
-	Description  string  `json:"description"`
-	Type         *Type   `json:"type"`
-	DefaultValue *string `json:"defaultValue"`
+	Name              string  `json:"name"`
+	Description       string  `json:"description"`
+	Type              *Type   `json:"type"`
+	DefaultValue      *string `json:"defaultValue"`
+	IsDeprecated      bool    `json:"isDeprecated"`
+	DeprecationReason string  `json:"deprecationReason"`
 }
 
 func (i *InputValue) String() string {

@@ -1,16 +1,15 @@
 package loader
 
 import (
-	"context"
 	"encoding/json"
 
-	"github.com/99designs/gqlgen/graphql"
 	"github.com/Code-Hex/gqldoc/internal/gqlgen"
+	"github.com/Code-Hex/gqldoc/internal/graphql"
 	"github.com/Code-Hex/gqldoc/internal/introspection"
+	"github.com/Code-Hex/gqlparser/v2/ast"
+	"github.com/Code-Hex/gqlparser/v2/parser"
+	"github.com/Code-Hex/gqlparser/v2/validator"
 	"github.com/pkg/errors"
-	"github.com/vektah/gqlparser/v2/ast"
-	"github.com/vektah/gqlparser/v2/parser"
-	"github.com/vektah/gqlparser/v2/validator"
 )
 
 func LoadSchema(filenames ...string) (*introspection.Root, error) {
@@ -20,7 +19,7 @@ func LoadSchema(filenames ...string) (*introspection.Root, error) {
 	}
 
 	ctx, err := CreateOperationContext(Params{
-		Schema:    es.Schema(),
+		Schema:    es.ParsedSchema,
 		Query:     introspection.Query,
 		Variables: map[string]interface{}{},
 	})
@@ -28,13 +27,10 @@ func LoadSchema(filenames ...string) (*introspection.Root, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	resp := es.Exec(ctx)(context.Background())
-	if len(resp.Errors) > 0 {
-		return nil, resp.Errors
-	}
+	resp := es.Exec(ctx)
 
 	var res introspection.Root
-	if err := json.Unmarshal(resp.Data, &res); err != nil {
+	if err := json.NewDecoder(resp).Decode(&res); err != nil {
 		return nil, err
 	}
 	return &res, nil
@@ -46,7 +42,7 @@ type Params struct {
 	Variables map[string]interface{}
 }
 
-func CreateOperationContext(params Params) (context.Context, error) {
+func CreateOperationContext(params Params) (*graphql.OperationContext, error) {
 	doc, err := parseQuery(params.Schema, params.Query)
 	if err != nil {
 		return nil, err
@@ -60,14 +56,12 @@ func CreateOperationContext(params Params) (context.Context, error) {
 		return nil, errors.WithStack(verr)
 	}
 
-	opCtx := &graphql.OperationContext{
+	return &graphql.OperationContext{
 		RawQuery:  params.Query,
 		Variables: variables,
 		Doc:       doc,
 		Operation: operation,
-	}
-	ctx := graphql.WithOperationContext(context.Background(), opCtx)
-	return ctx, nil
+	}, nil
 }
 
 func parseQuery(schema *ast.Schema, query string) (*ast.QueryDocument, error) {
