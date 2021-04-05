@@ -1,6 +1,7 @@
 package wrapper
 
 import (
+	"sort"
 	"strings"
 
 	"github.com/Code-Hex/gqlparser/v2/ast"
@@ -13,11 +14,13 @@ type Schema struct {
 func (s *Schema) Types() []Type {
 	types := make([]Type, 0, len(s.schema.Types))
 	for _, typ := range s.schema.Types {
-		if strings.HasPrefix(typ.Name, "__") {
-			continue
-		}
 		types = append(types, *WrapTypeFromDef(s.schema, typ))
 	}
+	sort.Slice(types, func(i, j int) bool {
+		x := *types[i].Name()
+		y := *types[j].Name()
+		return strings.Compare(x, y) < 0
+	})
 	return types
 }
 

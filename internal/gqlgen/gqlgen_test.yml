@@ -1,0 +1,226 @@
+starwarsSchema: &starwarsSchema |
+  """Starwars schema"""
+  schema {
+    query: Query
+  }
+
+  "One of the films in the Star Wars Trilogy"
+  enum Episode {
+    "Released in 1977."
+    NEW_HOPE
+    "Released in 1980."
+    EMPIRE
+    "Released in 1983."
+    JEDI
+  }
+
+  "A character in the Star Wars Trilogy"
+  interface Character {
+    "The id of the character."
+    id: String!
+    "The name of the character."
+    name: String
+    "The friends of the character, or an empty list if they have none."
+    friends: [Character]
+    "Which movies they appear in."
+    appearsIn: [Episode]
+    "All secrets about their past."
+    secretBackstory: String
+  }
+
+  "A humanoid creature in the Star Wars universe."
+  type Human implements Character {
+    "The id of the human."
+    id: String!
+    "The name of the human."
+    name: String
+    "The friends of the human, or an empty list if they have none."
+    friends: [Character]
+    "Which movies they appear in."
+    appearsIn: [Episode]
+    "The home planet of the human, or null if unknown."
+    homePlanet: String
+    "Where are they from and how they came to be who they are."
+    secretBackstory: String
+  }
+
+  "A mechanical creature in the Star Wars universe."
+  type Droid implements Character {
+    "The id of the droid."
+    id: String!
+    "The name of the droid."
+    name: String
+    "The friends of the droid, or an empty list if they have none."
+    friends: [Character]
+    "Which movies they appear in."
+    appearsIn: [Episode]
+    "Construction date and the name of the designer."
+    secretBackstory: String
+    "The primary function of the droid."
+    primaryFunction: String
+  }
+  type Query {
+    hero(
+      """
+      If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode.
+      """
+      episode: Episode
+    ): Character
+
+    human(
+      """
+      id of the human
+      """
+      id: String!
+    ): Human
+
+    droid(
+      """
+      id of the droid
+      """
+      id: String!
+    ): Droid
+  }
+
+tests:
+  Basic Introspection:
+    - name: querying the schema for types
+      schema: *starwarsSchema
+      query: |
+        {
+          __schema {
+            types {
+              name
+            }
+          }
+        }
+      json: |
+        {"__schema":{"types":[{"name":"Boolean"},{"name":"Character"},{"name":"Droid"},{"name":"Episode"},{"name":"Float"},{"name":"Human"},{"name":"ID"},{"name":"Int"},{"name":"Query"},{"name":"String"},{"name":"__Directive"},{"name":"__DirectiveLocation"},{"name":"__EnumValue"},{"name":"__Field"},{"name":"__InputValue"},{"name":"__Schema"},{"name":"__Type"},{"name":"__TypeKind"}]}}
+
+    - name: querying the schema for query type
+      schema: *starwarsSchema
+      query: |
+        {
+          __schema {
+            queryType {
+              name
+            }
+          }
+        }
+      json: |
+        {"__schema":{"queryType":{"name":"Query"}}}
+
+    - name: querying the schema for a specific type
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Droid") {
+            name
+          }
+        }
+      json: |
+        {"__type":{"name":"Droid"}}
+
+    - name: querying the schema for an object kind
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Droid") {
+            name
+            kind
+          }
+        }
+      json: |
+        {"__type":{"name":"Droid","kind":"OBJECT"}}
+
+    - name: querying the schema for an interface kind
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Character") {
+            name
+            kind
+          }
+        }
+      json: |
+        {"__type":{"name":"Character","kind":"INTERFACE"}}
+
+    - name: querying the schema for object fields
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Droid") {
+            name
+            fields {
+              name
+              type {
+                name
+                kind
+              }
+            }
+          }
+        }
+      json: |
+        {"__type":{"name":"Droid","fields":[{"name":"id","type":{"name":null,"kind":"NON_NULL"}},{"name":"name","type":{"name":"String","kind":"SCALAR"}},{"name":"friends","type":{"name":null,"kind":"LIST"}},{"name":"appearsIn","type":{"name":null,"kind":"LIST"}},{"name":"secretBackstory","type":{"name":"String","kind":"SCALAR"}},{"name":"primaryFunction","type":{"name":"String","kind":"SCALAR"}}]}}
+
+    - name: querying the schema for nested object fields
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Droid") {
+            name
+            fields {
+              name
+              type {
+                name
+                kind
+                ofType {
+                  name
+                  kind
+                }
+              }
+            }
+          }
+        }
+      json: |
+        {"__type":{"name":"Droid","fields":[{"name":"id","type":{"name":null,"kind":"NON_NULL","ofType":{"name":"String","kind":"SCALAR"}}},{"name":"name","type":{"name":"String","kind":"SCALAR","ofType":null}},{"name":"friends","type":{"name":null,"kind":"LIST","ofType":{"name":"Character","kind":"INTERFACE"}}},{"name":"appearsIn","type":{"name":null,"kind":"LIST","ofType":{"name":"Episode","kind":"ENUM"}}},{"name":"secretBackstory","type":{"name":"String","kind":"SCALAR","ofType":null}},{"name":"primaryFunction","type":{"name":"String","kind":"SCALAR","ofType":null}}]}}
+
+    - name: querying the schema for field args
+      schema: *starwarsSchema
+      query: |
+        {
+          __schema {
+            queryType {
+              fields {
+                name
+                args {
+                  name
+                  description
+                  type {
+                    name
+                    kind
+                    ofType {
+                      name
+                      kind
+                    }
+                  }
+                  defaultValue
+                }
+              }
+            }
+          }
+        }
+      json: |
+        {"__schema":{"queryType":{"fields":[{"name":"hero","args":[{"defaultValue":null,"description":"If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode.","name":"episode","type":{"kind":"ENUM","name":"Episode","ofType":null}}]},{"name":"human","args":[{"name":"id","description":"id of the human","type":{"kind":"NON_NULL","name":null,"ofType":{"kind":"SCALAR","name":"String"}},"defaultValue":null}]},{"name":"droid","args":[{"name":"id","description":"id of the droid","type":{"kind":"NON_NULL","name":null,"ofType":{"kind":"SCALAR","name":"String"}},"defaultValue":null}]}]}}}
+
+    - name: querying the schema for documentation
+      schema: *starwarsSchema
+      query: |
+        {
+          __type(name: "Droid") {
+            name
+            description
+          }
+        }
+      json: |
+        {"__type":{"name":"Droid","description":"A mechanical creature in the Star Wars universe."}}
