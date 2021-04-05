@@ -14,7 +14,52 @@ import (
 	"github.com/Code-Hex/gqldoc/internal/wrapper"
 	gqlparser "github.com/Code-Hex/gqlparser/v2"
 	"github.com/Code-Hex/gqlparser/v2/ast"
+	"github.com/Code-Hex/gqlparser/v2/parser"
+	"github.com/Code-Hex/gqlparser/v2/validator"
+	"github.com/pkg/errors"
 )
+
+type Params struct {
+	Schema    *ast.Schema
+	Query     string
+	Variables map[string]interface{}
+}
+
+func CreateOperationContext(params Params) (*graphql.OperationContext, error) {
+	doc, err := parseQuery(params.Schema, params.Query)
+	if err != nil {
+		return nil, err
+	}
+	operation := doc.Operations.ForName("")
+	if operation == nil {
+		return nil, errors.New("operation not found")
+	}
+	variables, verr := validator.VariableValues(params.Schema, operation, params.Variables)
+	if verr != nil {
+		return nil, errors.WithStack(verr)
+	}
+
+	return &graphql.OperationContext{
+		RawQuery:  params.Query,
+		Variables: variables,
+		Doc:       doc,
+		Operation: operation,
+	}, nil
+}
+
+func parseQuery(schema *ast.Schema, query string) (*ast.QueryDocument, error) {
+	doc, err := parser.ParseQuery(&ast.Source{
+		Input: query,
+	})
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	listErr := validator.Validate(schema, doc)
+	if len(listErr) != 0 {
+		return nil, listErr
+	}
+	return doc, nil
+}
 
 func NewExecutableSchema(filenames ...string) (*ExecutableSchema, error) {
 	sources := make([]*ast.Source, len(filenames))
