@@ -7,13 +7,25 @@ import (
 	"github.com/Code-Hex/gqlparser/v2/ast"
 )
 
+type WrapSchemaOption func(s *Schema)
+
+func WithReservedTypes(want bool) WrapSchemaOption {
+	return func(s *Schema) {
+		s.wantReservedTypes = want
+	}
+}
+
 type Schema struct {
-	schema *ast.Schema
+	schema            *ast.Schema
+	wantReservedTypes bool
 }
 
 func (s *Schema) Types() []Type {
 	types := make([]Type, 0, len(s.schema.Types))
 	for _, typ := range s.schema.Types {
+		if !s.wantReservedTypes && strings.HasPrefix(typ.Name, "__") {
+			continue
+		}
 		types = append(types, *WrapTypeFromDef(s.schema, typ))
 	}
 	sort.Slice(types, func(i, j int) bool {

@@ -32,8 +32,12 @@ type (
 	}
 )
 
-func WrapSchema(schema *ast.Schema) *Schema {
-	return &Schema{schema: schema}
+func WrapSchema(schema *ast.Schema, opts ...WrapSchemaOption) *Schema {
+	s := &Schema{schema: schema}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 func (f *EnumValue) IsDeprecated() bool {

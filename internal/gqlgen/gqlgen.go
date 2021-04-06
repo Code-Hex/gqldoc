@@ -83,10 +83,22 @@ func NewExecutableSchema(filenames ...string) (*ExecutableSchema, error) {
 }
 
 type ExecutableSchema struct {
-	ParsedSchema *ast.Schema
+	ParsedSchema      *ast.Schema
+	wantReservedTypes bool
 }
 
-func (e *ExecutableSchema) Exec(oc *graphql.OperationContext) *bytes.Buffer {
+type ExecOption func(es *ExecutableSchema)
+
+func WithReservedTypes(want bool) ExecOption {
+	return func(es *ExecutableSchema) {
+		es.wantReservedTypes = want
+	}
+}
+
+func (e *ExecutableSchema) Exec(oc *graphql.OperationContext, opts ...ExecOption) *bytes.Buffer {
+	for _, opt := range opts {
+		opt(e)
+	}
 	ec := executionContext{oc, e}
 	data := ec._Query(context.Background(), oc.Operation.SelectionSet)
 	var buf bytes.Buffer
@@ -100,7 +112,7 @@ type executionContext struct {
 }
 
 func (ec *executionContext) introspectSchema() *wrapper.Schema {
-	return wrapper.WrapSchema(ec.ParsedSchema)
+	return wrapper.WrapSchema(ec.ParsedSchema, wrapper.WithReservedTypes(ec.wantReservedTypes))
 }
 
 func (ec *executionContext) introspectType(name string) *wrapper.Type {
@@ -559,6 +571,8 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == gql.Null {
 				invalids++
 			}
+		case "description":
+			out.Values[i] = gql.MarshalString(obj.Description())
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

@@ -101,7 +101,7 @@ func TestExec(t *testing.T) {
 			ParsedSchema: AST,
 		}
 
-		resp := es.Exec(oc)
+		resp := es.Exec(oc, gqlgen.WithReservedTypes(true))
 
 		return resp.Bytes(), nil
 	})
