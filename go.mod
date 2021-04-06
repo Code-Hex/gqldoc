@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/99designs/gqlgen v0.13.0
-	github.com/Code-Hex/gqlparser/v2 v2.1.1-0.20210404043438-758ac252308a
+	github.com/Code-Hex/gqlparser/v2 v2.1.1-0.20210406023454-534efe0eae8e
 	github.com/agnivade/levenshtein v1.1.0 // indirect
 	github.com/goccy/go-yaml v1.8.9
 	github.com/google/go-cmp v0.5.5
