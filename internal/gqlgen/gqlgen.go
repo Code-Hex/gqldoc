@@ -14,7 +14,52 @@ import (
 	"github.com/Code-Hex/gqldoc/internal/wrapper"
 	gqlparser "github.com/Code-Hex/gqlparser/v2"
 	"github.com/Code-Hex/gqlparser/v2/ast"
+	"github.com/Code-Hex/gqlparser/v2/parser"
+	"github.com/Code-Hex/gqlparser/v2/validator"
+	"github.com/pkg/errors"
 )
+
+type Params struct {
+	Schema    *ast.Schema
+	Query     string
+	Variables map[string]interface{}
+}
+
+func CreateOperationContext(params Params) (*graphql.OperationContext, error) {
+	doc, err := parseQuery(params.Schema, params.Query)
+	if err != nil {
+		return nil, err
+	}
+	operation := doc.Operations.ForName("")
+	if operation == nil {
+		return nil, errors.New("operation not found")
+	}
+	variables, verr := validator.VariableValues(params.Schema, operation, params.Variables)
+	if verr != nil {
+		return nil, errors.WithStack(verr)
+	}
+
+	return &graphql.OperationContext{
+		RawQuery:  params.Query,
+		Variables: variables,
+		Doc:       doc,
+		Operation: operation,
+	}, nil
+}
+
+func parseQuery(schema *ast.Schema, query string) (*ast.QueryDocument, error) {
+	doc, err := parser.ParseQuery(&ast.Source{
+		Input: query,
+	})
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	listErr := validator.Validate(schema, doc)
+	if len(listErr) != 0 {
+		return nil, listErr
+	}
+	return doc, nil
+}
 
 func NewExecutableSchema(filenames ...string) (*ExecutableSchema, error) {
 	sources := make([]*ast.Source, len(filenames))
@@ -38,10 +83,22 @@ func NewExecutableSchema(filenames ...string) (*ExecutableSchema, error) {
 }
 
 type ExecutableSchema struct {
-	ParsedSchema *ast.Schema
+	ParsedSchema      *ast.Schema
+	wantReservedTypes bool
 }
 
-func (e *ExecutableSchema) Exec(oc *graphql.OperationContext) *bytes.Buffer {
+type ExecOption func(es *ExecutableSchema)
+
+func WithReservedTypes(want bool) ExecOption {
+	return func(es *ExecutableSchema) {
+		es.wantReservedTypes = want
+	}
+}
+
+func (e *ExecutableSchema) Exec(oc *graphql.OperationContext, opts ...ExecOption) *bytes.Buffer {
+	for _, opt := range opts {
+		opt(e)
+	}
 	ec := executionContext{oc, e}
 	data := ec._Query(context.Background(), oc.Operation.SelectionSet)
 	var buf bytes.Buffer
@@ -55,7 +112,7 @@ type executionContext struct {
 }
 
 func (ec *executionContext) introspectSchema() *wrapper.Schema {
-	return wrapper.WrapSchema(ec.ParsedSchema)
+	return wrapper.WrapSchema(ec.ParsedSchema, wrapper.WithReservedTypes(ec.wantReservedTypes))
 }
 
 func (ec *executionContext) introspectType(name string) *wrapper.Type {
@@ -514,6 +571,8 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == gql.Null {
 				invalids++
 			}
+		case "description":
+			out.Values[i] = gql.MarshalString(obj.Description())
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

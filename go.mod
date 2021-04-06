@@ -4,8 +4,9 @@ go 1.16
 
 require (
 	github.com/99designs/gqlgen v0.13.0
-	github.com/Code-Hex/gqlparser/v2 v2.1.1-0.20210404043438-758ac252308a
+	github.com/Code-Hex/gqlparser/v2 v2.1.1-0.20210406023454-534efe0eae8e
 	github.com/agnivade/levenshtein v1.1.0 // indirect
+	github.com/goccy/go-yaml v1.8.9
 	github.com/google/go-cmp v0.5.5
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
@@ -14,4 +15,5 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/urfave/cli/v2 v2.3.0
 	github.com/vektah/gqlparser/v2 v2.1.0
+	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57 // indirect
 )

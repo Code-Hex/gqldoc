@@ -23,7 +23,6 @@ func WrapTypeFromType(s *ast.Schema, typ *ast.Type) *Type {
 	if typ == nil {
 		return nil
 	}
-
 	if !typ.NonNull && typ.NamedType != "" {
 		return &Type{schema: s, def: s.Types[typ.NamedType]}
 	}
@@ -35,15 +34,11 @@ func (t *Type) Kind() string {
 		if t.typ.NonNull {
 			return "NON_NULL"
 		}
-
 		if t.typ.Elem != nil {
 			return "LIST"
 		}
-	} else {
-		return string(t.def.Kind)
 	}
-
-	panic("UNKNOWN")
+	return string(t.def.Kind)
 }
 
 func (t *Type) Name() *string {
