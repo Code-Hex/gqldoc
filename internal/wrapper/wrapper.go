@@ -1,6 +1,6 @@
 package wrapper
 
-import "github.com/Code-Hex/gqlparser/v2/ast"
+import "github.com/gqlgo/gqlparser/v2/ast"
 
 type (
 	Directive struct {

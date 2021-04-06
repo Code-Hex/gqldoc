@@ -12,11 +12,11 @@ import (
 	"github.com/Code-Hex/gqldoc/internal/gqlgen"
 	"github.com/Code-Hex/gqldoc/internal/introspection"
 	"github.com/Code-Hex/gqldoc/loader"
-	gqlparser "github.com/Code-Hex/gqlparser/v2"
-	"github.com/Code-Hex/gqlparser/v2/ast"
 	"github.com/goccy/go-yaml"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	gqlparser "github.com/gqlgo/gqlparser/v2"
+	"github.com/gqlgo/gqlparser/v2/ast"
 	"github.com/pkg/errors"
 )
 

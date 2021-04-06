@@ -4,10 +4,10 @@ go 1.16
 
 require (
 	github.com/99designs/gqlgen v0.13.0
-	github.com/Code-Hex/gqlparser/v2 v2.1.1-0.20210406023454-534efe0eae8e
 	github.com/agnivade/levenshtein v1.1.0 // indirect
 	github.com/goccy/go-yaml v1.8.9
 	github.com/google/go-cmp v0.5.5
+	github.com/gqlgo/gqlparser/v2 v2.1.1-0.20210406143310-243d3ee28500 // indirect
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
 	github.com/mattn/go-zglob v0.0.3

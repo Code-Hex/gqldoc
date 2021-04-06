@@ -3,7 +3,7 @@ package wrapper
 import (
 	"testing"
 
-	"github.com/Code-Hex/gqlparser/v2/ast"
+	"github.com/gqlgo/gqlparser/v2/ast"
 )
 
 func TestType(t *testing.T) {
