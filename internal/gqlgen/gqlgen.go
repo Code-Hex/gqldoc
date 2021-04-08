@@ -177,157 +177,6 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	return ec.___Schema(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *wrapper.Directive) (ret gql.Marshaler) {
-	res := obj.Name
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___Directive_description(ctx context.Context, field graphql.CollectedField, obj *wrapper.Directive) (ret gql.Marshaler) {
-	res := obj.Description
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___Directive_locations(ctx context.Context, field graphql.CollectedField, obj *wrapper.Directive) (ret gql.Marshaler) {
-	res := obj.Locations
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Directive_args(ctx context.Context, field graphql.CollectedField, obj *wrapper.Directive) (ret gql.Marshaler) {
-	res := obj.Args
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___EnumValue_name(ctx context.Context, field graphql.CollectedField, obj *wrapper.EnumValue) (ret gql.Marshaler) {
-	res := obj.Name
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___EnumValue_description(ctx context.Context, field graphql.CollectedField, obj *wrapper.EnumValue) (ret gql.Marshaler) {
-	res := obj.Description
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___EnumValue_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *wrapper.EnumValue) (ret gql.Marshaler) {
-	res := obj.IsDeprecated()
-	return gql.MarshalBoolean(res)
-}
-
-func (ec *executionContext) ___EnumValue_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *wrapper.EnumValue) (ret gql.Marshaler) {
-	res := obj.DeprecationReason()
-	if res == nil {
-		return gql.Null
-	}
-	return gql.MarshalString(*res)
-}
-
-func (ec *executionContext) ___Field_name(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.Name
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___Field_description(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.Description
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___Field_args(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.Args
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Field_type(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.Type
-	if res == nil {
-		return gql.Null
-	}
-	return ec.___Type(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Field_isDeprecated(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.IsDeprecated()
-	return gql.MarshalBoolean(res)
-}
-
-func (ec *executionContext) ___Field_deprecationReason(ctx context.Context, field graphql.CollectedField, obj *wrapper.Field) (ret gql.Marshaler) {
-	res := obj.DeprecationReason()
-	if res == nil {
-		return gql.Null
-	}
-	return gql.MarshalString(*res)
-}
-
-func (ec *executionContext) ___InputValue_name(ctx context.Context, field graphql.CollectedField, obj *wrapper.InputValue) (ret gql.Marshaler) {
-	res := obj.Name
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___InputValue_description(ctx context.Context, field graphql.CollectedField, obj *wrapper.InputValue) (ret gql.Marshaler) {
-	res := obj.Description
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___InputValue_type(ctx context.Context, field graphql.CollectedField, obj *wrapper.InputValue) (ret gql.Marshaler) {
-	res := obj.Type
-	if res == nil {
-		return gql.Null
-	}
-	return ec.___Type(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___InputValue_defaultValue(ctx context.Context, field graphql.CollectedField, obj *wrapper.InputValue) (ret gql.Marshaler) {
-	res := obj.DefaultValue
-	if res == nil {
-		return gql.Null
-	}
-	return gql.MarshalString(*res)
-}
-
-func (ec *executionContext) ___Schema_types(ctx context.Context, field graphql.CollectedField, obj *wrapper.Schema) (ret gql.Marshaler) {
-	res := obj.Types()
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Schema_queryType(ctx context.Context, field graphql.CollectedField, obj *wrapper.Schema) (ret gql.Marshaler) {
-	res := obj.QueryType()
-	if res == nil {
-		return gql.Null
-	}
-	return ec.___Type(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Schema_mutationType(ctx context.Context, field graphql.CollectedField, obj *wrapper.Schema) (ret gql.Marshaler) {
-	res := obj.MutationType()
-	return ec.marshalType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Schema_subscriptionType(ctx context.Context, field graphql.CollectedField, obj *wrapper.Schema) (ret gql.Marshaler) {
-	res := obj.SubscriptionType()
-	return ec.marshalType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Schema_directives(ctx context.Context, field graphql.CollectedField, obj *wrapper.Schema) (ret gql.Marshaler) {
-	res := obj.Directives()
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Type_kind(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.Kind()
-	return gql.MarshalString(res)
-}
-
-func (ec *executionContext) ___Type_name(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.Name()
-	if res == nil {
-		return gql.Null
-	}
-	return gql.MarshalString(*res)
-}
-
-func (ec *executionContext) ___Type_description(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.Description()
-	return gql.MarshalString(res)
-}
-
 func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
 	rawArgs := field.ArgumentMap(ec.Variables)
 	args, err := ec.field___Type_fields_args(ctx, rawArgs)
@@ -336,16 +185,6 @@ func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.Co
 	}
 
 	res := obj.Fields(args["includeDeprecated"].(bool))
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Type_interfaces(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.Interfaces()
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Type_possibleTypes(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.PossibleTypes()
 	return ec.marshalArray(ctx, field.Selections, res)
 }
 
@@ -360,21 +199,10 @@ func (ec *executionContext) ___Type_enumValues(ctx context.Context, field graphq
 	return ec.marshalArray(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) ___Type_inputFields(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.InputFields()
-	return ec.marshalArray(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
-	res := obj.OfType()
-	return ec.marshalType(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, queryImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
@@ -388,9 +216,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gq
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -398,28 +223,18 @@ func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionS
 	fields := graphql.CollectFields(ec.OperationContext, sel, __DirectiveImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__Directive")
 		case "name":
-			out.Values[i] = ec.___Directive_name(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = ec.___Directive_description(ctx, field, obj)
+			out.Values[i] = gql.MarshalString(obj.Description)
 		case "locations":
-			out.Values[i] = ec.___Directive_locations(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Locations)
 		case "args":
-			out.Values[i] = ec.___Directive_args(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Args)
 		case "isRepeatable":
 			out.Values[i] = gql.MarshalBoolean(obj.IsRepeatable)
 		default:
@@ -427,9 +242,6 @@ func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionS
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -437,33 +249,24 @@ func (ec *executionContext) ___EnumValue(ctx context.Context, sel ast.SelectionS
 	fields := graphql.CollectFields(ec.OperationContext, sel, __EnumValueImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__EnumValue")
 		case "name":
-			out.Values[i] = ec.___EnumValue_name(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = ec.___EnumValue_description(ctx, field, obj)
+			out.Values[i] = gql.MarshalString(obj.Description)
 		case "isDeprecated":
-			out.Values[i] = ec.___EnumValue_isDeprecated(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalBoolean(obj.IsDeprecated())
 		case "deprecationReason":
-			out.Values[i] = ec.___EnumValue_deprecationReason(ctx, field, obj)
+			res := obj.DeprecationReason()
+			out.Values[i] = marshalNullableString(res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -471,43 +274,29 @@ func (ec *executionContext) ___Field(ctx context.Context, sel ast.SelectionSet, 
 	fields := graphql.CollectFields(ec.OperationContext, sel, __FieldImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__Field")
 		case "name":
-			out.Values[i] = ec.___Field_name(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = ec.___Field_description(ctx, field, obj)
+			out.Values[i] = gql.MarshalString(obj.Description)
 		case "args":
-			out.Values[i] = ec.___Field_args(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Args)
 		case "type":
-			out.Values[i] = ec.___Field_type(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalType(ctx, field.SelectionSet, obj.Type)
 		case "isDeprecated":
-			out.Values[i] = ec.___Field_isDeprecated(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			res := obj.IsDeprecated()
+			out.Values[i] = gql.MarshalBoolean(res)
 		case "deprecationReason":
-			out.Values[i] = ec.___Field_deprecationReason(ctx, field, obj)
+			res := obj.DeprecationReason()
+			out.Values[i] = marshalNullableString(res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -515,33 +304,23 @@ func (ec *executionContext) ___InputValue(ctx context.Context, sel ast.Selection
 	fields := graphql.CollectFields(ec.OperationContext, sel, __InputValueImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__InputValue")
 		case "name":
-			out.Values[i] = ec.___InputValue_name(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = ec.___InputValue_description(ctx, field, obj)
+			out.Values[i] = gql.MarshalString(obj.Description)
 		case "type":
-			out.Values[i] = ec.___InputValue_type(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalType(ctx, field.Selections, obj.Type)
 		case "defaultValue":
-			out.Values[i] = ec.___InputValue_defaultValue(ctx, field, obj)
+			out.Values[i] = marshalNullableString(obj.DefaultValue)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -549,30 +328,24 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 	fields := graphql.CollectFields(ec.OperationContext, sel, __SchemaImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__Schema")
 		case "types":
-			out.Values[i] = ec.___Schema_types(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Types())
 		case "queryType":
-			out.Values[i] = ec.___Schema_queryType(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			res := obj.QueryType()
+			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
 		case "mutationType":
-			out.Values[i] = ec.___Schema_mutationType(ctx, field, obj)
+			res := obj.MutationType()
+			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
 		case "subscriptionType":
-			out.Values[i] = ec.___Schema_subscriptionType(ctx, field, obj)
+			res := obj.SubscriptionType()
+			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
 		case "directives":
-			out.Values[i] = ec.___Schema_directives(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			res := obj.Directives()
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, res)
 		case "description":
 			out.Values[i] = gql.MarshalString(obj.Description())
 		default:
@@ -580,9 +353,6 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
@@ -590,44 +360,41 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 	fields := graphql.CollectFields(ec.OperationContext, sel, __TypeImplementors)
 
 	out := graphql.NewFieldSet(fields)
-	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = gql.MarshalString("__Type")
 		case "kind":
-			out.Values[i] = ec.___Type_kind(ctx, field, obj)
-			if out.Values[i] == gql.Null {
-				invalids++
-			}
+			out.Values[i] = gql.MarshalString(obj.Kind())
 		case "name":
-			out.Values[i] = ec.___Type_name(ctx, field, obj)
+			out.Values[i] = marshalNullableString(obj.Name())
 		case "description":
-			out.Values[i] = ec.___Type_description(ctx, field, obj)
+			out.Values[i] = gql.MarshalString(obj.Description())
 		case "fields":
 			out.Values[i] = ec.___Type_fields(ctx, field, obj)
 		case "interfaces":
-			out.Values[i] = ec.___Type_interfaces(ctx, field, obj)
+			res := obj.Interfaces()
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, res)
 		case "possibleTypes":
-			out.Values[i] = ec.___Type_possibleTypes(ctx, field, obj)
+			res := obj.PossibleTypes()
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, res)
 		case "enumValues":
 			out.Values[i] = ec.___Type_enumValues(ctx, field, obj)
 		case "inputFields":
-			out.Values[i] = ec.___Type_inputFields(ctx, field, obj)
+			res := obj.InputFields()
+			out.Values[i] = ec.marshalArray(ctx, field.Selections, res)
 		case "ofType":
-			out.Values[i] = ec.___Type_ofType(ctx, field, obj)
+			res := obj.OfType()
+			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
 	}
 	out.Dispatch()
-	if invalids > 0 {
-		return gql.Null
-	}
 	return out
 }
 
-func (ec *executionContext) marshalArray(ctx context.Context, sel ast.SelectionSet, v interface{}) gql.Marshaler {
+func (ec *executionContext) marshalArray(ctx context.Context, sel ast.SelectionSet, v interface{}) gql.Array {
 	if reflect.TypeOf(v).Kind() != reflect.Slice {
 		panic("expected slice type")
 	}
@@ -684,4 +451,11 @@ func (ec *executionContext) marshalType(ctx context.Context, sel ast.SelectionSe
 		return gql.Null
 	}
 	return ec.___Type(ctx, sel, v)
+}
+
+func marshalNullableString(ns *string) gql.Marshaler {
+	if ns == nil {
+		return gql.Null
+	}
+	return gql.MarshalString(*ns)
 }
