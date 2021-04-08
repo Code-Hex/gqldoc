@@ -420,6 +420,8 @@ func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == gql.Null {
 				invalids++
 			}
+		case "isRepeatable":
+			out.Values[i] = gql.MarshalBoolean(obj.IsRepeatable)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
