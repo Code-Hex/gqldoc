@@ -58,6 +58,9 @@ func (s *Schema) Directives() []Directive {
 	for _, d := range s.schema.Directives {
 		res = append(res, s.directiveFromDef(d))
 	}
+	sort.Slice(res, func(i, j int) bool {
+		return strings.Compare(res[i].Name, res[j].Name) < 0
+	})
 
 	return res
 }
@@ -79,9 +82,10 @@ func (s *Schema) directiveFromDef(d *ast.DirectiveDefinition) Directive {
 	}
 
 	return Directive{
-		Name:        d.Name,
-		Description: d.Description,
-		Locations:   locs,
-		Args:        args,
+		Name:         d.Name,
+		Description:  d.Description,
+		Locations:    locs,
+		Args:         args,
+		IsRepeatable: d.IsRepeatable,
 	}
 }

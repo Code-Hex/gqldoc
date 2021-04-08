@@ -4,10 +4,11 @@ import "github.com/gqlgo/gqlparser/v2/ast"
 
 type (
 	Directive struct {
-		Name        string
-		Description string
-		Locations   []string
-		Args        []InputValue
+		Name         string
+		Description  string
+		Locations    []string
+		Args         []InputValue
+		IsRepeatable bool
 	}
 
 	EnumValue struct {

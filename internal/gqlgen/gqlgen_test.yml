@@ -273,3 +273,34 @@ tests:
         }
       json: |
         {"__schema":{"mutationType":{"name":"Mutation"},"queryType":{"name":"Query"},"subscriptionType":{"name":"Subscription"}}}
+
+    - name: querying schema operation types
+      schema: |
+        directive @foo repeatable on FIELD_DEFINITION
+
+        schema {
+          query: Query
+        }
+        type Query {
+          queryField: String @foo @foo
+        }
+      query: |
+        {
+          __schema {
+            queryType { name }
+            directives {
+              name
+              isRepeatable
+            }
+          }
+        }
+      json: |
+        {"__schema":
+          {"queryType":{"name":"Query"},
+            "directives":[
+              {"isRepeatable":false,"name":"deprecated"},
+              {"isRepeatable":true,"name":"foo"},
+              {"isRepeatable":false,"name":"include"},
+              {"isRepeatable":false,"name":"skip"}
+            ]}
+        }
