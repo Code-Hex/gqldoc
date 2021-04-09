@@ -172,11 +172,6 @@ func (ec *executionContext) _Query___type(ctx context.Context, field graphql.Col
 	return ec.marshalType(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.CollectedField) (ret gql.Marshaler) {
-	res := ec.introspectSchema()
-	return ec.___Schema(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) ___Type_fields(ctx context.Context, field graphql.CollectedField, obj *wrapper.Type) (ret gql.Marshaler) {
 	rawArgs := field.ArgumentMap(ec.Variables)
 	args, err := ec.field___Type_fields_args(ctx, rawArgs)
@@ -210,7 +205,8 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gq
 		case "__type":
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
-			out.Values[i] = ec._Query___schema(ctx, field)
+			res := ec.introspectSchema()
+			out.Values[i] = ec.___Schema(ctx, field.Selections, res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
