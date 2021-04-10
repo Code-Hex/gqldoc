@@ -106,6 +106,17 @@ func (e *ExecutableSchema) Exec(oc *graphql.OperationContext, opts ...ExecOption
 	return &buf
 }
 
+var (
+	queryImplementors = []string{"Query"}
+
+	__DirectiveImplementors  = []string{"__Directive"}
+	__EnumValueImplementors  = []string{"__EnumValue"}
+	__FieldImplementors      = []string{"__Field"}
+	__InputValueImplementors = []string{"__InputValue"}
+	__SchemaImplementors     = []string{"__Schema"}
+	__TypeImplementors       = []string{"__Type"}
+)
+
 type executionContext struct {
 	*graphql.OperationContext
 	*ExecutableSchema
@@ -382,6 +393,9 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 		case "ofType":
 			res := obj.OfType()
 			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
+		case "specifiedBy":
+			res := obj.SpecifiedBy()
+			out.Values[i] = marshalNullableString(res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
