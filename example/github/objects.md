@@ -30190,6 +30190,10 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
     <td><strong>tier</strong> (<a href="objects.md#sponsorstier">SponsorsTier</a>)</td> 
     <td><p>The associated sponsorship tier</p></td>
   </tr>
+  <tr>
+    <td><strong>tierSelectedAt</strong> (<a href="scalars.md#datetime">DateTime</a>)</td> 
+    <td><p>Identifies the date and time when the current tier was chosen for this sponsorship.</p></td>
+  </tr>
 </table>
 
 ---
