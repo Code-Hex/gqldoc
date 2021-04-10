@@ -173,3 +173,18 @@ func (t *Type) OfType() *Type {
 	}
 	return WrapTypeFromType(t.schema, t.typ.Elem)
 }
+
+func (t *Type) SpecifiedBy() *string {
+	if t.def == nil {
+		return nil
+	}
+	specifiedBy := t.def.Directives.ForName("specifiedBy")
+	if specifiedBy == nil {
+		return nil
+	}
+	url := specifiedBy.Arguments.ForName("url")
+	if url == nil {
+		return nil
+	}
+	return &url.Value.Raw
+}

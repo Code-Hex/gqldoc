@@ -14,6 +14,7 @@ import (
 const Query = `
 query IntrospectionQuery {
   __schema {
+	description
     queryType {
         name
 	    description
@@ -35,6 +36,7 @@ query IntrospectionQuery {
     directives {
       name
       description
+	  isRepeatable
       locations
       args {
         ...InputValue
@@ -46,6 +48,7 @@ fragment FullType on __Type {
   kind
   name
   description
+  specifiedBy
   fields(includeDeprecated: true) {
     name
     description
