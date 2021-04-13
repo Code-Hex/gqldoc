@@ -177,7 +177,7 @@ func (s *Schema) UnmarshalJSON(data []byte) error {
 	// Make a memo
 	memoizeTypes := make(map[string]*Types, len(s.Types))
 	mid := len(s.Types) / 2
-	for i, j := 0, len(schema.Types)-1; i < mid; i, j = i+1, j-1 {
+	for i, j := 0, len(schema.Types)-1; i <= mid; i, j = i+1, j-1 {
 		memoizeTypes[schema.Types[i].Name] = schema.Types[i]
 		memoizeTypes[schema.Types[j].Name] = schema.Types[j]
 	}
