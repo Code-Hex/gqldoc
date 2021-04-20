@@ -446,6 +446,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### convertPullRequestToDraft
+
+<p>Converts a pull request to draft</p>
+
+#### Input fields
+
+- input ([ConvertPullRequestToDraftInput!](input_objects.md#convertpullrequesttodraftinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The pull request that is now a draft.</p> |
+
+---
+
 ### createBranchProtectionRule
 
 <p>Create a new branch protection rule</p>
