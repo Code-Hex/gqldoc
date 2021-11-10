@@ -19283,6 +19283,16 @@ type Mutation {
   ): UpdatePullRequestPayload
 
   """
+  Merge HEAD from upstream branch into pull request branch
+  """
+  updatePullRequestBranch(
+    """
+    Parameters for UpdatePullRequestBranch
+    """
+    input: UpdatePullRequestBranchInput!
+  ): UpdatePullRequestBranchPayload
+
+  """
   Updates the body of a pull request review.
   """
   updatePullRequestReview(
@@ -19447,6 +19457,87 @@ enum NotificationRestrictionSettingValue {
 
 """
 An OIDC identity provider configured to provision identities for an enterprise.
+"""
+type OIDCProvider implements Node {
+  """
+  The enterprise this identity provider belongs to.
+  """
+  enterprise: Enterprise
+
+  """
+  ExternalIdentities provisioned by this identity provider.
+  """
+  externalIdentities(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Filter to external identities with valid org membership only
+    """
+    membersOnly: Boolean
+  ): ExternalIdentityConnection!
+  id: ID!
+
+  """
+  The OIDC identity provider type
+  """
+  providerType: OIDCProviderType!
+
+  """
+  The id of the tenant this provider is attached to
+  """
+  tenantId: String!
+}
+
+"""
+The OIDC identity provider type
+"""
+enum OIDCProviderType {
+  """
+  Azure Active Directory
+  """
+  AAD
+}
+
+"""
+Metadata for an audit entry with action oauth_application.*
+"""
+interface OauthApplicationAuditEntryData {
+  """
+  The name of the OAuth Application.
+  """
+  oauthApplicationName: String
+
+  """
+  The HTTP path for the OAuth Application
+  """
+  oauthApplicationResourcePath: URI
+
+  """
+  The HTTP URL for the OAuth Application
+  """
+  oauthApplicationUrl: URI
+}
+
+"""
+Audit log entry for a oauth_application.create event.
 """
 type OIDCProvider implements Node {
   """
@@ -23384,6 +23475,154 @@ type Organization implements Actor & MemberStatusable & Node & PackageOwner & Pr
 
   """
   List of users and organizations this entity is sponsoring.
+  """
+  sponsoring(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for the users and organizations returned from the connection.
+    """
+    orderBy: SponsorOrder = {field: RELEVANCE, direction: DESC}
+  ): SponsorConnection!
+
+  """
+  List of sponsors for this user or organization.
+  """
+  sponsors(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for sponsors returned from the connection.
+    """
+    orderBy: SponsorOrder = {field: RELEVANCE, direction: DESC}
+
+    """
+    If given, will filter for sponsors at the given tier. Will only return
+    sponsors whose tier the viewer is permitted to see.
+    """
+    tierId: ID
+  ): SponsorConnection!
+
+  """
+  Events involving this sponsorable, such as new sponsorships.
+  """
+  sponsorsActivities(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for activity returned from the connection.
+    """
+    orderBy: SponsorsActivityOrder = {field: TIMESTAMP, direction: DESC}
+
+    """
+    Filter activities returned to only those that occurred in a given time range.
+    """
+    period: SponsorsActivityPeriod = MONTH
+  ): SponsorsActivityConnection!
+
+  """
+  The GitHub Sponsors listing for this user or organization.
+  """
+  sponsorsListing: SponsorsListing
+
+  """
+  The sponsorship from the viewer to this user/organization; that is, the
+  sponsorship where you're the sponsor. Only returns a sponsorship if it is active.
+  """
+  sponsorshipForViewerAsSponsor: Sponsorship
+
+  """
+  The sponsorship from this user/organization to the viewer; that is, the
+  sponsorship you're receiving. Only returns a sponsorship if it is active.
+  """
+  sponsorshipForViewerAsSponsorable: Sponsorship
+
+  """
+  List of sponsorship updates sent from this sponsorable to sponsors.
+  """
+  sponsorshipNewsletters(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for sponsorship updates returned from the connection.
+    """
+    orderBy: SponsorshipNewsletterOrder = {field: CREATED_AT, direction: DESC}
+  ): SponsorshipNewsletterConnection!
+
+  """
+  This object's sponsorships as the maintainer.
   """
   sponsoring(
     """
@@ -44400,6 +44639,41 @@ type UpdateProjectPayload {
   The updated project.
   """
   project: Project
+}
+
+"""
+Autogenerated input type of UpdatePullRequestBranch
+"""
+input UpdatePullRequestBranchInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The head ref oid for the upstream branch.
+  """
+  expectedHeadOid: GitObjectID
+
+  """
+  The Node ID of the pull request.
+  """
+  pullRequestId: ID! @possibleTypes(concreteTypes: ["PullRequest"])
+}
+
+"""
+Autogenerated return type of UpdatePullRequestBranch
+"""
+type UpdatePullRequestBranchPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated pull request.
+  """
+  pullRequest: PullRequest
 }
 
 """
