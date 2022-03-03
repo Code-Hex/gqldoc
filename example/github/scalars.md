@@ -6,6 +6,12 @@
 
 When calling the GraphQL API, you must specify nested subfields until you return only scalars.
 
+### Base64String
+
+<p>A (potentially binary) string encoded using base64.</p>
+
+---
+
 ### Boolean
 
 <p>The <code>Boolean</code> scalar type represents <code>true</code> or <code>false</code>.</p>
@@ -62,7 +68,7 @@ When calling the GraphQL API, you must specify nested subfields until you return
 
 ### ID
 
-<p>The <code>ID</code> scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as <code>&quot;4&quot;</code>) or integer (such as <code>4</code>) input value will be accepted as an ID.</p>
+<p>The <code>ID</code> scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as &ldquo;4&rdquo;) or integer (such as 4) input value will be accepted as an ID.</p>
 
 ---
 
@@ -80,7 +86,7 @@ When calling the GraphQL API, you must specify nested subfields until you return
 
 ### String
 
-<p>The <code>String</code> scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.</p>
+<p>The <code>String</code>scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.</p>
 
 ---
 

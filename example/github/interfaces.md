@@ -252,6 +252,7 @@
 - [Issue](objects.md#issue)
 - [Milestone](objects.md#milestone)
 - [Project](objects.md#project)
+- [ProjectNext](objects.md#projectnext)
 - [PullRequest](objects.md#pullrequest) 
 
 #### Fields
@@ -281,6 +282,8 @@
 
 
 - [CommitComment](objects.md#commitcomment)
+- [Discussion](objects.md#discussion)
+- [DiscussionComment](objects.md#discussioncomment)
 - [GistComment](objects.md#gistcomment)
 - [Issue](objects.md#issue)
 - [IssueComment](objects.md#issuecomment)
@@ -448,6 +451,8 @@ longer access.</p></td>
 
 
 - [CommitComment](objects.md#commitcomment)
+- [Discussion](objects.md#discussion)
+- [DiscussionComment](objects.md#discussioncomment)
 - [GistComment](objects.md#gistcomment)
 - [IssueComment](objects.md#issuecomment)
 - [PullRequestReview](objects.md#pullrequestreview)
@@ -646,6 +651,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 #### Implemented by
 
 
+- [Discussion](objects.md#discussion)
 - [Issue](objects.md#issue)
 - [PullRequest](objects.md#pullrequest) 
 
@@ -708,6 +714,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 #### Implemented by
 
 
+- [Discussion](objects.md#discussion)
 - [Issue](objects.md#issue)
 - [PullRequest](objects.md#pullrequest) 
 
@@ -792,6 +799,54 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 
 ---
 
+### Migration
+
+<p>Represents an Octoshift migration.</p> 
+
+#### Implemented by
+
+
+- [RepositoryMigration](objects.md#repositorymigration) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>continueOnError</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>The Octoshift migration flag to continue on error.</p></td>
+  </tr>
+  <tr>
+    <td><strong>createdAt</strong> (<a href="scalars.md#datetime">DateTime!</a>)</td> 
+    <td><p>Identifies the date and time when the object was created.</p></td>
+  </tr>
+  <tr>
+    <td><strong>failureReason</strong> (<a href="scalars.md#string">String</a>)</td> 
+    <td><p>The reason the migration failed.</p></td>
+  </tr>
+  <tr>
+    <td><strong>id</strong> (<a href="scalars.md#id">ID!</a>)</td> 
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>migrationSource</strong> (<a href="objects.md#migrationsource">MigrationSource!</a>)</td> 
+    <td><p>The Octoshift migration source.</p></td>
+  </tr>
+  <tr>
+    <td><strong>sourceUrl</strong> (<a href="scalars.md#uri">URI!</a>)</td> 
+    <td><p>The Octoshift migration source URL.</p></td>
+  </tr>
+  <tr>
+    <td><strong>state</strong> (<a href="enums.md#migrationstate">MigrationState!</a>)</td> 
+    <td><p>The Octoshift migration state.</p></td>
+  </tr>
+</table>
+
+---
+
 ### Minimizable
 
 <p>Entities that can be minimized.</p> 
@@ -800,6 +855,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 
 
 - [CommitComment](objects.md#commitcomment)
+- [DiscussionComment](objects.md#discussioncomment)
 - [GistComment](objects.md#gistcomment)
 - [IssueComment](objects.md#issuecomment)
 - [PullRequestReviewComment](objects.md#pullrequestreviewcomment) 
@@ -849,6 +905,8 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [Blob](objects.md#blob)
 - [Bot](objects.md#bot)
 - [BranchProtectionRule](objects.md#branchprotectionrule)
+- [BypassForcePushAllowance](objects.md#bypassforcepushallowance)
+- [BypassPullRequestAllowance](objects.md#bypasspullrequestallowance)
 - [CWE](objects.md#cwe)
 - [CheckRun](objects.md#checkrun)
 - [CheckSuite](objects.md#checksuite)
@@ -861,6 +919,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [ConnectedEvent](objects.md#connectedevent)
 - [ConvertToDraftEvent](objects.md#converttodraftevent)
 - [ConvertedNoteToIssueEvent](objects.md#convertednotetoissueevent)
+- [ConvertedToDiscussionEvent](objects.md#convertedtodiscussionevent)
 - [CrossReferencedEvent](objects.md#crossreferencedevent)
 - [DemilestonedEvent](objects.md#demilestonedevent)
 - [DependencyGraphManifest](objects.md#dependencygraphmanifest)
@@ -868,8 +927,12 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [DeployedEvent](objects.md#deployedevent)
 - [Deployment](objects.md#deployment)
 - [DeploymentEnvironmentChangedEvent](objects.md#deploymentenvironmentchangedevent)
+- [DeploymentReview](objects.md#deploymentreview)
 - [DeploymentStatus](objects.md#deploymentstatus)
 - [DisconnectedEvent](objects.md#disconnectedevent)
+- [Discussion](objects.md#discussion)
+- [DiscussionCategory](objects.md#discussioncategory)
+- [DiscussionComment](objects.md#discussioncomment)
 - [Enterprise](objects.md#enterprise)
 - [EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)
 - [EnterpriseIdentityProvider](objects.md#enterpriseidentityprovider)
@@ -879,6 +942,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [EnterpriseServerUserAccountEmail](objects.md#enterpriseserveruseraccountemail)
 - [EnterpriseServerUserAccountsUpload](objects.md#enterpriseserveruseraccountsupload)
 - [EnterpriseUserAccount](objects.md#enterpriseuseraccount)
+- [Environment](objects.md#environment)
 - [ExternalIdentity](objects.md#externalidentity)
 - [Gist](objects.md#gist)
 - [GistComment](objects.md#gistcomment)
@@ -902,9 +966,11 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [MembersCanDeleteReposEnableAuditEntry](objects.md#memberscandeletereposenableauditentry)
 - [MentionedEvent](objects.md#mentionedevent)
 - [MergedEvent](objects.md#mergedevent)
+- [MigrationSource](objects.md#migrationsource)
 - [Milestone](objects.md#milestone)
 - [MilestonedEvent](objects.md#milestonedevent)
 - [MovedColumnsInProjectEvent](objects.md#movedcolumnsinprojectevent)
+- [OIDCProvider](objects.md#oidcprovider)
 - [OauthApplicationCreateAuditEntry](objects.md#oauthapplicationcreateauditentry)
 - [OrgAddBillingManagerAuditEntry](objects.md#orgaddbillingmanagerauditentry)
 - [OrgAddMemberAuditEntry](objects.md#orgaddmemberauditentry)
@@ -939,6 +1005,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [PackageFile](objects.md#packagefile)
 - [PackageTag](objects.md#packagetag)
 - [PackageVersion](objects.md#packageversion)
+- [PinnedDiscussion](objects.md#pinneddiscussion)
 - [PinnedEvent](objects.md#pinnedevent)
 - [PinnedIssue](objects.md#pinnedissue)
 - [PrivateRepositoryForkingDisableAuditEntry](objects.md#privaterepositoryforkingdisableauditentry)
@@ -946,6 +1013,9 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [Project](objects.md#project)
 - [ProjectCard](objects.md#projectcard)
 - [ProjectColumn](objects.md#projectcolumn)
+- [ProjectNext](objects.md#projectnext)
+- [ProjectNextItem](objects.md#projectnextitem)
+- [ProjectNextItemFieldValue](objects.md#projectnextitemfieldvalue)
 - [PublicKey](objects.md#publickey)
 - [PullRequest](objects.md#pullrequest)
 - [PullRequestCommit](objects.md#pullrequestcommit)
@@ -985,6 +1055,7 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [RepoRemoveTopicAuditEntry](objects.md#reporemovetopicauditentry)
 - [Repository](objects.md#repository)
 - [RepositoryInvitation](objects.md#repositoryinvitation)
+- [RepositoryMigration](objects.md#repositorymigration)
 - [RepositoryTopic](objects.md#repositorytopic)
 - [RepositoryVisibilityChangeDisableAuditEntry](objects.md#repositoryvisibilitychangedisableauditentry)
 - [RepositoryVisibilityChangeEnableAuditEntry](objects.md#repositoryvisibilitychangeenableauditentry)
@@ -996,9 +1067,11 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [ReviewRequestedEvent](objects.md#reviewrequestedevent)
 - [SavedReply](objects.md#savedreply)
 - [SecurityAdvisory](objects.md#securityadvisory)
+- [SponsorsActivity](objects.md#sponsorsactivity)
 - [SponsorsListing](objects.md#sponsorslisting)
 - [SponsorsTier](objects.md#sponsorstier)
 - [Sponsorship](objects.md#sponsorship)
+- [SponsorshipNewsletter](objects.md#sponsorshipnewsletter)
 - [Status](objects.md#status)
 - [StatusCheckRollup](objects.md#statuscheckrollup)
 - [StatusContext](objects.md#statuscontext)
@@ -1025,7 +1098,9 @@ GitHub, otherwise represents reason why signature is considered invalid.</p></td
 - [UserBlockedEvent](objects.md#userblockedevent)
 - [UserContentEdit](objects.md#usercontentedit)
 - [UserStatus](objects.md#userstatus)
-- [VerifiableDomain](objects.md#verifiabledomain) 
+- [VerifiableDomain](objects.md#verifiabledomain)
+- [Workflow](objects.md#workflow)
+- [WorkflowRun](objects.md#workflowrun) 
 
 #### Fields
 
@@ -1413,6 +1488,97 @@ either curated or that have been selected automatically based on popularity.</p>
 
 ---
 
+### ProjectNextOwner
+
+<p>Represents an owner of a project (beta).</p> 
+
+#### Implemented by
+
+
+- [Issue](objects.md#issue)
+- [Organization](objects.md#organization)
+- [PullRequest](objects.md#pullrequest)
+- [User](objects.md#user) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>id</strong> (<a href="scalars.md#id">ID!</a>)</td> 
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>projectNext</strong> (<a href="objects.md#projectnext">ProjectNext</a>)</td> 
+    <td>
+      <p><p>Find a project by project (beta) number.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>number (<a href="scalars.md#int">Int!</a>)</p>
+            <p><p>The project (beta) number.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>projectsNext</strong> (<a href="objects.md#projectnextconnection">ProjectNextConnection!</a>)</td> 
+    <td>
+      <p><p>A list of projects (beta) under the owner.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>query (<a href="scalars.md#string">String</a>)</p>
+            <p><p>A project (beta) to search for under the the owner.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>sortBy (<a href="enums.md#projectnextorderfield">ProjectNextOrderField</a>)</p>
+            <p><p>How to order the returned projects (beta).</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+---
+
 ### ProjectOwner
 
 <p>Represents an owner of a Project.</p> 
@@ -1529,11 +1695,14 @@ either curated or that have been selected automatically based on popularity.</p>
 
 
 - [CommitComment](objects.md#commitcomment)
+- [Discussion](objects.md#discussion)
+- [DiscussionComment](objects.md#discussioncomment)
 - [Issue](objects.md#issue)
 - [IssueComment](objects.md#issuecomment)
 - [PullRequest](objects.md#pullrequest)
 - [PullRequestReview](objects.md#pullrequestreview)
 - [PullRequestReviewComment](objects.md#pullrequestreviewcomment)
+- [Release](objects.md#release)
 - [TeamDiscussion](objects.md#teamdiscussion)
 - [TeamDiscussionComment](objects.md#teamdiscussioncomment) 
 
@@ -1665,6 +1834,149 @@ either curated or that have been selected automatically based on popularity.</p>
   <tr>
     <td><strong>repositoryUrl</strong> (<a href="scalars.md#uri">URI</a>)</td> 
     <td><p>The HTTP URL for the repository</p></td>
+  </tr>
+</table>
+
+---
+
+### RepositoryDiscussionAuthor
+
+<p>Represents an author of discussions in repositories.</p> 
+
+#### Implemented by
+
+
+- [Organization](objects.md#organization)
+- [User](objects.md#user) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>repositoryDiscussions</strong> (<a href="objects.md#discussionconnection">DiscussionConnection!</a>)</td> 
+    <td>
+      <p><p>Discussions this user has started.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>answered (<a href="scalars.md#boolean">Boolean</a>)</p>
+            <p><p>Filter discussions to only those that have been answered or not. Defaults to
+including both answered and unanswered discussions.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>orderBy (<a href="input_objects.md#discussionorder">DiscussionOrder</a>)</p>
+            <p><p>Ordering options for discussions returned from the connection.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>repositoryId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>Filter discussions to only those in a specific repository.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+---
+
+### RepositoryDiscussionCommentAuthor
+
+<p>Represents an author of discussion comments in repositories.</p> 
+
+#### Implemented by
+
+
+- [Organization](objects.md#organization)
+- [User](objects.md#user) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>repositoryDiscussionComments</strong> (<a href="objects.md#discussioncommentconnection">DiscussionCommentConnection!</a>)</td> 
+    <td>
+      <p><p>Discussion comments this user has authored.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>onlyAnswers (<a href="scalars.md#boolean">Boolean</a>)</p>
+            <p><p>Filter discussion comments to only those that were marked as the answer</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>repositoryId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>Filter discussion comments to only those in a specific repository.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
 
@@ -1811,6 +2123,10 @@ either curated or that have been selected automatically based on popularity.</p>
     <td><strong>usesCustomOpenGraphImage</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
     <td><p>Whether this repository has a custom image to use with Open Graph as opposed to being represented by the owner&rsquo;s avatar.</p></td>
   </tr>
+  <tr>
+    <td><strong>visibility</strong> (<a href="enums.md#repositoryvisibility">RepositoryVisibility!</a>)</td> 
+    <td><p>Indicates the repository&rsquo;s visibility level.</p></td>
+  </tr>
 </table>
 
 ---
@@ -1824,8 +2140,11 @@ either curated or that have been selected automatically based on popularity.</p>
 
 - [CommitComment](objects.md#commitcomment)
 - [CommitCommentThread](objects.md#commitcommentthread)
+- [Discussion](objects.md#discussion)
+- [DiscussionCategory](objects.md#discussioncategory)
 - [Issue](objects.md#issue)
 - [IssueComment](objects.md#issuecomment)
+- [PinnedDiscussion](objects.md#pinneddiscussion)
 - [PullRequest](objects.md#pullrequest)
 - [PullRequestCommitCommentThread](objects.md#pullrequestcommitcommentthread)
 - [PullRequestReview](objects.md#pullrequestreview)
@@ -1974,6 +2293,12 @@ organization or user being viewed owns.</p></p>
         </tr>
         <tr>
           <td>
+            <p>followRenames (<a href="scalars.md#boolean">Boolean</a>)</p>
+            <p><p>Follow repository renames. If disabled, a repository referenced by its old name will return an error.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
             <p>name (<a href="scalars.md#string">String!</a>)</p>
             <p><p>Name of Repository to find.</p></p>
           </td>
@@ -2055,6 +2380,10 @@ organization or user being viewed owns.</p></p>
     <th>Description</th>
   </tr>
   <tr>
+    <td><strong>estimatedNextSponsorsPayoutInCents</strong> (<a href="scalars.md#int">Int!</a>)</td> 
+    <td><p>The estimated next GitHub Sponsors payout for this user/organization in cents (USD).</p></td>
+  </tr>
+  <tr>
     <td><strong>hasSponsorsListing</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
     <td><p>True if this user/organization has a GitHub Sponsors listing.</p></td>
   </tr>
@@ -2080,12 +2409,199 @@ organization or user being viewed owns.</p></p>
     <td><p>True if the viewer is sponsored by this user/organization.</p></td>
   </tr>
   <tr>
+    <td><strong>monthlyEstimatedSponsorsIncomeInCents</strong> (<a href="scalars.md#int">Int!</a>)</td> 
+    <td><p>The estimated monthly GitHub Sponsors income for this user/organization in cents (USD).</p></td>
+  </tr>
+  <tr>
+    <td><strong>sponsoring</strong> (<a href="objects.md#sponsorconnection">SponsorConnection!</a>)</td> 
+    <td>
+      <p><p>List of users and organizations this entity is sponsoring.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>orderBy (<a href="input_objects.md#sponsororder">SponsorOrder</a>)</p>
+            <p><p>Ordering options for the users and organizations returned from the connection.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>sponsors</strong> (<a href="objects.md#sponsorconnection">SponsorConnection!</a>)</td> 
+    <td>
+      <p><p>List of sponsors for this user or organization.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>orderBy (<a href="input_objects.md#sponsororder">SponsorOrder</a>)</p>
+            <p><p>Ordering options for sponsors returned from the connection.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>tierId (<a href="scalars.md#id">ID</a>)</p>
+            <p><p>If given, will filter for sponsors at the given tier. Will only return
+sponsors whose tier the viewer is permitted to see.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>sponsorsActivities</strong> (<a href="objects.md#sponsorsactivityconnection">SponsorsActivityConnection!</a>)</td> 
+    <td>
+      <p><p>Events involving this sponsorable, such as new sponsorships.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>orderBy (<a href="input_objects.md#sponsorsactivityorder">SponsorsActivityOrder</a>)</p>
+            <p><p>Ordering options for activity returned from the connection.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>period (<a href="enums.md#sponsorsactivityperiod">SponsorsActivityPeriod</a>)</p>
+            <p><p>Filter activities returned to only those that occurred in a given time range.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
     <td><strong>sponsorsListing</strong> (<a href="objects.md#sponsorslisting">SponsorsListing</a>)</td> 
     <td><p>The GitHub Sponsors listing for this user or organization.</p></td>
   </tr>
   <tr>
     <td><strong>sponsorshipForViewerAsSponsor</strong> (<a href="objects.md#sponsorship">Sponsorship</a>)</td> 
-    <td><p>The viewer&rsquo;s sponsorship of this entity.</p></td>
+    <td><p>The sponsorship from the viewer to this user/organization; that is, the
+sponsorship where you&rsquo;re the sponsor. Only returns a sponsorship if it is active.</p></td>
+  </tr>
+  <tr>
+    <td><strong>sponsorshipForViewerAsSponsorable</strong> (<a href="objects.md#sponsorship">Sponsorship</a>)</td> 
+    <td><p>The sponsorship from this user/organization to the viewer; that is, the
+sponsorship you&rsquo;re receiving. Only returns a sponsorship if it is active.</p></td>
+  </tr>
+  <tr>
+    <td><strong>sponsorshipNewsletters</strong> (<a href="objects.md#sponsorshipnewsletterconnection">SponsorshipNewsletterConnection!</a>)</td> 
+    <td>
+      <p><p>List of sponsorship updates sent from this sponsorable to sponsors.</p></p>
+      <table>
+        <tr>
+          <th><strong>Arguments</strong></th>
+        </tr>
+        <tr>
+          <td>
+            <p>after (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come after the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>before (<a href="scalars.md#string">String</a>)</p>
+            <p><p>Returns the elements in the list that come before the specified cursor.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>first (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the first <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>last (<a href="scalars.md#int">Int</a>)</p>
+            <p><p>Returns the last <em>n</em> elements from the list.</p></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>orderBy (<a href="input_objects.md#sponsorshipnewsletterorder">SponsorshipNewsletterOrder</a>)</p>
+            <p><p>Ordering options for sponsorship updates returned from the connection.</p></p>
+          </td>
+        </tr>
+      </table>
+    </td>
   </tr>
   <tr>
     <td><strong>sponsorshipsAsMaintainer</strong> (<a href="objects.md#sponsorshipconnection">SponsorshipConnection!</a>)</td> 
@@ -2272,6 +2788,7 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
 
 
 - [Commit](objects.md#commit)
+- [Discussion](objects.md#discussion)
 - [Issue](objects.md#issue)
 - [PullRequest](objects.md#pullrequest)
 - [Repository](objects.md#repository)
@@ -2428,10 +2945,13 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
 
 
 - [CommitComment](objects.md#commitcomment)
+- [Discussion](objects.md#discussion)
+- [DiscussionComment](objects.md#discussioncomment)
 - [GistComment](objects.md#gistcomment)
 - [Issue](objects.md#issue)
 - [IssueComment](objects.md#issuecomment)
 - [Project](objects.md#project)
+- [ProjectNext](objects.md#projectnext)
 - [PullRequest](objects.md#pullrequest)
 - [PullRequestReview](objects.md#pullrequestreview)
 - [PullRequestReviewComment](objects.md#pullrequestreviewcomment)
@@ -2461,6 +2981,7 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
 
 
 - [CommitComment](objects.md#commitcomment)
+- [DiscussionComment](objects.md#discussioncomment)
 - [GistComment](objects.md#gistcomment)
 - [Issue](objects.md#issue)
 - [IssueComment](objects.md#issuecomment)
@@ -2480,6 +3001,39 @@ blank, the sponsorships will be ordered based on relevancy to the viewer.</p></p
   <tr>
     <td><strong>viewerCannotUpdateReasons</strong> (<a href="enums.md#commentcannotupdatereason">[CommentCannotUpdateReason!]!</a>)</td> 
     <td><p>Reasons why the current viewer can not update this comment.</p></td>
+  </tr>
+</table>
+
+---
+
+### Votable
+
+<p>A subject that may be upvoted.</p> 
+
+#### Implemented by
+
+
+- [Discussion](objects.md#discussion)
+- [DiscussionComment](objects.md#discussioncomment) 
+
+#### Fields
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>upvoteCount</strong> (<a href="scalars.md#int">Int!</a>)</td> 
+    <td><p>Number of upvotes that this subject has received.</p></td>
+  </tr>
+  <tr>
+    <td><strong>viewerCanUpvote</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>Whether or not the current user can add or remove an upvote on this subject.</p></td>
+  </tr>
+  <tr>
+    <td><strong>viewerHasUpvoted</strong> (<a href="scalars.md#boolean">Boolean!</a>)</td> 
+    <td><p>Whether or not the current user has already upvoted this subject.</p></td>
   </tr>
 </table>
 

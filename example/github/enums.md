@@ -4,6 +4,27 @@
 
 [Enums](https://graphql.github.io/graphql-spec/June2018/#sec-Enums) represent possible sets of values for a field.
 
+### ActorType
+
+<p>The actor&rsquo;s type.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>TEAM</strong></td>
+    <td><p>Indicates a team actor.</p></td>
+  </tr>
+  <tr>
+    <td><strong>USER</strong></td>
+    <td><p>Indicates a user actor.</p></td>
+  </tr>
+</table>
+
+---
+
 ### AuditLogOrderField
 
 <p>Properties by which Audit Log connections can be ordered.</p>
@@ -132,6 +153,10 @@
   <tr>
     <td><strong>IN_PROGRESS</strong></td>
     <td><p>The check suite or run is in progress.</p></td>
+  </tr>
+  <tr>
+    <td><strong>PENDING</strong></td>
+    <td><p>The check suite or run is in pending state.</p></td>
   </tr>
   <tr>
     <td><strong>QUEUED</strong></td>
@@ -316,7 +341,7 @@
 
 ### DefaultRepositoryPermissionField
 
-<p>The possible default permissions for repositories.</p>
+<p>The possible base permissions for repositories.</p>
 
 <table>
   <tr>
@@ -343,6 +368,51 @@
 
 ---
 
+### DependencyGraphEcosystem
+
+<p>The possible ecosystems of a dependency graph package.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>ACTIONS</strong></td>
+    <td><p>GitHub Actions</p></td>
+  </tr>
+  <tr>
+    <td><strong>COMPOSER</strong></td>
+    <td><p>PHP packages hosted at packagist.org</p></td>
+  </tr>
+  <tr>
+    <td><strong>GO</strong></td>
+    <td><p>Go modules</p></td>
+  </tr>
+  <tr>
+    <td><strong>MAVEN</strong></td>
+    <td><p>Java artifacts hosted at the Maven central repository</p></td>
+  </tr>
+  <tr>
+    <td><strong>NPM</strong></td>
+    <td><p>JavaScript packages hosted at npmjs.com</p></td>
+  </tr>
+  <tr>
+    <td><strong>NUGET</strong></td>
+    <td><p>.NET packages hosted at the NuGet Gallery</p></td>
+  </tr>
+  <tr>
+    <td><strong>PIP</strong></td>
+    <td><p>Python packages hosted at PyPI.org</p></td>
+  </tr>
+  <tr>
+    <td><strong>RUBYGEMS</strong></td>
+    <td><p>Ruby gems hosted at RubyGems.org</p></td>
+  </tr>
+</table>
+
+---
+
 ### DeploymentOrderField
 
 <p>Properties by which deployment connections can be ordered.</p>
@@ -355,6 +425,48 @@
   <tr>
     <td><strong>CREATED_AT</strong></td>
     <td><p>Order collection by creation time</p></td>
+  </tr>
+</table>
+
+---
+
+### DeploymentProtectionRuleType
+
+<p>The possible protection rule types.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>REQUIRED_REVIEWERS</strong></td>
+    <td><p>Required reviewers</p></td>
+  </tr>
+  <tr>
+    <td><strong>WAIT_TIMER</strong></td>
+    <td><p>Wait timer</p></td>
+  </tr>
+</table>
+
+---
+
+### DeploymentReviewState
+
+<p>The possible states for a deployment review.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>APPROVED</strong></td>
+    <td><p>The deployment was approved.</p></td>
+  </tr>
+  <tr>
+    <td><strong>REJECTED</strong></td>
+    <td><p>The deployment was rejected.</p></td>
   </tr>
 </table>
 
@@ -479,6 +591,60 @@
 
 ---
 
+### DiscussionOrderField
+
+<p>Properties by which discussion connections can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CREATED_AT</strong></td>
+    <td><p>Order discussions by creation time.</p></td>
+  </tr>
+  <tr>
+    <td><strong>UPDATED_AT</strong></td>
+    <td><p>Order discussions by most recent modification time.</p></td>
+  </tr>
+</table>
+
+---
+
+### DismissReason
+
+<p>The possible reasons that a Dependabot alert was dismissed.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>FIX_STARTED</strong></td>
+    <td><p>A fix has already been started</p></td>
+  </tr>
+  <tr>
+    <td><strong>INACCURATE</strong></td>
+    <td><p>This alert is inaccurate or incorrect</p></td>
+  </tr>
+  <tr>
+    <td><strong>NOT_USED</strong></td>
+    <td><p>Vulnerable code is not actually used</p></td>
+  </tr>
+  <tr>
+    <td><strong>NO_BANDWIDTH</strong></td>
+    <td><p>No bandwidth to fix this</p></td>
+  </tr>
+  <tr>
+    <td><strong>TOLERABLE_RISK</strong></td>
+    <td><p>Risk is tolerable to this project</p></td>
+  </tr>
+</table>
+
+---
+
 ### EnterpriseAdministratorInvitationOrderField
 
 <p>Properties by which enterprise administrator invitation connections can be ordered.</p>
@@ -519,7 +685,7 @@
 
 ### EnterpriseDefaultRepositoryPermissionSettingValue
 
-<p>The possible values for the enterprise default repository permission setting.</p>
+<p>The possible values for the enterprise base repository permission setting.</p>
 
 <table>
   <tr>
@@ -536,7 +702,7 @@
   </tr>
   <tr>
     <td><strong>NO_POLICY</strong></td>
-    <td><p>Organizations in the enterprise choose default repository permissions for their members.</p></td>
+    <td><p>Organizations in the enterprise choose base repository permissions for their members.</p></td>
   </tr>
   <tr>
     <td><strong>READ</strong></td>
@@ -873,6 +1039,10 @@
     <td><p>Ko-fi funding platform.</p></td>
   </tr>
   <tr>
+    <td><strong>LFX_CROWDFUNDING</strong></td>
+    <td><p>LFX Crowdfunding funding platform.</p></td>
+  </tr>
+  <tr>
     <td><strong>LIBERAPAY</strong></td>
     <td><p>Liberapay funding platform.</p></td>
   </tr>
@@ -1094,6 +1264,27 @@
 
 ---
 
+### IpAllowListForInstalledAppsEnabledSettingValue
+
+<p>The possible values for the IP allow list configuration for installed GitHub Apps setting.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>DISABLED</strong></td>
+    <td><p>The setting is disabled for the owner.</p></td>
+  </tr>
+  <tr>
+    <td><strong>ENABLED</strong></td>
+    <td><p>The setting is enabled for the owner.</p></td>
+  </tr>
+</table>
+
+---
+
 ### IssueCommentOrderField
 
 <p>Properties by which issue comment connections can be ordered.</p>
@@ -1189,6 +1380,10 @@
   <tr>
     <td><strong>CONVERTED_NOTE_TO_ISSUE_EVENT</strong></td>
     <td><p>Represents a &lsquo;converted_note_to_issue&rsquo; event on a given issue or pull request.</p></td>
+  </tr>
+  <tr>
+    <td><strong>CONVERTED_TO_DISCUSSION_EVENT</strong></td>
+    <td><p>Represents a &lsquo;converted_to_discussion&rsquo; event on a given issue.</p></td>
   </tr>
   <tr>
     <td><strong>CROSS_REFERENCED_EVENT</strong></td>
@@ -1427,6 +1622,72 @@
 
 ---
 
+### MigrationSourceType
+
+<p>Represents the different Octoshift migration sources.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>AZURE_DEVOPS</strong></td>
+    <td><p>An Azure DevOps migration source.</p></td>
+  </tr>
+  <tr>
+    <td><strong>BITBUCKET_SERVER</strong></td>
+    <td><p>A Bitbucket Server migration source.</p></td>
+  </tr>
+  <tr>
+    <td><strong>GITHUB</strong></td>
+    <td><p>A GitHub migration source.</p></td>
+  </tr>
+  <tr>
+    <td><strong>GITHUB_ARCHIVE</strong></td>
+    <td><p>A GitHub Migration API source.</p></td>
+  </tr>
+  <tr>
+    <td><strong>GITLAB</strong></td>
+    <td><p>A GitLab migration source.</p></td>
+  </tr>
+</table>
+
+---
+
+### MigrationState
+
+<p>The Octoshift migration state.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>FAILED</strong></td>
+    <td><p>The Octoshift migration has failed.</p></td>
+  </tr>
+  <tr>
+    <td><strong>IN_PROGRESS</strong></td>
+    <td><p>The Octoshift migration is in progress.</p></td>
+  </tr>
+  <tr>
+    <td><strong>NOT_STARTED</strong></td>
+    <td><p>The Octoshift migration has not started.</p></td>
+  </tr>
+  <tr>
+    <td><strong>QUEUED</strong></td>
+    <td><p>The Octoshift migration has been queued.</p></td>
+  </tr>
+  <tr>
+    <td><strong>SUCCEEDED</strong></td>
+    <td><p>The Octoshift migration has succeeded.</p></td>
+  </tr>
+</table>
+
+---
+
 ### MilestoneOrderField
 
 <p>Properties by which milestone connections can be ordered.</p>
@@ -1493,6 +1754,23 @@
   <tr>
     <td><strong>ENABLED</strong></td>
     <td><p>The setting is enabled for the owner.</p></td>
+  </tr>
+</table>
+
+---
+
+### OIDCProviderType
+
+<p>The OIDC identity provider type</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>AAD</strong></td>
+    <td><p>Azure Active Directory</p></td>
   </tr>
 </table>
 
@@ -1634,6 +1912,23 @@
   <tr>
     <td><strong>UNLIMITED</strong></td>
     <td><p>Legacy Unlimited Plan</p></td>
+  </tr>
+</table>
+
+---
+
+### OrgEnterpriseOwnerOrderField
+
+<p>Properties by which enterprise owners can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>LOGIN</strong></td>
+    <td><p>Order enterprise owners by login.</p></td>
   </tr>
 </table>
 
@@ -1969,6 +2264,10 @@ Organization and does not have access to any repositories in the organization.</
     <td><p>Members will not be able to create public or private repositories.</p></td>
   </tr>
   <tr>
+    <td><strong>INTERNAL</strong></td>
+    <td><p>Members will be able to create only internal repositories.</p></td>
+  </tr>
+  <tr>
     <td><strong>PRIVATE</strong></td>
     <td><p>Members will be able to create only private repositories.</p></td>
   </tr>
@@ -2134,6 +2433,76 @@ Organization and does not have access to any repositories in the organization.</
 
 ---
 
+### PinnedDiscussionGradient
+
+<p>Preconfigured gradients that may be used to style discussions pinned within a repository.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>BLUE_MINT</strong></td>
+    <td><p>A gradient of blue to mint</p></td>
+  </tr>
+  <tr>
+    <td><strong>BLUE_PURPLE</strong></td>
+    <td><p>A gradient of blue to purple</p></td>
+  </tr>
+  <tr>
+    <td><strong>PINK_BLUE</strong></td>
+    <td><p>A gradient of pink to blue</p></td>
+  </tr>
+  <tr>
+    <td><strong>PURPLE_CORAL</strong></td>
+    <td><p>A gradient of purple to coral</p></td>
+  </tr>
+  <tr>
+    <td><strong>RED_ORANGE</strong></td>
+    <td><p>A gradient of red to orange</p></td>
+  </tr>
+</table>
+
+---
+
+### PinnedDiscussionPattern
+
+<p>Preconfigured background patterns that may be used to style discussions pinned within a repository.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CHEVRON_UP</strong></td>
+    <td><p>An upward-facing chevron pattern</p></td>
+  </tr>
+  <tr>
+    <td><strong>DOT</strong></td>
+    <td><p>A hollow dot pattern</p></td>
+  </tr>
+  <tr>
+    <td><strong>DOT_FILL</strong></td>
+    <td><p>A solid dot pattern</p></td>
+  </tr>
+  <tr>
+    <td><strong>HEART_FILL</strong></td>
+    <td><p>A heart pattern</p></td>
+  </tr>
+  <tr>
+    <td><strong>PLUS</strong></td>
+    <td><p>A plus sign pattern</p></td>
+  </tr>
+  <tr>
+    <td><strong>ZAP</strong></td>
+    <td><p>A lightning bolt pattern</p></td>
+  </tr>
+</table>
+
+---
+
 ### ProjectCardArchivedState
 
 <p>The possible archived states of a project card.</p>
@@ -2200,6 +2569,35 @@ Organization and does not have access to any repositories in the organization.</
   <tr>
     <td><strong>TODO</strong></td>
     <td><p>The column contains cards still to be worked on</p></td>
+  </tr>
+</table>
+
+---
+
+### ProjectNextOrderField
+
+<p>Properties by which the return project can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CREATED_AT</strong></td>
+    <td><p>The project&rsquo;s date and time of creation</p></td>
+  </tr>
+  <tr>
+    <td><strong>NUMBER</strong></td>
+    <td><p>The project&rsquo;s number</p></td>
+  </tr>
+  <tr>
+    <td><strong>TITLE</strong></td>
+    <td><p>The project&rsquo;s title</p></td>
+  </tr>
+  <tr>
+    <td><strong>UPDATED_AT</strong></td>
+    <td><p>The project&rsquo;s date and time of update</p></td>
   </tr>
 </table>
 
@@ -2469,6 +2867,10 @@ Organization and does not have access to any repositories in the organization.</
     <th>Description</th>
   </tr>
   <tr>
+    <td><strong>ADDED_TO_MERGE_QUEUE_EVENT</strong></td>
+    <td><p>Represents an &lsquo;added_to_merge_queue&rsquo; event on a given pull request.</p></td>
+  </tr>
+  <tr>
     <td><strong>ADDED_TO_PROJECT_EVENT</strong></td>
     <td><p>Represents a &lsquo;added_to_project&rsquo; event on a given issue or pull request.</p></td>
   </tr>
@@ -2527,6 +2929,10 @@ Organization and does not have access to any repositories in the organization.</
   <tr>
     <td><strong>CONVERTED_NOTE_TO_ISSUE_EVENT</strong></td>
     <td><p>Represents a &lsquo;converted_note_to_issue&rsquo; event on a given issue or pull request.</p></td>
+  </tr>
+  <tr>
+    <td><strong>CONVERTED_TO_DISCUSSION_EVENT</strong></td>
+    <td><p>Represents a &lsquo;converted_to_discussion&rsquo; event on a given issue.</p></td>
   </tr>
   <tr>
     <td><strong>CONVERT_TO_DRAFT_EVENT</strong></td>
@@ -2627,6 +3033,10 @@ Organization and does not have access to any repositories in the organization.</
   <tr>
     <td><strong>REFERENCED_EVENT</strong></td>
     <td><p>Represents a &lsquo;referenced&rsquo; event on a given <code>ReferencedSubject</code>.</p></td>
+  </tr>
+  <tr>
+    <td><strong>REMOVED_FROM_MERGE_QUEUE_EVENT</strong></td>
+    <td><p>Represents a &lsquo;removed_from_merge_queue&rsquo; event on a given pull request.</p></td>
   </tr>
   <tr>
     <td><strong>REMOVED_FROM_PROJECT_EVENT</strong></td>
@@ -3225,6 +3635,44 @@ organization. This includes every repository on every team that the user is on.<
 
 ---
 
+### RepositoryMigrationOrderDirection
+
+<p>Possible directions in which to order a list of repository migrations when provided an <code>orderBy</code> argument.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>ASC</strong></td>
+    <td><p>Specifies an ascending order for a given <code>orderBy</code> argument.</p></td>
+  </tr>
+  <tr>
+    <td><strong>DESC</strong></td>
+    <td><p>Specifies a descending order for a given <code>orderBy</code> argument.</p></td>
+  </tr>
+</table>
+
+---
+
+### RepositoryMigrationOrderField
+
+<p>Properties by which repository migrations can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CREATED_AT</strong></td>
+    <td><p>Order mannequins why when they were created.</p></td>
+  </tr>
+</table>
+
+---
+
 ### RepositoryOrderField
 
 <p>Properties by which repository connections can be ordered.</p>
@@ -3338,6 +3786,31 @@ requests, and repository settings, including adding collaborators</p></td>
 
 ---
 
+### RepositoryVulnerabilityAlertState
+
+<p>The possible states of an alert</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>DISMISSED</strong></td>
+    <td><p>An alert that has been manually closed by a user.</p></td>
+  </tr>
+  <tr>
+    <td><strong>FIXED</strong></td>
+    <td><p>An alert that has been resolved by a code change.</p></td>
+  </tr>
+  <tr>
+    <td><strong>OPEN</strong></td>
+    <td><p>An alert that is still open.</p></td>
+  </tr>
+</table>
+
+---
+
 ### RequestableCheckStatusState
 
 <p>The possible states that can be requested when creating a check run.</p>
@@ -3356,12 +3829,41 @@ requests, and repository settings, including adding collaborators</p></td>
     <td><p>The check suite or run is in progress.</p></td>
   </tr>
   <tr>
+    <td><strong>PENDING</strong></td>
+    <td><p>The check suite or run is in pending state.</p></td>
+  </tr>
+  <tr>
     <td><strong>QUEUED</strong></td>
     <td><p>The check suite or run has been queued.</p></td>
   </tr>
   <tr>
     <td><strong>WAITING</strong></td>
     <td><p>The check suite or run is in waiting state.</p></td>
+  </tr>
+</table>
+
+---
+
+### RoleInOrganization
+
+<p>Possible roles a user may have in relation to an organization.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>DIRECT_MEMBER</strong></td>
+    <td><p>A user who is a direct member of the organization.</p></td>
+  </tr>
+  <tr>
+    <td><strong>OWNER</strong></td>
+    <td><p>A user with full administrative access to the organization.</p></td>
+  </tr>
+  <tr>
+    <td><strong>UNAFFILIATED</strong></td>
+    <td><p>A user who is unaffiliated with the organization.</p></td>
   </tr>
 </table>
 
@@ -3452,6 +3954,10 @@ requests, and repository settings, including adding collaborators</p></td>
     <th>Description</th>
   </tr>
   <tr>
+    <td><strong>DISCUSSION</strong></td>
+    <td><p>Returns matching discussions in repositories.</p></td>
+  </tr>
+  <tr>
     <td><strong>ISSUE</strong></td>
     <td><p>Returns results matching issues in repositories.</p></td>
   </tr>
@@ -3481,6 +3987,10 @@ requests, and repository settings, including adding collaborators</p></td>
     <td><p>PHP packages hosted at packagist.org</p></td>
   </tr>
   <tr>
+    <td><strong>GO</strong></td>
+    <td><p>Go modules</p></td>
+  </tr>
+  <tr>
     <td><strong>MAVEN</strong></td>
     <td><p>Java artifacts hosted at the Maven central repository</p></td>
   </tr>
@@ -3499,6 +4009,10 @@ requests, and repository settings, including adding collaborators</p></td>
   <tr>
     <td><strong>RUBYGEMS</strong></td>
     <td><p>Ruby gems hosted at RubyGems.org</p></td>
+  </tr>
+  <tr>
+    <td><strong>RUST</strong></td>
+    <td><p>Rust crates</p></td>
   </tr>
 </table>
 
@@ -3592,6 +4106,27 @@ requests, and repository settings, including adding collaborators</p></td>
 
 ---
 
+### SponsorOrderField
+
+<p>Properties by which sponsor connections can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>LOGIN</strong></td>
+    <td><p>Order sponsorable entities by login (username).</p></td>
+  </tr>
+  <tr>
+    <td><strong>RELEVANCE</strong></td>
+    <td><p>Order sponsors by their relevance to the viewer.</p></td>
+  </tr>
+</table>
+
+---
+
 ### SponsorableOrderField
 
 <p>Properties by which sponsorable connections can be ordered.</p>
@@ -3609,6 +4144,89 @@ requests, and repository settings, including adding collaborators</p></td>
 
 ---
 
+### SponsorsActivityAction
+
+<p>The possible actions that GitHub Sponsors activities can represent.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CANCELLED_SPONSORSHIP</strong></td>
+    <td><p>The activity was cancelling a sponsorship.</p></td>
+  </tr>
+  <tr>
+    <td><strong>NEW_SPONSORSHIP</strong></td>
+    <td><p>The activity was starting a sponsorship.</p></td>
+  </tr>
+  <tr>
+    <td><strong>PENDING_CHANGE</strong></td>
+    <td><p>The activity was scheduling a downgrade or cancellation.</p></td>
+  </tr>
+  <tr>
+    <td><strong>REFUND</strong></td>
+    <td><p>The activity was funds being refunded to the sponsor or GitHub.</p></td>
+  </tr>
+  <tr>
+    <td><strong>SPONSOR_MATCH_DISABLED</strong></td>
+    <td><p>The activity was disabling matching for a previously matched sponsorship.</p></td>
+  </tr>
+  <tr>
+    <td><strong>TIER_CHANGE</strong></td>
+    <td><p>The activity was changing the sponsorship tier, either directly by the sponsor or by a scheduled/pending change.</p></td>
+  </tr>
+</table>
+
+---
+
+### SponsorsActivityOrderField
+
+<p>Properties by which GitHub Sponsors activity connections can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>TIMESTAMP</strong></td>
+    <td><p>Order activities by when they happened.</p></td>
+  </tr>
+</table>
+
+---
+
+### SponsorsActivityPeriod
+
+<p>The possible time periods for which Sponsors activities can be requested.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>ALL</strong></td>
+    <td><p>Don&rsquo;t restrict the activity to any date range, include all activity.</p></td>
+  </tr>
+  <tr>
+    <td><strong>DAY</strong></td>
+    <td><p>The previous calendar day.</p></td>
+  </tr>
+  <tr>
+    <td><strong>MONTH</strong></td>
+    <td><p>The previous thirty days.</p></td>
+  </tr>
+  <tr>
+    <td><strong>WEEK</strong></td>
+    <td><p>The previous seven days.</p></td>
+  </tr>
+</table>
+
+---
+
 ### SponsorsGoalKind
 
 <p>The different kinds of goals a GitHub Sponsors member can have.</p>
@@ -3620,7 +4238,7 @@ requests, and repository settings, including adding collaborators</p></td>
   </tr>
   <tr>
     <td><strong>MONTHLY_SPONSORSHIP_AMOUNT</strong></td>
-    <td><p>The goal is about getting a certain dollar amount from sponsorships each month.</p></td>
+    <td><p>The goal is about getting a certain amount in USD from sponsorships each month.</p></td>
   </tr>
   <tr>
     <td><strong>TOTAL_SPONSORS_COUNT</strong></td>
@@ -3646,6 +4264,23 @@ requests, and repository settings, including adding collaborators</p></td>
   <tr>
     <td><strong>MONTHLY_PRICE_IN_CENTS</strong></td>
     <td><p>Order tiers by their monthly price in cents</p></td>
+  </tr>
+</table>
+
+---
+
+### SponsorshipNewsletterOrderField
+
+<p>Properties by which sponsorship update connections can be ordered.</p>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>CREATED_AT</strong></td>
+    <td><p>Order sponsorship newsletters by when they were created.</p></td>
   </tr>
 </table>
 
