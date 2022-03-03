@@ -3,7 +3,7 @@ package wrapper
 import (
 	"strings"
 
-	"github.com/gqlgo/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 type Type struct {
@@ -48,11 +48,11 @@ func (t *Type) Name() *string {
 	return &t.def.Name
 }
 
-func (t *Type) Description() string {
+func (t *Type) Description() *string {
 	if t.def == nil {
-		return ""
+		return nil
 	}
-	return t.def.Description
+	return &t.def.Description
 }
 
 func (t *Type) Fields(includeDeprecated bool) []Field {
@@ -74,16 +74,16 @@ func (t *Type) Fields(includeDeprecated bool) []Field {
 			args = append(args, InputValue{
 				Type:         WrapTypeFromType(t.schema, arg.Type),
 				Name:         arg.Name,
-				Description:  arg.Description,
 				DefaultValue: defaultValue(arg.DefaultValue),
+				description:  arg.Description,
 			})
 		}
 
 		fields = append(fields, Field{
 			Name:        f.Name,
-			Description: f.Description,
 			Args:        args,
 			Type:        WrapTypeFromType(t.schema, f.Type),
+			description: f.Description,
 			deprecation: f.Directives.ForName("deprecated"),
 		})
 	}
@@ -99,9 +99,9 @@ func (t *Type) InputFields() []InputValue {
 	for _, f := range t.def.Fields {
 		res = append(res, InputValue{
 			Name:         f.Name,
-			Description:  f.Description,
 			Type:         WrapTypeFromType(t.schema, f.Type),
 			DefaultValue: defaultValue(f.DefaultValue),
+			description:  f.Description,
 		})
 	}
 	return res
@@ -153,7 +153,7 @@ func (t *Type) EnumValues(includeDeprecated bool) []EnumValue {
 
 		res = append(res, EnumValue{
 			Name:        val.Name,
-			Description: val.Description,
+			description: val.Description,
 			deprecation: val.Directives.ForName("deprecated"),
 		})
 	}
@@ -174,7 +174,7 @@ func (t *Type) OfType() *Type {
 	return WrapTypeFromType(t.schema, t.typ.Elem)
 }
 
-func (t *Type) SpecifiedBy() *string {
+func (t *Type) SpecifiedByURL() *string {
 	if t.def == nil {
 		return nil
 	}

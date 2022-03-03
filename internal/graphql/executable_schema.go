@@ -3,7 +3,7 @@ package graphql
 import (
 	"fmt"
 
-	"github.com/gqlgo/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 // CollectFields returns the set of fields from an ast.SelectionSet where all collected fields satisfy at least one of the GraphQL types

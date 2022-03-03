@@ -48,7 +48,7 @@ fragment FullType on __Type {
   kind
   name
   description
-  specifiedBy
+  specifiedByURL
   fields(includeDeprecated: true) {
     name
     description

@@ -10,8 +10,8 @@ import (
 	"github.com/Code-Hex/gqldoc/loader"
 	"github.com/goccy/go-yaml"
 	"github.com/google/go-cmp/cmp"
-	gqlparser "github.com/gqlgo/gqlparser/v2"
-	"github.com/gqlgo/gqlparser/v2/ast"
+	gqlparser "github.com/vektah/gqlparser/v2"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 func TestExampleSchema(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gqlgo/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 type WrapSchemaOption func(s *Schema)
@@ -48,8 +48,8 @@ func (s *Schema) SubscriptionType() *Type {
 	return WrapTypeFromDef(s.schema, s.schema.Subscription)
 }
 
-func (s *Schema) Description() string {
-	return s.schema.Description
+func (s *Schema) Description() *string {
+	return &s.schema.Description
 }
 
 func (s *Schema) Directives() []Directive {
@@ -75,17 +75,17 @@ func (s *Schema) directiveFromDef(d *ast.DirectiveDefinition) Directive {
 	for i, arg := range d.Arguments {
 		args[i] = InputValue{
 			Name:         arg.Name,
-			Description:  arg.Description,
 			DefaultValue: defaultValue(arg.DefaultValue),
 			Type:         WrapTypeFromType(s.schema, arg.Type),
+			description:  arg.Description,
 		}
 	}
 
 	return Directive{
 		Name:         d.Name,
-		Description:  d.Description,
 		Locations:    locs,
 		Args:         args,
 		IsRepeatable: d.IsRepeatable,
+		description:  d.Description,
 	}
 }
