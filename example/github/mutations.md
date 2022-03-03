@@ -4,6 +4,24 @@
 
 The root query for implementing GraphQL mutations.
 
+### abortQueuedMigrations
+
+<p>Clear all of a customer&rsquo;s queued migrations</p>
+
+#### Input fields
+
+- input ([AbortQueuedMigrationsInput!](input_objects.md#abortqueuedmigrationsinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| success ([Boolean](scalars.md#boolean)) | <p>Did the operation succeed?</p> |
+
+---
+
 ### acceptEnterpriseAdministratorInvitation
 
 <p>Accepts a pending invitation for a user to become an administrator of an enterprise.</p>
@@ -79,6 +97,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### addDiscussionComment
+
+<p>Adds a comment to a Discussion, possibly as a reply to another comment.</p>
+
+#### Input fields
+
+- input ([AddDiscussionCommentInput!](input_objects.md#adddiscussioncommentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| comment ([DiscussionComment](objects.md#discussioncomment)) | <p>The newly created discussion comment.</p> |
+
+---
+
 ### addEnterpriseSupportEntitlement
 
 <p>Adds a support entitlement to an enterprise member.</p>
@@ -150,6 +186,24 @@ The root query for implementing GraphQL mutations.
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | columnEdge ([ProjectColumnEdge](objects.md#projectcolumnedge)) | <p>The edge from the project&rsquo;s column connection.</p> |
 | project ([Project](objects.md#project)) | <p>The project</p> |
+
+---
+
+### addProjectNextItem
+
+<p>Adds an existing item (Issue or PullRequest) to a Project.</p>
+
+#### Input fields
+
+- input ([AddProjectNextItemInput!](input_objects.md#addprojectnextiteminput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectNextItem ([ProjectNextItem](objects.md#projectnextitem)) | <p>The item added to the project.</p> |
 
 ---
 
@@ -246,6 +300,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### addUpvote
+
+<p>Add an upvote to a discussion or discussion comment.</p>
+
+#### Input fields
+
+- input ([AddUpvoteInput!](input_objects.md#addupvoteinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| subject ([Votable](interfaces.md#votable)) | <p>The votable subject.</p> |
+
+---
+
 ### addVerifiableDomain
 
 <p>Adds a verifiable domain to an owning account.</p>
@@ -261,6 +333,24 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | domain ([VerifiableDomain](objects.md#verifiabledomain)) | <p>The verifiable domain that was added.</p> |
+
+---
+
+### approveDeployments
+
+<p>Approve all pending deployments under one or more environments</p>
+
+#### Input fields
+
+- input ([ApproveDeploymentsInput!](input_objects.md#approvedeploymentsinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deployments ([[Deployment!]](objects.md#deployment)) | <p>The affected deployments.</p> |
 
 ---
 
@@ -316,6 +406,24 @@ The root query for implementing GraphQL mutations.
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | invitation ([EnterpriseAdministratorInvitation](objects.md#enterpriseadministratorinvitation)) | <p>The invitation that was canceled.</p> |
 | message ([String](scalars.md#string)) | <p>A message confirming the result of canceling an administrator invitation.</p> |
+
+---
+
+### cancelSponsorship
+
+<p>Cancel an active sponsorship.</p>
+
+#### Input fields
+
+- input ([CancelSponsorshipInput!](input_objects.md#cancelsponsorshipinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| sponsorsTier ([SponsorsTier](objects.md#sponsorstier)) | <p>The tier that was being used at the time of cancellation.</p> |
 
 ---
 
@@ -518,13 +626,54 @@ The root query for implementing GraphQL mutations.
 
 ---
 
-### createContentAttachment
+### createCommitOnBranch
 
-<p>Create a content attachment.</p>
+<p>Appends a commit to the given branch as the authenticated user.</p>
+
+<p>This mutation creates a commit whose parent is the HEAD of the provided
+branch and also updates that branch to point to the new commit.
+It can be thought of as similar to <code>git commit</code>.</p>
+
+<h3>Locating a Branch</h3>
+
+<p>Commits are appended to a <code>branch</code> of type <code>Ref</code>.
+This must refer to a git branch (i.e.  the fully qualified path must
+begin with <code>refs/heads/</code>, although including this prefix is optional.</p>
+
+<p>Callers may specify the <code>branch</code> to commit to either by its global node
+ID or by passing both of <code>repositoryNameWithOwner</code> and <code>refName</code>.  For
+more details see the documentation for <code>CommittableBranch</code>.</p>
+
+<h3>Describing Changes</h3>
+
+<p><code>fileChanges</code> are specified as a <code>FilesChanges</code> object describing
+<code>FileAdditions</code> and <code>FileDeletions</code>.</p>
+
+<p>Please see the documentation for <code>FileChanges</code> for more information on
+how to use this argument to describe any set of file changes.</p>
+
+<h3>Authorship</h3>
+
+<p>Similar to the web commit interface, this mutation does not support
+specifying the author or committer of the commit and will not add
+support for this in the future.</p>
+
+<p>A commit created by a successful execution of this mutation will be
+authored by the owner of the credential which authenticates the API
+request.  The committer will be identical to that of commits authored
+using the web interface.</p>
+
+<p>If you need full control over author and committer information, please
+use the Git Database REST API instead.</p>
+
+<h3>Commit Signing</h3>
+
+<p>Commits made using this mutation are automatically signed by GitHub if
+supported and will be marked as verified in the user interface.</p>
 
 #### Input fields
 
-- input ([CreateContentAttachmentInput!](input_objects.md#createcontentattachmentinput))
+- input ([CreateCommitOnBranchInput!](input_objects.md#createcommitonbranchinput))
  
 
 #### Returns
@@ -532,7 +681,8 @@ The root query for implementing GraphQL mutations.
 | Name | Description |
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
-| contentAttachment ([ContentAttachment](objects.md#contentattachment)) | <p>The newly created content attachment.</p> |
+| commit ([Commit](objects.md#commit)) | <p>The new commit.</p> |
+| ref ([Ref](objects.md#ref)) | <p>The ref which has been updated to point to the new commit.</p> |
 
 ---
 
@@ -573,6 +723,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### createDiscussion
+
+<p>Create a discussion.</p>
+
+#### Input fields
+
+- input ([CreateDiscussionInput!](input_objects.md#creatediscussioninput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| discussion ([Discussion](objects.md#discussion)) | <p>The discussion that was just created.</p> |
+
+---
+
 ### createEnterpriseOrganization
 
 <p>Creates an organization as part of an enterprise account.</p>
@@ -589,6 +757,24 @@ The root query for implementing GraphQL mutations.
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise that owns the created organization.</p> |
 | organization ([Organization](objects.md#organization)) | <p>The organization that was created.</p> |
+
+---
+
+### createEnvironment
+
+<p>Creates an environment or simply returns it if already exists.</p>
+
+#### Input fields
+
+- input ([CreateEnvironmentInput!](input_objects.md#createenvironmentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| environment ([Environment](objects.md#environment)) | <p>The new or existing environment.</p> |
 
 ---
 
@@ -643,6 +829,24 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | label ([Label](objects.md#label)) | <p>The new label.</p> |
+
+---
+
+### createMigrationSource
+
+<p>Creates an Octoshift migration source.</p>
+
+#### Input fields
+
+- input ([CreateMigrationSourceInput!](input_objects.md#createmigrationsourceinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| migrationSource ([MigrationSource](objects.md#migrationsource)) | <p>The created Octoshift migration source.</p> |
 
 ---
 
@@ -715,6 +919,24 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | repository ([Repository](objects.md#repository)) | <p>The new repository.</p> |
+
+---
+
+### createSponsorship
+
+<p>Start a new sponsorship of a maintainer in GitHub Sponsors, or reactivate a past sponsorship.</p>
+
+#### Input fields
+
+- input ([CreateSponsorshipInput!](input_objects.md#createsponsorshipinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| sponsorship ([Sponsorship](objects.md#sponsorship)) | <p>The sponsorship that was started.</p> |
 
 ---
 
@@ -796,6 +1018,59 @@ The root query for implementing GraphQL mutations.
 #### Input fields
 
 - input ([DeleteDeploymentInput!](input_objects.md#deletedeploymentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+
+---
+
+### deleteDiscussion
+
+<p>Delete a discussion and all of its replies.</p>
+
+#### Input fields
+
+- input ([DeleteDiscussionInput!](input_objects.md#deletediscussioninput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| discussion ([Discussion](objects.md#discussion)) | <p>The discussion that was just deleted.</p> |
+
+---
+
+### deleteDiscussionComment
+
+<p>Delete a discussion comment. If it has replies, wipe it instead.</p>
+
+#### Input fields
+
+- input ([DeleteDiscussionCommentInput!](input_objects.md#deletediscussioncommentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| comment ([DiscussionComment](objects.md#discussioncomment)) | <p>The discussion comment that was just deleted.</p> |
+
+---
+
+### deleteEnvironment
+
+<p>Deletes an environment</p>
+
+#### Input fields
+
+- input ([DeleteEnvironmentInput!](input_objects.md#deleteenvironmentinput))
  
 
 #### Returns
@@ -950,6 +1225,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### deleteProjectNextItem
+
+<p>Deletes an item from a Project.</p>
+
+#### Input fields
+
+- input ([DeleteProjectNextItemInput!](input_objects.md#deleteprojectnextiteminput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deletedItemId ([ID](scalars.md#id)) | <p>The ID of the deleted item.</p> |
+
+---
+
 ### deletePullRequestReview
 
 <p>Deletes a pull request review.</p>
@@ -1092,6 +1385,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### dismissRepositoryVulnerabilityAlert
+
+<p>Dismisses the Dependabot alert.</p>
+
+#### Input fields
+
+- input ([DismissRepositoryVulnerabilityAlertInput!](input_objects.md#dismissrepositoryvulnerabilityalertinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repositoryVulnerabilityAlert ([RepositoryVulnerabilityAlert](objects.md#repositoryvulnerabilityalert)) | <p>The Dependabot alert that was dismissed</p> |
+
+---
+
 ### enablePullRequestAutoMerge
 
 <p>Enable the default auto-merge on a pull request.</p>
@@ -1126,6 +1437,42 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | user ([User](objects.md#user)) | <p>The user that was followed.</p> |
+
+---
+
+### grantEnterpriseOrganizationsMigratorRole
+
+<p>Grant the migrator role to a user for all organizations under an enterprise account.</p>
+
+#### Input fields
+
+- input ([GrantEnterpriseOrganizationsMigratorRoleInput!](input_objects.md#grantenterpriseorganizationsmigratorroleinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| organizations ([OrganizationConnection](objects.md#organizationconnection)) | <p>The organizations that had the migrator role applied to for the given user.</p> |
+
+---
+
+### grantMigratorRole
+
+<p>Grant the migrator role to a user or a team.</p>
+
+#### Input fields
+
+- input ([GrantMigratorRoleInput!](input_objects.md#grantmigratorroleinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| success ([Boolean](scalars.md#boolean)) | <p>Did the operation succeed?</p> |
 
 ---
 
@@ -1200,6 +1547,24 @@ The root query for implementing GraphQL mutations.
 | actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | lockedRecord ([Lockable](interfaces.md#lockable)) | <p>The item that was locked.</p> |
+
+---
+
+### markDiscussionCommentAsAnswer
+
+<p>Mark a discussion comment as the chosen answer for discussions in an answerable category.</p>
+
+#### Input fields
+
+- input ([MarkDiscussionCommentAsAnswerInput!](input_objects.md#markdiscussioncommentasanswerinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| discussion ([Discussion](objects.md#discussion)) | <p>The discussion that includes the chosen comment.</p> |
 
 ---
 
@@ -1384,6 +1749,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### rejectDeployments
+
+<p>Reject all pending deployments under one or more environments</p>
+
+#### Input fields
+
+- input ([RejectDeploymentsInput!](input_objects.md#rejectdeploymentsinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| deployments ([[Deployment!]](objects.md#deployment)) | <p>The affected deployments.</p> |
+
+---
+
 ### removeAssigneesFromAssignable
 
 <p>Removes assignees from an assignable object.</p>
@@ -1552,6 +1935,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### removeUpvote
+
+<p>Remove an upvote to a discussion or discussion comment.</p>
+
+#### Input fields
+
+- input ([RemoveUpvoteInput!](input_objects.md#removeupvoteinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| subject ([Votable](interfaces.md#votable)) | <p>The votable subject.</p> |
+
+---
+
 ### reopenIssue
 
 <p>Reopen a issue.</p>
@@ -1644,6 +2045,42 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### revokeEnterpriseOrganizationsMigratorRole
+
+<p>Revoke the migrator role to a user for all organizations under an enterprise account.</p>
+
+#### Input fields
+
+- input ([RevokeEnterpriseOrganizationsMigratorRoleInput!](input_objects.md#revokeenterpriseorganizationsmigratorroleinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| organizations ([OrganizationConnection](objects.md#organizationconnection)) | <p>The organizations that had the migrator role revoked for the given user.</p> |
+
+---
+
+### revokeMigratorRole
+
+<p>Revoke the migrator role from a user or a team.</p>
+
+#### Input fields
+
+- input ([RevokeMigratorRoleInput!](input_objects.md#revokemigratorroleinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| success ([Boolean](scalars.md#boolean)) | <p>Did the operation succeed?</p> |
+
+---
+
 ### setEnterpriseIdentityProvider
 
 <p>Creates or updates the identity provider for an enterprise.</p>
@@ -1713,6 +2150,24 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | user ([User](objects.md#user)) | <p>The user that the interaction limit was set for.</p> |
+
+---
+
+### startRepositoryMigration
+
+<p>Start a repository migration.</p>
+
+#### Input fields
+
+- input ([StartRepositoryMigrationInput!](input_objects.md#startrepositorymigrationinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| repositoryMigration ([RepositoryMigration](objects.md#repositorymigration)) | <p>The new Octoshift repository migration.</p> |
 
 ---
 
@@ -1823,6 +2278,24 @@ The root query for implementing GraphQL mutations.
 | actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | unlockedRecord ([Lockable](interfaces.md#lockable)) | <p>The item that was unlocked.</p> |
+
+---
+
+### unmarkDiscussionCommentAsAnswer
+
+<p>Unmark a discussion comment as the chosen answer for discussions in an answerable category.</p>
+
+#### Input fields
+
+- input ([UnmarkDiscussionCommentAsAnswerInput!](input_objects.md#unmarkdiscussioncommentasanswerinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| discussion ([Discussion](objects.md#discussion)) | <p>The discussion that includes the comment.</p> |
 
 ---
 
@@ -1970,6 +2443,42 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### updateDiscussion
+
+<p>Update a discussion</p>
+
+#### Input fields
+
+- input ([UpdateDiscussionInput!](input_objects.md#updatediscussioninput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| discussion ([Discussion](objects.md#discussion)) | <p>The modified discussion.</p> |
+
+---
+
+### updateDiscussionComment
+
+<p>Update the contents of a comment on a Discussion</p>
+
+#### Input fields
+
+- input ([UpdateDiscussionCommentInput!](input_objects.md#updatediscussioncommentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| comment ([DiscussionComment](objects.md#discussioncomment)) | <p>The modified discussion comment.</p> |
+
+---
+
 ### updateEnterpriseAdministratorRole
 
 <p>Updates the role of an enterprise administrator.</p>
@@ -2009,7 +2518,7 @@ The root query for implementing GraphQL mutations.
 
 ### updateEnterpriseDefaultRepositoryPermissionSetting
 
-<p>Sets the default repository permission for organizations in an enterprise.</p>
+<p>Sets the base repository permission for organizations in an enterprise.</p>
 
 #### Input fields
 
@@ -2021,8 +2530,8 @@ The root query for implementing GraphQL mutations.
 | Name | Description |
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
-| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated default repository permission setting.</p> |
-| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the default repository permission setting.</p> |
+| enterprise ([Enterprise](objects.md#enterprise)) | <p>The enterprise with the updated base repository permission setting.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the base repository permission setting.</p> |
 
 ---
 
@@ -2197,6 +2706,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### updateEnterpriseOwnerOrganizationRole
+
+<p>Updates the role of an enterprise owner with an organization.</p>
+
+#### Input fields
+
+- input ([UpdateEnterpriseOwnerOrganizationRoleInput!](input_objects.md#updateenterpriseownerorganizationroleinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of changing the owner&rsquo;s organization role.</p> |
+
+---
+
 ### updateEnterpriseProfile
 
 <p>Updates an enterprise&rsquo;s profile.</p>
@@ -2272,6 +2799,24 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### updateEnvironment
+
+<p>Updates an environment.</p>
+
+#### Input fields
+
+- input ([UpdateEnvironmentInput!](input_objects.md#updateenvironmentinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| environment ([Environment](objects.md#environment)) | <p>The updated environment.</p> |
+
+---
+
 ### updateIpAllowListEnabledSetting
 
 <p>Sets whether an IP allow list is enabled on an owner.</p>
@@ -2305,6 +2850,24 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | ipAllowListEntry ([IpAllowListEntry](objects.md#ipallowlistentry)) | <p>The IP allow list entry that was updated.</p> |
+
+---
+
+### updateIpAllowListForInstalledAppsEnabledSetting
+
+<p>Sets whether IP allow list configuration for installed GitHub Apps is enabled on an owner.</p>
+
+#### Input fields
+
+- input ([UpdateIpAllowListForInstalledAppsEnabledSettingInput!](input_objects.md#updateipallowlistforinstalledappsenabledsettinginput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| owner ([IpAllowListOwner](unions.md#ipallowlistowner)) | <p>The IP allow list owner on which the setting was updated.</p> |
 
 ---
 
@@ -2365,7 +2928,7 @@ The root query for implementing GraphQL mutations.
 
 ### updateNotificationRestrictionSetting
 
-<p>Update the setting to restrict notifications to only verified domains available to an owner.</p>
+<p>Update the setting to restrict notifications to only verified or approved domains available to an owner.</p>
 
 #### Input fields
 
@@ -2378,6 +2941,25 @@ The root query for implementing GraphQL mutations.
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | owner ([VerifiableDomainOwner](unions.md#verifiabledomainowner)) | <p>The owner on which the setting was updated.</p> |
+
+---
+
+### updateOrganizationAllowPrivateRepositoryForkingSetting
+
+<p>Sets whether private repository forks are enabled for an organization.</p>
+
+#### Input fields
+
+- input ([UpdateOrganizationAllowPrivateRepositoryForkingSettingInput!](input_objects.md#updateorganizationallowprivaterepositoryforkingsettinginput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| message ([String](scalars.md#string)) | <p>A message confirming the result of updating the allow private repository forking setting.</p> |
+| organization ([Organization](objects.md#organization)) | <p>The organization with the updated allow private repository forking setting.</p> |
 
 ---
 
@@ -2435,6 +3017,42 @@ The root query for implementing GraphQL mutations.
 
 ---
 
+### updateProjectNext
+
+<p>Updates an existing project (beta).</p>
+
+#### Input fields
+
+- input ([UpdateProjectNextInput!](input_objects.md#updateprojectnextinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectNext ([ProjectNext](objects.md#projectnext)) | <p>The updated Project.</p> |
+
+---
+
+### updateProjectNextItemField
+
+<p>Updates a field of an item from a Project.</p>
+
+#### Input fields
+
+- input ([UpdateProjectNextItemFieldInput!](input_objects.md#updateprojectnextitemfieldinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| projectNextItem ([ProjectNextItem](objects.md#projectnextitem)) | <p>The updated item.</p> |
+
+---
+
 ### updatePullRequest
 
 <p>Update a pull request</p>
@@ -2449,6 +3067,24 @@ The root query for implementing GraphQL mutations.
 | Name | Description |
 |------|-------------|
 | actor ([Actor](interfaces.md#actor)) | <p>Identifies the actor who performed the event.</p> |
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The updated pull request.</p> |
+
+---
+
+### updatePullRequestBranch
+
+<p>Merge HEAD from upstream branch into pull request branch</p>
+
+#### Input fields
+
+- input ([UpdatePullRequestBranchInput!](input_objects.md#updatepullrequestbranchinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | pullRequest ([PullRequest](objects.md#pullrequest)) | <p>The updated pull request.</p> |
 
@@ -2557,6 +3193,24 @@ for the given reference will be allowed.</p>
 |------|-------------|
 | clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
 | repository ([Repository](objects.md#repository)) | <p>The updated repository.</p> |
+
+---
+
+### updateSponsorshipPreferences
+
+<p>Change visibility of your sponsorship and opt in or out of email updates from the maintainer.</p>
+
+#### Input fields
+
+- input ([UpdateSponsorshipPreferencesInput!](input_objects.md#updatesponsorshippreferencesinput))
+ 
+
+#### Returns
+
+| Name | Description |
+|------|-------------|
+| clientMutationId ([String](scalars.md#string)) | <p>A unique identifier for the client performing the mutation.</p> |
+| sponsorship ([Sponsorship](objects.md#sponsorship)) | <p>The sponsorship that was updated.</p> |
 
 ---
 

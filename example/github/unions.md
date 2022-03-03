@@ -31,6 +31,18 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 
 ---
 
+### BranchActorAllowanceActor
+
+<p>Types which can be actors for <code>BranchActorAllowance</code> objects.</p>
+
+### Possible types
+
+
+- [Team](objects.md#team)
+- [User](objects.md#user)
+
+---
+
 ### Closer
 
 <p>The object which triggered a <code>ClosedEvent</code>.</p>
@@ -79,6 +91,18 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 
 ---
 
+### DeploymentReviewer
+
+<p>Users and teams.</p>
+
+### Possible types
+
+
+- [Team](objects.md#team)
+- [User](objects.md#user)
+
+---
+
 ### EnterpriseMember
 
 <p>An object that is a member of an enterprise.</p>
@@ -98,6 +122,7 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 ### Possible types
 
 
+- [App](objects.md#app)
 - [Enterprise](objects.md#enterprise)
 - [Organization](objects.md#organization)
 
@@ -157,6 +182,7 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 - [CommentDeletedEvent](objects.md#commentdeletedevent)
 - [ConnectedEvent](objects.md#connectedevent)
 - [ConvertedNoteToIssueEvent](objects.md#convertednotetoissueevent)
+- [ConvertedToDiscussionEvent](objects.md#convertedtodiscussionevent)
 - [CrossReferencedEvent](objects.md#crossreferencedevent)
 - [DemilestonedEvent](objects.md#demilestonedevent)
 - [DisconnectedEvent](objects.md#disconnectedevent)
@@ -314,6 +340,18 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 
 ---
 
+### ProjectNextItemContent
+
+<p>Types that can be inside Project Items.</p>
+
+### Possible types
+
+
+- [Issue](objects.md#issue)
+- [PullRequest](objects.md#pullrequest)
+
+---
+
 ### PullRequestTimelineItem
 
 <p>An item in a pull request timeline</p>
@@ -380,6 +418,7 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 - [ConnectedEvent](objects.md#connectedevent)
 - [ConvertToDraftEvent](objects.md#converttodraftevent)
 - [ConvertedNoteToIssueEvent](objects.md#convertednotetoissueevent)
+- [ConvertedToDiscussionEvent](objects.md#convertedtodiscussionevent)
 - [CrossReferencedEvent](objects.md#crossreferencedevent)
 - [DemilestonedEvent](objects.md#demilestonedevent)
 - [DeployedEvent](objects.md#deployedevent)
@@ -431,6 +470,20 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 
 - [App](objects.md#app)
 - [Team](objects.md#team)
+- [User](objects.md#user)
+
+---
+
+### Reactor
+
+<p>Types that can be assigned to reactions.</p>
+
+### Possible types
+
+
+- [Bot](objects.md#bot)
+- [Mannequin](objects.md#mannequin)
+- [Organization](objects.md#organization)
 - [User](objects.md#user)
 
 ---
@@ -492,6 +545,7 @@ A [union](https://graphql.github.io/graphql-spec/June2018/#sec-Unions) is a type
 
 
 - [App](objects.md#app)
+- [Discussion](objects.md#discussion)
 - [Issue](objects.md#issue)
 - [MarketplaceListing](objects.md#marketplacelisting)
 - [Organization](objects.md#organization)

@@ -248,6 +248,7 @@ Lookup a given repository by the owner and repository name.
 
 | Name | Description |
 |------|-------------|
+| followRenames ([Boolean](scalars.md#boolean)) | <p>Follow repository renames. If disabled, a repository referenced by its old name will return an error.</p> |
 | name ([String!](scalars.md#string)) | <p>The name of the repository</p> |
 | owner ([String!](scalars.md#string)) | <p>The login field of a user or organization</p> |
 
@@ -370,6 +371,13 @@ Users and organizations who can be sponsored via GitHub Sponsors.
 | before ([String](scalars.md#string)) | <p>Returns the elements in the list that come before the specified cursor.</p> |
 | dependencyEcosystem ([SecurityAdvisoryEcosystem](enums.md#securityadvisoryecosystem)) | <p>Optional filter for which dependencies should be checked for sponsorable
 owners. Only sponsorable owners of dependencies in this ecosystem will be
+included. Used when onlyDependencies = true.</p>
+
+<p><strong>Upcoming Change on 2022-07-01 UTC</strong>
+<strong>Description:</strong> <code>dependencyEcosystem</code> will be removed. Use the ecosystem argument instead.
+<strong>Reason:</strong> The type is switching from SecurityAdvisoryEcosystem to DependencyGraphEcosystem.</p> |
+| ecosystem ([DependencyGraphEcosystem](enums.md#dependencygraphecosystem)) | <p>Optional filter for which dependencies should be checked for sponsorable
+owners. Only sponsorable owners of dependencies in this ecosystem will be
 included. Used when onlyDependencies = true.</p> |
 | first ([Int](scalars.md#int)) | <p>Returns the first <em>n</em> elements from the list.</p> |
 | last ([Int](scalars.md#int)) | <p>Returns the last <em>n</em> elements from the list.</p> |
@@ -382,20 +390,6 @@ orgLoginForDependencies.</p> |
 Used when onlyDependencies = true. Omit to check your own dependencies. If
 you are not an administrator of the organization, only dependencies from its
 public repositories will be considered.</p> |
-
----
-
-### sponsorsListing
-
-#### Type: [SponsorsListing](objects.md#sponsorslisting)
-
-Look up a single Sponsors Listing 
-
-#### Arguments
-
-| Name | Description |
-|------|-------------|
-| slug ([String!](scalars.md#string)) | <p>Select the Sponsors listing which matches this slug</p> |
 
 ---
 
