@@ -12,11 +12,11 @@ import (
 	gql "github.com/99designs/gqlgen/graphql"
 	"github.com/Code-Hex/gqldoc/internal/graphql"
 	"github.com/Code-Hex/gqldoc/internal/wrapper"
-	gqlparser "github.com/gqlgo/gqlparser/v2"
-	"github.com/gqlgo/gqlparser/v2/ast"
-	"github.com/gqlgo/gqlparser/v2/parser"
-	"github.com/gqlgo/gqlparser/v2/validator"
 	"github.com/pkg/errors"
+	gqlparser "github.com/vektah/gqlparser/v2"
+	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/parser"
+	"github.com/vektah/gqlparser/v2/validator"
 )
 
 type Params struct {
@@ -237,7 +237,8 @@ func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionS
 		case "name":
 			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description)
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		case "locations":
 			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Locations)
 		case "args":
@@ -263,7 +264,8 @@ func (ec *executionContext) ___EnumValue(ctx context.Context, sel ast.SelectionS
 		case "name":
 			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description)
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		case "isDeprecated":
 			out.Values[i] = gql.MarshalBoolean(obj.IsDeprecated())
 		case "deprecationReason":
@@ -288,7 +290,8 @@ func (ec *executionContext) ___Field(ctx context.Context, sel ast.SelectionSet, 
 		case "name":
 			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description)
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		case "args":
 			out.Values[i] = ec.marshalArray(ctx, field.Selections, obj.Args)
 		case "type":
@@ -318,7 +321,8 @@ func (ec *executionContext) ___InputValue(ctx context.Context, sel ast.Selection
 		case "name":
 			out.Values[i] = gql.MarshalString(obj.Name)
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description)
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		case "type":
 			out.Values[i] = ec.marshalType(ctx, field.Selections, obj.Type)
 		case "defaultValue":
@@ -354,7 +358,8 @@ func (ec *executionContext) ___Schema(ctx context.Context, sel ast.SelectionSet,
 			res := obj.Directives()
 			out.Values[i] = ec.marshalArray(ctx, field.Selections, res)
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description())
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -376,7 +381,8 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 		case "name":
 			out.Values[i] = marshalNullableString(obj.Name())
 		case "description":
-			out.Values[i] = gql.MarshalString(obj.Description())
+			res := obj.Description()
+			out.Values[i] = marshalNullableString(res)
 		case "fields":
 			out.Values[i] = ec.___Type_fields(ctx, field, obj)
 		case "interfaces":
@@ -393,8 +399,8 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 		case "ofType":
 			res := obj.OfType()
 			out.Values[i] = ec.marshalType(ctx, field.Selections, res)
-		case "specifiedBy":
-			res := obj.SpecifiedBy()
+		case "specifiedByURL":
+			res := obj.SpecifiedByURL()
 			out.Values[i] = marshalNullableString(res)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

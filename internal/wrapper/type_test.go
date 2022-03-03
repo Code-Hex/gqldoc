@@ -3,7 +3,7 @@ package wrapper
 import (
 	"testing"
 
-	"github.com/gqlgo/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 func TestType(t *testing.T) {
@@ -32,9 +32,12 @@ func TestType(t *testing.T) {
 
 	t.Run("description", func(t *testing.T) {
 		got := schemaType.Description()
+		if got == nil {
+			t.Fatal("expect non nil")
+		}
 		want := "test description"
-		if got != want {
-			t.Fatalf("want %q but got %q", want, got)
+		if *got != want {
+			t.Fatalf("want %q but got %q", want, *got)
 		}
 	})
 

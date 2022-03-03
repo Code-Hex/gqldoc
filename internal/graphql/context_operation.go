@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/gqlgo/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/ast"
 )
 
 type OperationContext struct {
