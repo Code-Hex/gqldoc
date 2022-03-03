@@ -24,7 +24,10 @@ type Config struct {
 }
 
 func (m *Config) Create(filename string) (*os.File, error) {
-	dest := filepath.Join(m.BaseDir, filename)
+	dest, err := filepath.Abs(filepath.Join(m.BaseDir, filename))
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
 	return os.Create(dest)
 }
 
