@@ -37,7 +37,7 @@ func TestType(t *testing.T) {
 		}
 		want := "test description"
 		if *got != want {
-			t.Fatalf("want %q but got %q", want, got)
+			t.Fatalf("want %q but got %q", want, *got)
 		}
 	})
 
