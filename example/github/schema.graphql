@@ -25919,76 +25919,6 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   """
   The HTTP path listing organization's projects
   """
-  projectsResourcePath: URI!
-
-  """
-  The HTTP URL listing organization's projects
-  """
-  projectsUrl: URI!
-
-  """
-  A list of projects under the owner.
-  """
-  projectsV2(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    How to order the returned projects.
-    """
-    orderBy: ProjectV2Order = {field: NUMBER, direction: DESC}
-
-    """
-    A project to search for under the the owner.
-    """
-    query: String
-  ): ProjectV2Connection!
-
-  """
-  Recent projects that this user has modified in the context of the owner.
-  """
-  recentProjects(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-  ): ProjectV2Connection!
-
-  """
-  A list of repositories that the user owns.
-  """
   repositories(
     """
     Array of viewer's affiliation options for repositories returned from the
@@ -26419,6 +26349,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     activeOnly: Boolean = true
 
     """
+    Filter activities to only the specified actions.
+    """
+    actions: [SponsorsActivityAction!] = []
+
+    """
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
@@ -26434,6 +26369,13 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     first: Int
 
     """
+    Whether to include those events where this sponsorable acted as the sponsor.
+    Defaults to only including events where this sponsorable was the recipient
+    of a sponsorship.
+    """
+    includeAsSponsor: Boolean = false
+
+    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -26446,11 +26388,38 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     maintainerLogins: [String!]
 
     """
-    Ordering options for sponsorships returned from this connection. If left
-    blank, the sponsorships will be ordered based on relevancy to the viewer.
+    Filter activities returned to only those that occurred in the most recent
+    specified time period. Set to ALL to avoid filtering by when the activity
+    occurred. Will be ignored if `since` or `until` is given.
     """
-    orderBy: SponsorshipOrder
-  ): SponsorshipConnection!
+    period: SponsorsActivityPeriod = MONTH
+
+    """
+    Filter activities to those that occurred on or after this time.
+    """
+    since: DateTime
+
+    """
+    Filter activities to those that occurred before this time.
+    """
+    until: DateTime
+  ): SponsorsActivityConnection!
+
+  """
+  The GitHub Sponsors listing for this user or organization.
+  """
+  sponsorsListing: SponsorsListing
+
+  """
+  The sponsorship from the viewer to this user/organization; that is, the sponsorship where you're the sponsor.
+  """
+  sponsorshipForViewerAsSponsor(
+    """
+    Whether to return the sponsorship only if it's still active. Pass false to
+    get the viewer's sponsorship back even if it has been cancelled.
+    """
+    activeOnly: Boolean = true
+  ): Sponsorship
 
   """
   The sponsorship from this user/organization to the viewer; that is, the sponsorship you're receiving.
@@ -26467,6 +26436,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   List of sponsorship updates sent from this sponsorable to sponsors.
   """
   sponsorshipNewsletters(
+    """
+    Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
+    """
+    activeOnly: Boolean = true
+
     """
     Returns the elements in the list that come after the specified cursor.
     """
