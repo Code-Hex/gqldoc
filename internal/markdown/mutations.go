@@ -6,6 +6,7 @@ import (
 
 	"github.com/Code-Hex/gqldoc/internal/introspection"
 	"github.com/pkg/errors"
+	"strings"
 )
 
 //go:embed mutations.md
@@ -74,9 +75,14 @@ func (m *Config) renderMutation(s *introspection.Schema) error {
 			if err != nil {
 				return errors.Wrapf(err, "return type %q has caused error", rf.Type.UnderlyingName())
 			}
+			// NOTE: If description has newline and its in the table, we need to replace newline to <br>
+			desc := renderHTML(rf.Description)
+			if desc != "" {
+				desc = strings.Replace(desc, "\n", "<br>", -1)
+			}
 			rfs = append(rfs, &MutationFieldReturn{
 				Name:        rf.Name,
-				Description: renderHTML(rf.Description),
+				Description: desc,
 				Type:        rf.Type.String(),
 				TypeLink:    link,
 			})
