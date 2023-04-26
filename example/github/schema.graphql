@@ -33608,15 +33608,19 @@ type PublicKeyEdge {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+"""
+An edge in a connection.
+"""
+type PublicKeyEdge {
+  """
+  Identifies the oid of the base ref associated with the pull request, even if the ref has been deleted.
+  """
+  baseRefOid: GitObjectID!
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The repository associated with this pull request's base Ref.
+  """
+  baseRepository: Repository
 
     """
     Returns the last _n_ elements from the list.
@@ -33638,15 +33642,15 @@ type PublicKeyEdge {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  The body rendered to text.
+  """
+  bodyText: String!
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  Whether or not the pull request is rebaseable.
+  """
+  canBeRebased: Boolean! @preview(toggledBy: "merge-info-preview")
 
     """
     Returns the last _n_ elements from the list.
@@ -34128,9 +34132,9 @@ type PublicKeyEdge {
     after: String
 
     """
-    Filter by author of the review.
+    A list of archived states to filter the cards by
     """
-    author: String
+    archivedStates: [ProjectCardArchivedState] = [ARCHIVED, NOT_ARCHIVED]
 
     """
     Returns the elements in the list that come before the specified cursor.
@@ -34163,14 +34167,14 @@ type PublicKeyEdge {
     before: String
 
     """
-    Allows filtering Reactions by emoji.
-    """
-    content: ReactionContent
-
-    """
     Returns the first _n_ elements from the list.
     """
     first: Int
+
+    """
+    Include archived items.
+    """
+    includeArchived: Boolean = true
 
     """
     Returns the last _n_ elements from the list.
@@ -34203,11 +34207,6 @@ type PublicKeyEdge {
     first: Int
 
     """
-    Filter timeline items by type.
-    """
-    itemTypes: [PullRequestTimelineItemsItemType!]
-
-    """
     Returns the last _n_ elements from the list.
     """
     last: Int
@@ -34238,24 +34237,19 @@ type PublicKeyEdge {
     after: String
 
     """
-    Filter by author of the review.
-    """
-    author: String
-
-    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
 
     """
+    Allows filtering Reactions by emoji.
+    """
+    content: ReactionContent
+
+    """
     Returns the first _n_ elements from the list.
     """
     first: Int
-
-    """
-    Filter timeline items by type.
-    """
-    itemTypes: [PullRequestTimelineItemsItemType!]
 
     """
     Returns the last _n_ elements from the list.
@@ -34278,16 +34272,20 @@ type PublicKeyEdge {
     """
     after: String
 
-  """
-  Whether or not the viewer can update the head ref of this PR, by merging or rebasing the base ref.
-  If the head ref is up to date or unable to be updated by this user, this will return false.
-  """
-  viewerCanUpdateBranch: Boolean!
+    """
+    Filter by author of the review.
+    """
+    author: String
 
-  """
-  Reasons why the current viewer can not update this comment.
-  """
-  viewerCannotUpdateReasons: [CommentCannotUpdateReason!]!
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Filter timeline items by type.
@@ -34345,6 +34343,11 @@ type PublicKeyEdge {
     after: String
 
     """
+    Filter by author of the review.
+    """
+    author: String
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -34355,7 +34358,12 @@ type PublicKeyEdge {
     first: Int
 
     """
-    The merge method for the message.
+    Filter timeline items by type.
+    """
+    itemTypes: [PullRequestTimelineItemsItemType!]
+
+    """
+    Returns the last _n_ elements from the list.
     """
     last: Int
   ): UserContentEditConnection
@@ -34390,10 +34398,6 @@ type PublicKeyEdge {
   """
   viewerCanEnableAutoMerge: Boolean!
 
-"""
-Review comment threads for a pull request review.
-"""
-type PullRequestReviewThreadConnection {
   """
   Indicates whether the viewer can bypass branch protections and merge the pull request immediately
   """
@@ -34414,10 +34418,6 @@ type PullRequestReviewThreadConnection {
   """
   viewerCanSubscribe: Boolean!
 
-"""
-An edge in a connection.
-"""
-type PullRequestReviewThreadEdge {
   """
   Check if the current viewer can update this object.
   """
@@ -34429,10 +34429,6 @@ type PullRequestReviewThreadEdge {
   """
   viewerCanUpdateBranch: Boolean!
 
-"""
-The possible subject types of a pull request review comment.
-"""
-enum PullRequestReviewThreadSubjectType {
   """
   Reasons why the current viewer can not update this comment.
   """
@@ -34886,16 +34882,76 @@ type ReopenDiscussionPayload {
 }
 
 """
-Autogenerated input type of RemoveEnterpriseMember
+Parameters to be used for the pull_request rule
 """
-input RemoveEnterpriseMemberInput {
+type PullRequestParameters {
   """
-  A unique identifier for the client performing the mutation.
+  New, reviewable commits pushed will dismiss previous pull request review approvals.
   """
-  clientMutationId: String
+  dismissStaleReviewsOnPush: Boolean!
 
   """
-  The ID of the enterprise from which the user should be removed.
+  Require an approving review in pull requests that modify files that have a designated code owner.
+  """
+  requireCodeOwnerReview: Boolean!
+
+  """
+  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
+  """
+  requireLastPushApproval: Boolean!
+
+  """
+  The number of approving reviews that are required before a pull request can be merged.
+  """
+  requiredApprovingReviewCount: Int!
+
+  """
+  All conversations on code must be resolved before a pull request can be merged.
+  """
+  requiredReviewThreadResolution: Boolean!
+}
+
+"""
+Parameters to be used for the pull_request rule
+"""
+input PullRequestParametersInput {
+  """
+  New, reviewable commits pushed will dismiss previous pull request review approvals.
+  """
+  dismissStaleReviewsOnPush: Boolean!
+
+  """
+  Require an approving review in pull requests that modify files that have a designated code owner.
+  """
+  requireCodeOwnerReview: Boolean!
+
+  """
+  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
+  """
+  requireLastPushApproval: Boolean!
+
+  """
+  The number of approving reviews that are required before a pull request can be merged.
+  """
+  requiredApprovingReviewCount: Int!
+
+  """
+  All conversations on code must be resolved before a pull request can be merged.
+  """
+  requiredReviewThreadResolution: Boolean!
+}
+
+"""
+A review object for a given pull request.
+"""
+type PullRequestReview implements Comment & Deletable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
+  """
+  The actor who authored the comment.
+  """
+  author: Actor
+
+  """
+  Author's association with the subject of the comment.
   """
   enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
@@ -35356,6 +35412,16 @@ type PullRequestThread implements Node {
 
   """
   Identifies the state of the comment.
+  """
+  startLine: Int
+
+  """
+  The level at which the comments in the corresponding thread are targeted, can be a diff line or a file
+  """
+  subjectType: PullRequestReviewThreadSubjectType!
+
+  """
+  Identifies when the comment was last updated.
   """
   isResolved: Boolean!
 
@@ -37337,7 +37403,18 @@ type RemoveEnterpriseMemberPayload {
   """
   The user that was removed from the enterprise.
   """
-  user: User
+  branchProtectionRule: BranchProtectionRule
+
+  """
+  Compares the current ref as a base ref to another head ref, if the comparison can be made.
+  """
+  compare(
+    """
+    The head ref to compare against.
+    """
+    headRef: String!
+  ): Comparison
+  id: ID!
 
   """
   The viewer performing the mutation.
@@ -37395,6 +37472,40 @@ input RefNameConditionTargetInput {
 
 """
 Ways in which lists of git refs can be ordered upon return.
+"""
+type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+input RefNameConditionTargetInput {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
 """
 type RefNameConditionTarget {
   """
@@ -38200,6 +38311,51 @@ type RemoveEnterpriseMemberPayload {
 }
 
 """
+Autogenerated input type of RemoveEnterpriseMember
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
+  user: User
+
+  """
+  The viewer performing the mutation.
+  """
+  viewer: User
+}
+
+"""
 Autogenerated input type of RemoveEnterpriseOrganization
 """
 input RemoveEnterpriseOrganizationInput {
@@ -38420,7 +38576,12 @@ input RemoveEnterpriseMemberInput {
   enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
   """
-  The ID of the user to remove from the enterprise.
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
   """
   userId: ID! @possibleTypes(concreteTypes: ["User"])
 }
@@ -38474,6 +38635,51 @@ type RemovedFromMergeQueueEvent implements Node {
   """
   actor: Actor
 
+"""
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
+
+  """
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  """
+  beforeCommit: Commit
+
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
+}
+
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
+"""
+type RemovedFromProjectEvent implements Node {
   """
   Identifies the before commit SHA for the 'removed_from_merge_queue' event.
   """
@@ -38548,7 +38754,37 @@ type RemovedFromMergeQueueEvent implements Node {
 }
 
 """
-Represents a 'removed_from_project' event on a given issue or pull request.
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
 """
 input ReopenDiscussionInput {
   """
@@ -41592,7 +41828,12 @@ type RemovedFromMergeQueueEvent implements Node {
   actor: Actor
 
   """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
+
+  """
+  A list of users that can be assigned to issues in this repository.
   """
   beforeCommit: Commit
 
@@ -41661,14 +41902,16 @@ type ReopenDiscussionPayload {
   discussion: Discussion
 }
 
-"""
-Autogenerated input type of ReopenIssue
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
+    """
+    The login of one specific collaborator.
+    """
+    login: String
+
+    """
+    Filters users with query on user name and login
+    """
+    query: String
+  ): RepositoryCollaboratorConnection
 
   """
   The updated enterprise.
@@ -41966,6 +42209,16 @@ input ReopenDiscussionInput {
   ): DiscussionCategory
 
   """
+  A discussion category by slug.
+  """
+  discussionCategory(
+    """
+    The slug of the discussion category to be returned.
+    """
+    slug: String!
+  ): DiscussionCategory
+
+  """
   A list of discussions that have been opened in the repository.
   """
   discussions(
@@ -42078,6 +42331,11 @@ input ReopenDiscussionInput {
   hasDiscussionsEnabled: Boolean!
 
   """
+  Indicates if the repository has the Discussions feature enabled.
+  """
+  hasDiscussionsEnabled: Boolean!
+
+  """
   Indicates if the repository has issues feature enabled.
   """
   clientMutationId: String
@@ -42092,6 +42350,11 @@ input ReopenDiscussionInput {
 Autogenerated return type of ReopenDiscussion
 """
 type ReopenDiscussionPayload {
+  """
+  Whether vulnerability alerts are enabled for the repository.
+  """
+  hasVulnerabilityAlertsEnabled: Boolean!
+
   """
   Whether vulnerability alerts are enabled for the repository.
   """
@@ -42429,6 +42692,26 @@ type ReopenDiscussionPayload {
   """
   Returns a single milestone from the current repository by number.
   """
+  mergeCommitMessage: MergeCommitMessage!
+
+  """
+  How the default commit title will be generated when merging a pull request.
+  """
+  mergeCommitTitle: MergeCommitTitle!
+
+  """
+  The merge queue for a specified branch, otherwise the default branch if not provided.
+  """
+  mergeQueue(
+    """
+    The name of the branch to get the merge queue for. Case sensitive.
+    """
+    branch: String
+  ): MergeQueue
+
+  """
+  Returns a single milestone from the current repository by number.
+  """
   hasDiscussionsEnabled: Boolean!
 
   """
@@ -42712,31 +42995,6 @@ Autogenerated return type of ReopenDiscussion
 """
 type ReopenDiscussionPayload {
   """
-  A discussion category by slug.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  A list of discussions that have been opened in the repository.
-  """
-  clientMutationId: String
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  How the default commit message will be generated when merging a pull request.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
   Finds and returns the Project according to the provided Project number.
   """
   archivedAt: DateTime
@@ -42795,87 +43053,6 @@ input ReopenIssueInput {
     """
     branch: String
   ): MergeQueue
-
-  """
-  Returns a single milestone from the current repository by number.
-  """
-  archivedAt: DateTime
-
-  """
-  A list of users that can be assigned to issues in this repository.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  collaborators(
-    """
-    Collaborators affiliation level with a repository.
-    """
-    affiliation: CollaboratorAffiliation
-
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    The login of one specific collaborator.
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    query: String
-  ): RepositoryCollaboratorConnection
 
   """
   The HTTP path listing the repository's projects
@@ -43055,133 +43232,13 @@ input ReopenDiscussionInput {
     """
     Returns the first _n_ elements from the list.
     """
-    login: String
+    first: Int
 
     """
-    Filters users with query on user name and login
+    Returns the last _n_ elements from the list.
     """
-    privacy: RepositoryPrivacy
-  ): RepositoryConnection!
+    last: Int
 
-  """
-  The funding links for this repository
-  """
-  fundingLinks: [FundingLink!]!
-
-  """
-  Indicates if the repository has the Discussions feature enabled.
-  """
-  hasDiscussionsEnabled: Boolean!
-
-  """
-  Indicates if the repository has issues feature enabled.
-  """
-  hasIssuesEnabled: Boolean!
-
-  """
-  Indicates if the repository has the Projects feature enabled.
-  """
-  hasProjectsEnabled: Boolean!
-
-  """
-  Whether vulnerability alerts are enabled for the repository.
-  """
-  hasVulnerabilityAlertsEnabled: Boolean!
-
-  """
-  Indicates if the repository has wiki feature enabled.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The discussion that was reopened.
-  """
-  discussion: Discussion
-}
-
-"""
-Autogenerated input type of ReopenIssue
-"""
-input ReopenIssueInput {
-  """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
-  """
-  beforeCommit: Commit
-
-  """
-  How the default commit message will be generated when merging a pull request.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
-  Finds and returns the Project according to the provided Project number.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-  """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
-  """
-  beforeCommit: Commit
-
-  """
-  Identifies the date and time when the object was created.
-  """
-  createdAt: DateTime!
-
-  """
-  A discussion category by slug.
-  """
-  discussionCategory(
     """
     Ordering options for refs returned from the connection.
     """
@@ -43190,13 +43247,8 @@ type RemovedFromMergeQueueEvent implements Node {
     """
     Filters refs with query on name
     """
-    slug: String!
-  ): DiscussionCategory
+    login: String
 
-  """
-  A discussion category by slug.
-  """
-  discussionCategory(
     """
     A ref name prefix like `refs/heads/`, `refs/tags/`, etc.
     """
@@ -43487,6 +43539,10 @@ type RemovedFromMergeQueueEvent implements Node {
   """
   visibility: RepositoryVisibility!
 
+"""
+The possible states of an alert
+"""
+enum RepositoryVulnerabilityAlertState {
   """
   Returns a single vulnerability alert from the current repository by number.
   """
@@ -43506,10 +43562,10 @@ type RemovedFromMergeQueueEvent implements Node {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  An alert that has been resolved by a code change.
+  """
+  FIXED
 
     """
     Filter by the scope of the alert's dependency
@@ -43521,10 +43577,14 @@ type RemovedFromMergeQueueEvent implements Node {
     """
     first: Int
 
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
+"""
+Autogenerated input type of RequestReviews
+"""
+input RequestReviewsInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
 
     """
     Filter by the state of the alert
@@ -43541,15 +43601,16 @@ type RemovedFromMergeQueueEvent implements Node {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  Add users to the set rather than replace.
+  """
+  union: Boolean = false
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The Node IDs of the user to request.
+  """
+  userIds: [ID!] @possibleTypes(concreteTypes: ["User"])
+}
 
     """
     Returns the last _n_ elements from the list.
@@ -43578,6 +43639,10 @@ enum RepositoryAffiliation {
   """
   ORGANIZATION_MEMBER
 
+"""
+The possible states that can be requested when creating a check run.
+"""
+enum RequestableCheckStatusState {
   """
   Repositories that are owned by the authenticated user.
   """
@@ -43668,24 +43733,24 @@ type RepositoryCollaboratorConnection {
   """
   edges: [RepositoryCollaboratorEdge]
 
+"""
+Parameters to be used for the required_deployments rule
+"""
+input RequiredDeploymentsParametersInput {
   """
   A list of nodes.
   """
   nodes: [User]
 
 """
-Parameters to be used for the required_deployments rule
+Represents a required status check for a protected branch, but not any specific run of that check.
 """
-input RequiredDeploymentsParametersInput {
+type RequiredStatusCheckDescription {
   """
   Information to aid in pagination.
   """
   pageInfo: PageInfo!
 
-"""
-Represents a required status check for a protected branch, but not any specific run of that check.
-"""
-type RequiredStatusCheckDescription {
   """
   Identifies the total count of items in the connection.
   """
@@ -43702,15 +43767,15 @@ type RepositoryCollaboratorEdge {
   cursor: String!
   node: User!
 
-"""
-Specifies the attributes for a new or updated required status check.
-"""
-input RequiredStatusCheckInput {
   """
   The permission the user has on the repository.
   """
   permission: RepositoryPermission!
 
+"""
+Parameters to be used for the required_status_checks rule
+"""
+type RequiredStatusChecksParameters {
   """
   A list of sources for the user's access to the repository.
   """
@@ -43726,29 +43791,29 @@ type RepositoryConnection {
   """
   edges: [RepositoryEdge]
 
-  """
-  A list of nodes.
-  """
-  nodes: [Repository]
-
 """
 Parameters to be used for the required_status_checks rule
 """
 input RequiredStatusChecksParametersInput {
   """
+  A list of nodes.
+  """
+  nodes: [Repository]
+
+  """
   Information to aid in pagination.
   """
   pageInfo: PageInfo!
-
-  """
-  Identifies the total count of items in the connection.
-  """
-  totalCount: Int!
 
 """
 Autogenerated input type of RerequestCheckSuite
 """
 input RerequestCheckSuiteInput {
+  """
+  Identifies the total count of items in the connection.
+  """
+  totalCount: Int!
+
   """
   The total size in kilobytes of all repositories in the connection.
   """
@@ -43764,15 +43829,15 @@ type RepositoryContactLink {
   """
   about: String!
 
+"""
+Autogenerated return type of RerequestCheckSuite
+"""
+type RerequestCheckSuitePayload {
   """
   The contact link name.
   """
   name: String!
 
-"""
-Autogenerated return type of RerequestCheckSuite
-"""
-type RerequestCheckSuitePayload {
   """
   The contact link URL.
   """
@@ -43788,15 +43853,15 @@ enum RepositoryContributionType {
   """
   COMMIT
 
+"""
+Autogenerated input type of ResolveReviewThread
+"""
+input ResolveReviewThreadInput {
   """
   Created an issue
   """
   ISSUE
 
-"""
-Autogenerated input type of ResolveReviewThread
-"""
-input ResolveReviewThreadInput {
   """
   Created a pull request
   """
@@ -46072,10 +46137,6 @@ type ReviewDismissedEvent implements Node & UniformResourceLocatable {
   """
   review: PullRequestReview
 
-"""
-Autogenerated input type of RevertPullRequest
-"""
-input RevertPullRequestInput {
   """
   The HTTP URL for this review dismissed event.
   """
@@ -46097,6 +46158,10 @@ type ReviewRequest implements Node {
   databaseId: Int
   id: ID!
 
+"""
+Autogenerated return type of RevertPullRequest
+"""
+type RevertPullRequestPayload {
   """
   Identifies the pull request associated with this review request.
   """
@@ -46123,14 +46188,14 @@ type ReviewRequestConnection {
   nodes: [ReviewRequest]
 
   """
-  The pull request that was reverted.
+  Information to aid in pagination.
   """
-  pullRequest: PullRequest
+  pageInfo: PageInfo!
 
   """
-  The new pull request that reverts the input pull request.
+  Identifies the total count of items in the connection.
   """
-  revertPullRequest: PullRequest
+  totalCount: Int!
 }
 
 """
@@ -46168,10 +46233,6 @@ type ReviewRequestRemovedEvent implements Node {
   """
   pullRequest: PullRequest!
 
-"""
-An edge in a connection.
-"""
-type ReviewDismissalAllowanceEdge {
   """
   Identifies the reviewer whose review request was removed.
   """
@@ -46219,6 +46280,10 @@ type ReviewStatusHovercardContext implements HovercardContext {
   """
   octicon: String!
 
+"""
+Autogenerated input type of RevertPullRequest
+"""
+input RevertPullRequestInput {
   """
   The current status of the pull request with respect to code review.
   """
@@ -46268,14 +46333,10 @@ type RevokeEnterpriseOrganizationsMigratorRolePayload {
     """
     before: String
 
-"""
-A request for a user to review a pull request.
-"""
-type ReviewRequest implements Node {
-  """
-  Whether this request was created for a code owner
-  """
-  asCodeOwner: Boolean!
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -46408,6 +46469,10 @@ input RuleParametersInput {
   """
   branchNamePattern: BranchNamePatternParametersInput
 
+"""
+Represents an 'review_requested' event on a given pull request.
+"""
+type ReviewRequestedEvent implements Node {
   """
   Parameters used for the `commit_author_email_pattern` rule type
   """
@@ -46429,18 +46494,15 @@ input RuleParametersInput {
   pullRequest: PullRequestParametersInput
 
 """
-Autogenerated return type of RevertPullRequest
+A hovercard context with a message describing the current code review state of the pull
+request.
 """
-type RevertPullRequestPayload {
+type ReviewStatusHovercardContext implements HovercardContext {
   """
   Parameters used for the `required_deployments` rule type
   """
   requiredDeployments: RequiredDeploymentsParametersInput
 
-"""
-Autogenerated input type of RevokeEnterpriseOrganizationsMigratorRole
-"""
-input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   Parameters used for the `required_status_checks` rule type
   """
@@ -46451,6 +46513,10 @@ input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   tagNamePattern: TagNamePatternParametersInput
 
+"""
+Autogenerated input type of RevokeEnterpriseOrganizationsMigratorRole
+"""
+input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   Parameters used for the `update` rule type
   """
@@ -46477,9 +46543,9 @@ enum SamlDigestAlgorithm {
   SHA256
 
 """
-Autogenerated input type of RevokeMigratorRole
+Autogenerated return type of RevokeEnterpriseOrganizationsMigratorRole
 """
-input RevokeMigratorRoleInput {
+type RevokeEnterpriseOrganizationsMigratorRolePayload {
   """
   SHA384
   """
@@ -46500,15 +46566,15 @@ enum SamlSignatureAlgorithm {
   """
   RSA_SHA1
 
+"""
+Autogenerated input type of RevokeMigratorRole
+"""
+input RevokeMigratorRoleInput {
   """
   RSA-SHA256
   """
   RSA_SHA256
 
-"""
-Autogenerated return type of RevokeMigratorRole
-"""
-type RevokeMigratorRolePayload {
   """
   RSA-SHA384
   """
@@ -46529,6 +46595,10 @@ type SavedReply implements Node {
   """
   body: String!
 
+"""
+Autogenerated return type of RevokeMigratorRole
+"""
+type RevokeMigratorRolePayload {
   """
   The saved reply body rendered to HTML.
   """
@@ -46541,9 +46611,9 @@ type SavedReply implements Node {
   id: ID!
 
 """
-The bypass mode for a rule or ruleset.
+Possible roles a user may have in relation to an organization.
 """
-enum RuleBypassMode {
+enum RoleInOrganization {
   """
   The title of the saved reply.
   """
@@ -46565,9 +46635,9 @@ type SavedReplyConnection {
   edges: [SavedReplyEdge]
 
 """
-The level of enforcement for a rule or ruleset.
+The bypass mode for a rule or ruleset.
 """
-enum RuleEnforcement {
+enum RuleBypassMode {
   """
   A list of nodes.
   """
@@ -46700,15 +46770,19 @@ type SearchResultItemEdge {
   """
   cursor: String!
 
+"""
+Autogenerated return type of RevertPullRequest
+"""
+type RevertPullRequestPayload {
   """
   The item at the end of the edge.
   """
   node: SearchResultItem
 
 """
-The possible digest algorithms used to sign SAML requests for an identity provider.
+Autogenerated input type of RevokeEnterpriseOrganizationsMigratorRole
 """
-enum SamlDigestAlgorithm {
+input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   Text matches on the result found.
   """
@@ -46755,9 +46829,9 @@ type SecurityAdvisory implements Node {
   cvss: CVSS!
 
 """
-Possible roles a user may have in relation to an organization.
+Autogenerated input type of RevokeMigratorRole
 """
-enum RoleInOrganization {
+input RevokeMigratorRoleInput {
   """
   CWEs associated with this Advisory
   """
@@ -46788,19 +46862,15 @@ enum RoleInOrganization {
   """
   databaseId: Int
 
-"""
-A Saved Reply is text a user can use to reply quickly.
-"""
-type SavedReply implements Node {
   """
   This is a long plaintext description of the advisory
   """
   description: String!
 
 """
-The bypass mode for a rule or ruleset.
+Autogenerated return type of RevokeMigratorRole
 """
-enum RuleBypassMode {
+type RevokeMigratorRolePayload {
   """
   The GitHub Security Advisory ID
   """
@@ -46812,15 +46882,15 @@ enum RuleBypassMode {
   """
   identifiers: [SecurityAdvisoryIdentifier!]!
 
+"""
+A Saved Reply is text a user can use to reply quickly.
+"""
+type SavedReply implements Node {
   """
   The permalink for the advisory's dependabot alerts page
   """
   notificationsPermalink: URI
 
-"""
-The level of enforcement for a rule or ruleset.
-"""
-enum RuleEnforcement {
   """
   The organization that originated the advisory
   """
@@ -46831,15 +46901,15 @@ enum RuleEnforcement {
   """
   permalink: URI
 
+"""
+The level of enforcement for a rule or ruleset.
+"""
+enum RuleEnforcement {
   """
   When the advisory was published
   """
   publishedAt: DateTime!
 
-"""
-Specifies the parameters for a `RepositoryRule` object. Only one of the fields should be specified.
-"""
-input RuleParametersInput {
   """
   A list of references for this advisory
   """
@@ -46940,10 +47010,6 @@ type SecurityAdvisoryConnection {
   """
   edges: [SecurityAdvisoryEdge]
 
-"""
-Possible roles a user may have in relation to an organization.
-"""
-enum RoleInOrganization {
   """
   A list of nodes.
   """
@@ -46993,19 +47059,15 @@ type SearchResultItemEdge {
   """
   MAVEN
 
-"""
-The possible digest algorithms used to sign SAML requests for an identity provider.
-"""
-enum SamlDigestAlgorithm {
   """
   JavaScript packages hosted at npmjs.com
   """
   NPM
 
 """
-The bypass mode for a rule or ruleset.
+The possible digest algorithms used to sign SAML requests for an identity provider.
 """
-enum RuleBypassMode {
+enum SamlDigestAlgorithm {
   """
   .NET packages hosted at the NuGet Gallery
   """
@@ -47097,9 +47159,9 @@ Ordering options for security advisory connections
 """
 input SecurityAdvisoryOrder {
   """
-  The organization that originated the advisory
+  A list of identifiers for this advisory
   """
-  origin: String!
+  identifiers: [SecurityAdvisoryIdentifier!]!
 
   """
   The field to order security advisories by.
@@ -47153,30 +47215,7 @@ type SecurityAdvisoryReference {
   """
   A publicly accessible reference
   """
-  edges: [SecurityAdvisoryEdge]
-
-"""
-A request for a user to review a pull request.
-"""
-type ReviewRequest implements Node {
-  """
-  A list of nodes.
-  """
-  nodes: [SecurityAdvisory]
-
-"""
-Autogenerated input type of RevokeMigratorRole
-"""
-input RevokeMigratorRoleInput {
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  Identifies the total count of items in the connection.
-  """
-  totalCount: Int!
+  MALWARE
 }
 
 """
@@ -47198,6 +47237,10 @@ enum SecurityAdvisorySeverity {
   """
   LOW
 
+"""
+The possible ecosystems of a security vulnerability's package.
+"""
+enum SecurityAdvisoryEcosystem {
   """
   Moderate.
   """
@@ -47213,6 +47256,10 @@ type SecurityVulnerability {
   """
   advisory: SecurityAdvisory!
 
+"""
+The possible digest algorithms used to sign SAML requests for an identity provider.
+"""
+enum SamlDigestAlgorithm {
   """
   The first version containing a fix for the vulnerability
   """
@@ -47228,10 +47275,6 @@ type SecurityVulnerability {
   """
   severity: SecurityAdvisorySeverity!
 
-"""
-An advisory identifier to filter results on.
-"""
-input SecurityAdvisoryIdentifierFilter {
   """
   When the vulnerability was last updated
   """
@@ -47254,41 +47297,41 @@ The connection type for SecurityVulnerability.
 """
 type SecurityVulnerabilityConnection {
   """
-  Common Vulnerabilities and Exposures Identifier.
+  The classification of the advisory
   """
   edges: [SecurityVulnerabilityEdge]
 
   """
-  GitHub Security Advisory ID.
+  The CVSS associated with this advisory
   """
   nodes: [SecurityVulnerability]
 
 """
-Ordering options for security advisory connections
+A GitHub Security Advisory Identifier
 """
-input SecurityAdvisoryOrder {
+type SecurityAdvisoryIdentifier {
   """
-  The organization that originated the advisory
+  The identifier type, e.g. GHSA, CVE
   """
-  origin: String!
+  type: String!
 
   """
-  The field to order security advisories by.
+  The identifier
   """
-  field: SecurityAdvisoryOrderField!
+  value: String!
 }
 
 """
-Properties by which security advisory connections can be ordered.
+An advisory identifier to filter results on.
 """
 type SecurityVulnerabilityEdge {
   """
-  Order advisories by publication time
+  The identifier type.
   """
-  PUBLISHED_AT
+  type: SecurityAdvisoryIdentifierType!
 
   """
-  Order advisories by update time
+  The identifier string. Supports exact or partial matching.
   """
   node: SecurityVulnerability
 }
@@ -47302,10 +47345,6 @@ input SecurityVulnerabilityOrder {
   """
   direction: OrderDirection!
 
-"""
-An individual package version
-"""
-type SecurityAdvisoryPackageVersion {
   """
   The field to order security vulnerabilities by.
   """
@@ -47331,26 +47370,24 @@ input SetEnterpriseIdentityProviderInput {
   """
   clientMutationId: String
 
+"""
+Properties by which security advisory connections can be ordered.
+"""
+enum SecurityAdvisoryOrderField {
   """
   The digest algorithm used to sign SAML requests for the identity provider.
   """
   digestMethod: SamlDigestAlgorithm!
 
-"""
-A list of results that matched against a search query. Regardless of the number
-of matches, a maximum of 1,000 results will be available across all types,
-potentially split across many pages.
-"""
-type SearchResultItemConnection {
   """
   The ID of the enterprise on which to set an identity provider.
   """
   enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
 """
-Severity of the vulnerability.
+An individual package
 """
-enum SecurityAdvisorySeverity {
+type SecurityAdvisoryPackage {
   """
   The x509 certificate used by the identity provider to sign assertions and responses.
   """
@@ -47361,11 +47398,19 @@ enum SecurityAdvisorySeverity {
   """
   issuer: String
 
+"""
+An individual package version
+"""
+type SecurityAdvisoryPackageVersion {
   """
   The signature algorithm used to sign SAML requests for the identity provider.
   """
   signatureMethod: SamlSignatureAlgorithm!
 
+"""
+A request for a user to review a pull request.
+"""
+type ReviewRequest implements Node {
   """
   The URL endpoint for the identity provider's SAML SSO.
   """
@@ -47396,19 +47441,11 @@ input SetOrganizationInteractionLimitInput {
   """
   clientMutationId: String
 
-"""
-The possible signature algorithms used to sign SAML requests for a Identity Provider.
-"""
-enum SamlSignatureAlgorithm {
   """
   When this limit should expire.
   """
   expiry: RepositoryInteractionLimitExpiry
 
-"""
-An advisory identifier to filter results on.
-"""
-input SecurityAdvisoryIdentifierFilter {
   """
   The limit to set.
   """
@@ -47450,9 +47487,9 @@ input SetRepositoryInteractionLimitInput {
   expiry: RepositoryInteractionLimitExpiry
 
 """
-Properties by which security advisory connections can be ordered.
+An advisory identifier to filter results on.
 """
-type SecurityVulnerabilityEdge {
+input SecurityAdvisoryIdentifierFilter {
   """
   The limit to set.
   """
@@ -47473,10 +47510,6 @@ type SetRepositoryInteractionLimitPayload {
   """
   clientMutationId: String
 
-"""
-Autogenerated input type of SetEnterpriseIdentityProvider
-"""
-input SetEnterpriseIdentityProviderInput {
   """
   The repository that the interaction limit was set for.
   """
@@ -47498,14 +47531,18 @@ input SetUserInteractionLimitInput {
   expiry: RepositoryInteractionLimitExpiry
 
 """
-Severity of the vulnerability.
+Ordering options for security vulnerability connections
 """
-enum SecurityAdvisorySeverity {
+input SecurityVulnerabilityOrder {
   """
   The limit to set.
   """
   limit: RepositoryInteractionLimit!
 
+"""
+An individual package version
+"""
+type SecurityAdvisoryPackageVersion {
   """
   The ID of the user to set a limit for.
   """
@@ -47522,9 +47559,9 @@ type SetUserInteractionLimitPayload {
   clientMutationId: String
 
 """
-An edge in a connection.
+Autogenerated input type of SetEnterpriseIdentityProvider
 """
-type SearchResultItemEdge {
+input SetEnterpriseIdentityProviderInput {
   """
   The user that the interaction limit was set for.
   """
@@ -47540,15 +47577,21 @@ type SmimeSignature implements GitSignature {
   """
   email: String!
 
+"""
+A list of results that matched against a search query. Regardless of the number
+of matches, a maximum of 1,000 results will be available across all types,
+potentially split across many pages.
+"""
+type SearchResultItemConnection {
   """
   True if the signature is valid and verified by GitHub.
   """
   isValid: Boolean!
 
 """
-Autogenerated input type of SetOrganizationInteractionLimit
+Severity of the vulnerability.
 """
-input SetOrganizationInteractionLimitInput {
+enum SecurityAdvisorySeverity {
   """
   Payload for GPG signing object. Raw ODB object without the signature header.
   """
@@ -47559,10 +47602,6 @@ input SetOrganizationInteractionLimitInput {
   """
   signature: String!
 
-"""
-An advisory identifier to filter results on.
-"""
-input SecurityAdvisoryIdentifierFilter {
   """
   GitHub user corresponding to the email signing this commit.
   """
@@ -47575,9 +47614,9 @@ input SecurityAdvisoryIdentifierFilter {
   state: GitSignatureState!
 
 """
-Autogenerated return type of SetOrganizationInteractionLimit
+Autogenerated return type of SetEnterpriseIdentityProvider
 """
-type SetOrganizationInteractionLimitPayload {
+type SetEnterpriseIdentityProviderPayload {
   """
   True if the signature was made with GitHub's signing key.
   """
@@ -47594,14 +47633,18 @@ type SocialAccount {
   displayName: String!
 
 """
-Autogenerated return type of SetRepositoryInteractionLimit
+Autogenerated input type of SetOrganizationInteractionLimit
 """
-type SetRepositoryInteractionLimitPayload {
+input SetOrganizationInteractionLimitInput {
   """
   Software or company that hosts the social media account.
   """
   provider: SocialAccountProvider!
 
+"""
+The possible signature algorithms used to sign SAML requests for a Identity Provider.
+"""
+enum SamlSignatureAlgorithm {
   """
   URL of the social media account.
   """
@@ -47617,15 +47660,15 @@ type SocialAccountConnection {
   """
   edges: [SocialAccountEdge]
 
-"""
-An individual vulnerability within an Advisory
-"""
-type SecurityVulnerability {
   """
   A list of nodes.
   """
   nodes: [SocialAccount]
 
+"""
+Autogenerated return type of SetOrganizationInteractionLimit
+"""
+type SetOrganizationInteractionLimitPayload {
   """
   Information to aid in pagination.
   """
@@ -47646,10 +47689,6 @@ type SocialAccountEdge {
   """
   cursor: String!
 
-"""
-Autogenerated return type of SetEnterpriseIdentityProvider
-"""
-type SetEnterpriseIdentityProviderPayload {
   """
   The item at the end of the edge.
   """
@@ -47665,62 +47704,70 @@ enum SocialAccountProvider {
   """
   FACEBOOK
 
-"""
-Autogenerated input type of SetOrganizationInteractionLimit
-"""
-input SetOrganizationInteractionLimitInput {
   """
   Catch-all for social media providers that do not yet have specific handling.
   """
   GENERIC
-
-  """
-  Fork of Mastodon with a greater focus on local posting.
-  """
-  HOMETOWN
-
-  """
-  Social media website with a focus on photo and video sharing.
-  """
-  INSTAGRAM
-
-  """
-  Professional networking website.
-  """
-  LINKEDIN
-
-"""
-Autogenerated return type of SetOrganizationInteractionLimit
-"""
-type SetOrganizationInteractionLimitPayload {
-  """
-  Open-source federated microblogging service.
-  """
-  MASTODON
-
-  """
-  Social news aggregation and discussion website.
-  """
-  REDDIT
-
-"""
-Social media profile associated with a user.
-"""
-type SocialAccount {
-  """
-  Live-streaming service.
-  """
-  TWITCH
 
 """
 Autogenerated return type of SetRepositoryInteractionLimit
 """
 type SetRepositoryInteractionLimitPayload {
   """
+  Fork of Mastodon with a greater focus on local posting.
+  """
+  HOMETOWN
+
+"""
+Autogenerated input type of SetEnterpriseIdentityProvider
+"""
+input SetEnterpriseIdentityProviderInput {
+  """
+  Social media website with a focus on photo and video sharing.
+  """
+  INSTAGRAM
+
+"""
+Autogenerated input type of SetUserInteractionLimit
+"""
+input SetUserInteractionLimitInput {
+  """
+  Professional networking website.
+  """
+  LINKEDIN
+
+  """
+  Open-source federated microblogging service.
+  """
+  MASTODON
+
+"""
+Severity of the vulnerability.
+"""
+enum SecurityAdvisorySeverity {
+  """
+  Social news aggregation and discussion website.
+  """
+  REDDIT
+
+  """
+  Live-streaming service.
+  """
+  TWITCH
+
+"""
+Autogenerated return type of SetUserInteractionLimit
+"""
+type SetUserInteractionLimitPayload {
+  """
   Microblogging website.
   """
   TWITTER
 
+"""
+An edge in a connection.
+"""
+type SearchResultItemEdge {
   """
   Online video platform.
   """
@@ -47737,23 +47784,28 @@ The connection type for Sponsor.
 """
 type SponsorConnection {
   """
-  A list of edges.
+  Email used to sign this object.
   """
   edges: [SponsorEdge]
 
   """
-  A list of nodes.
+  True if the signature is valid and verified by GitHub.
   """
   nodes: [Sponsor]
 
 """
-Autogenerated return type of SetEnterpriseIdentityProvider
+Autogenerated input type of SetOrganizationInteractionLimit
 """
-type SetEnterpriseIdentityProviderPayload {
+input SetOrganizationInteractionLimitInput {
   """
-  Information to aid in pagination.
+  Payload for GPG signing object. Raw ODB object without the signature header.
   """
-  pageInfo: PageInfo!
+  payload: String!
+
+  """
+  ASCII-armored signature header from object.
+  """
+  signature: String!
 
 """
 Represents a user or organization who is sponsoring someone in GitHub Sponsors.
@@ -47779,6 +47831,10 @@ input SponsorOrder {
   """
   direction: OrderDirection!
 
+"""
+Social media profile associated with a user.
+"""
+type SocialAccount {
   """
   The field to order sponsor entities by.
   """
@@ -47794,6 +47850,10 @@ enum SponsorOrderField {
   """
   LOGIN
 
+"""
+The connection type for SocialAccount.
+"""
+type SocialAccountConnection {
   """
   Order sponsors by their relevance to the viewer.
   """
@@ -47824,11 +47884,19 @@ interface Sponsorable {
     accountLogin: String!
   ): Boolean!
 
+"""
+An edge in a connection.
+"""
+type SocialAccountEdge {
   """
   True if the viewer is sponsored by this user/organization.
   """
   isSponsoringViewer: Boolean!
 
+"""
+Autogenerated return type of SetEnterpriseIdentityProvider
+"""
+type SetEnterpriseIdentityProviderPayload {
   """
   The estimated monthly GitHub Sponsors income for this user/organization in cents (USD).
   """
@@ -47960,9 +48028,9 @@ interface Sponsorable {
   ): SponsorsActivityConnection!
 
 """
-Properties by which security advisory connections can be ordered.
+Autogenerated return type of SetEnterpriseIdentityProvider
 """
-type SecurityVulnerabilityEdge {
+type SetEnterpriseIdentityProviderPayload {
   """
   The GitHub Sponsors listing for this user or organization.
   """
@@ -57759,20 +57827,25 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectOwner &
     """
     names: [String]
 
+    """
+    Ordering of the returned packages.
+    """
+    orderBy: PackageOrder = {field: CREATED_AT, direction: DESC}
+
   """
   Find a project by number.
   """
   projectV2(
     """
-    The project number.
+    Find packages in a repository by ID.
     """
-    number: Int!
-  ): ProjectV2
+    repositoryId: ID
+  ): PackageConnection!
 
   """
-  A list of projects under the owner.
+  A list of repositories and gists this profile owner can pin to their profile.
   """
-  projects(
+  pinnableItems(
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -57794,20 +57867,39 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectOwner &
     last: Int
 
     """
-    Ordering options for projects returned from the connection
+    Ordering options for the User's organizations.
     """
-    orderBy: ProjectOrder
+    orderBy: OrganizationOrder = null
+  ): OrganizationConnection!
+
+  """
+  A list of packages under the owner.
+  """
+  packages(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
 
     """
-    Query to search projects by, currently only searching by name.
+    Returns the elements in the list that come before the specified cursor.
     """
-    search: String
+    before: String
 
     """
-    A list of states to filter the projects by.
+    Returns the first _n_ elements from the list.
     """
-    states: [ProjectState!]
-  ): ProjectConnection!
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Find packages by their names.
+    """
+    names: [String]
 
   """
   The HTTP path listing user's projects
