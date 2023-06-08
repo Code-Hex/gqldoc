@@ -33308,7 +33308,10 @@ Ordering options for project v2 workflows connections
 """
 input ProjectV2WorkflowOrder {
   """
-  The workflows' name
+  The ordering direction.
+  """
+  direction: OrderDirection!
+
   """
   The field to order the project v2 workflows by.
   """
@@ -33843,11 +33846,6 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
     after: String
 
     """
-    A list of archived states to filter the cards by
-    """
-    archivedStates: [ProjectCardArchivedState] = [ARCHIVED, NOT_ARCHIVED]
-
-    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -34034,11 +34032,6 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
-
-    """
-    A list of archived states to filter the cards by
-    """
-    archivedStates: [ProjectCardArchivedState] = [ARCHIVED, NOT_ARCHIVED]
 
     """
     Returns the elements in the list that come before the specified cursor.
@@ -34611,10 +34604,6 @@ type PullRequestCommitCommentThread implements Node & RepositoryNode {
   commit: Commit!
   id: ID!
 
-"""
-Represents available types of methods to use when merging a pull request.
-"""
-enum PullRequestMergeMethod {
   """
   The file the comments were made on.
   """
@@ -35080,10 +35069,10 @@ type PullRequestReview implements Comment & Deletable & Node & Reactable & Repos
     """
     before: String
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  Can user react to this subject
+  """
+  viewerCanReact: Boolean!
 
     """
     Returns the last _n_ elements from the list.
@@ -35126,6 +35115,10 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   """
   author: Actor
 
+"""
+A review comment associated with a given repository pull request.
+"""
+type PullRequestReviewComment implements Comment & Deletable & Minimizable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
   """
   Author's association with the subject of the comment.
   """
@@ -35136,15 +35129,15 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   """
   body: String!
 
-"""
-A review comment associated with a given repository pull request.
-"""
-type PullRequestReviewComment implements Comment & Deletable & Minimizable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
   """
   The body rendered to HTML.
   """
   bodyHTML: HTML!
 
+"""
+A review comment associated with a given repository pull request.
+"""
+type PullRequestReviewComment implements Comment & Deletable & Minimizable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
   """
   The comment body of this review comment rendered as plain text.
   """
@@ -35681,15 +35674,15 @@ type PullRequestReviewThread implements Node {
   """
   isResolved: Boolean!
 
-"""
-Represents a Git commit part of a pull request.
-"""
-type PullRequestCommit implements Node & UniformResourceLocatable {
   """
   The line in the file to which this thread refers
   """
   line: Int
 
+"""
+Represents a Git commit part of a pull request.
+"""
+type PullRequestCommit implements Node & UniformResourceLocatable {
   """
   The original line in the file to which this thread refers.
   """
@@ -35730,10 +35723,6 @@ type PullRequestCommit implements Node & UniformResourceLocatable {
   """
   startLine: Int
 
-"""
-Represents a commit comment thread part of a pull request.
-"""
-type PullRequestCommitCommentThread implements Node & RepositoryNode {
   """
   The level at which the comments in the corresponding thread are targeted, can be a diff line or a file
   """
@@ -35804,10 +35793,6 @@ enum PullRequestReviewThreadSubjectType {
   """
   FILE
 
-"""
-An edge in a connection.
-"""
-type PullRequestCommitEdge {
   """
   A comment that has been made against the line of a pull request
   """
@@ -35821,12 +35806,8 @@ type PullRequestRevisionMarker {
   """
   Identifies the date and time when the object was created.
   """
-  viewerCanResolve: Boolean!
+  createdAt: DateTime!
 
-"""
-This aggregates pull requests opened by a user within one repository.
-"""
-type PullRequestContributionsByRepository {
   """
   The last commit the viewer has seen.
   """
@@ -36558,7 +36539,7 @@ type PushAllowanceConnection {
   pageInfo: PageInfo!
 
   """
-  New, reviewable commits pushed will dismiss previous pull request review approvals.
+  Identifies the total count of items in the connection.
   """
   totalCount: Int!
 }
@@ -36702,7 +36683,8 @@ type RemovedFromProjectEvent implements Node {
   hasDiscussionsEnabled: Boolean!
 
   """
-  Indicates if the repository has issues feature enabled.
+  Workaround for re-exposing the root query object. (Refer to
+  https://github.com/facebook/relay/issues/112 for more information.)
   """
   hasIssuesEnabled: Boolean!
 
@@ -36727,9 +36709,7 @@ type RefNameConditionTarget {
   exclude: [String!]!
 
   """
-  Array of ref names or patterns to include. One of these patterns must match
-  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
-  default branch or `~ALL` to include all branches.
+  Perform a search across resources, returning a maximum of 1,000 results.
   """
   include: [String!]!
 }
@@ -37632,6 +37612,40 @@ input RefNameConditionTargetInput {
 """
 Ways in which lists of git refs can be ordered upon return.
 """
+type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+input RefNameConditionTargetInput {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Ways in which lists of git refs can be ordered upon return.
+"""
 input RefNameConditionTargetInput {
   """
   Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
@@ -38334,6 +38348,55 @@ type RemovedFromMergeQueueEvent implements Node {
   enqueuer: User
   id: ID!
 
+"""
+Autogenerated input type of RemoveEnterpriseMember
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
+  user: User
+
+  """
+  The viewer performing the mutation.
+  """
+  viewer: User
+}
+
+"""
+Autogenerated input type of RemoveEnterpriseOrganization
+"""
+input RemoveEnterpriseOrganizationInput {
   """
   The merge queue where this pull request was removed from.
   """
@@ -38516,7 +38579,12 @@ type RemoveEnterpriseMemberPayload {
   enterprise: Enterprise
 
   """
-  The user that was removed from the enterprise.
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
   """
   user: User
 
@@ -38585,6 +38653,51 @@ input RemoveEnterpriseMemberInput {
   """
   enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
+"""
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
+
+  """
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  """
+  beforeCommit: Commit
+
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
+}
+
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
+"""
+type RemovedFromProjectEvent implements Node {
   """
   The ID of the user to remove from the enterprise.
   """
@@ -38657,7 +38770,37 @@ type RemoveEnterpriseMemberPayload {
 }
 
 """
-Autogenerated input type of RemoveEnterpriseOrganization
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
 """
 input ReopenDiscussionInput {
   """
@@ -41929,6 +42072,11 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   archivedAt: DateTime
 
   """
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
+
+  """
   A list of users that can be assigned to issues in this repository.
   """
   assignableUsers(
@@ -41975,6 +42123,11 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
 
     """
     Filters users with query on user name and login
+    """
+    login: String
+
+    """
+    The login of one specific collaborator.
     """
     login: String
 
@@ -42284,6 +42437,16 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   ): DiscussionCategory
 
   """
+  A discussion category by slug.
+  """
+  discussionCategory(
+    """
+    The slug of the discussion category to be returned.
+    """
+    slug: String!
+  ): DiscussionCategory
+
+  """
   A list of discussions that have been opened in the repository.
   """
   discussions(
@@ -42425,6 +42588,16 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
 
   """
   Indicates if the repository has issues feature enabled.
+  """
+  hasDiscussionsEnabled: Boolean!
+
+  """
+  Whether vulnerability alerts are enabled for the repository.
+  """
+  hasVulnerabilityAlertsEnabled: Boolean!
+
+  """
+  Indicates if the repository has wiki feature enabled.
   """
   hasVulnerabilityAlertsEnabled: Boolean!
 
@@ -42751,7 +42924,27 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   hasVulnerabilityAlertsEnabled: Boolean!
 
   """
-  Indicates if the repository has wiki feature enabled.
+  How the default commit message will be generated when merging a pull request.
+  """
+  mergeCommitMessage: MergeCommitMessage!
+
+  """
+  How the default commit title will be generated when merging a pull request.
+  """
+  mergeCommitTitle: MergeCommitTitle!
+
+  """
+  The merge queue for a specified branch, otherwise the default branch if not provided.
+  """
+  mergeQueue(
+    """
+    The name of the branch to get the merge queue for. Case sensitive.
+    """
+    branch: String
+  ): MergeQueue
+
+  """
+  Returns a single milestone from the current repository by number.
   """
   discussionCategory(
     """
@@ -43006,16 +43199,6 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   ): MergeQueue
 
   """
-  Returns a single milestone from the current repository by number.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
-  How the default commit title will be generated when merging a pull request.
-  """
-  mergeCommitTitle: MergeCommitTitle!
-
-  """
   Finds and returns the Project according to the provided Project number.
   """
   pullRequest(
@@ -43071,51 +43254,6 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   ): DiscussionCategory
 
   """
-  A list of discussions that have been opened in the repository.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  A list of discussions that have been opened in the repository.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  A list of discussions that have been opened in the repository.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  Finds and returns the Project according to the provided Project number.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  Finds and returns the Project according to the provided Project number.
-  """
-  projectsUrl: URI!
-
-  """
   The HTTP path listing the repository's projects
   """
   projectsResourcePath: URI!
@@ -43135,20 +43273,35 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
     after: String
 
     """
-    Returns the elements in the list that come before the specified cursor.
+    The slug of the discussion category to be returned.
     """
-    before: String
+    slug: String!
+  ): DiscussionCategory
 
+  """
+  A list of discussions that have been opened in the repository.
+  """
+  discussionCategory(
     """
-    Returns the first _n_ elements from the list.
+    The slug of the discussion category to be returned.
     """
-    first: Int
+    slug: String!
+  ): DiscussionCategory
 
+  """
+  A list of discussions that have been opened in the repository.
+  """
+  discussionCategory(
     """
-    Returns the last _n_ elements from the list.
+    The slug of the discussion category to be returned.
     """
-    last: Int
+    slug: String!
+  ): DiscussionCategory
 
+  """
+  Finds and returns the Project according to the provided Project number.
+  """
+  discussionCategory(
     """
     How to order the returned projects.
     """
@@ -43487,11 +43640,6 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
-
-    """
-    Only include discussions that belong to the category with this ID.
-    """
-    categoryId: ID = null
 
     """
     Returns the first _n_ elements from the list.
@@ -44013,10 +44161,6 @@ type RepositoryEdge {
   """
   cursor: String!
 
-"""
-The possible states of an alert
-"""
-enum RepositoryVulnerabilityAlertState {
   """
   The item at the end of the edge.
   """
