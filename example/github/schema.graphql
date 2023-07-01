@@ -32590,7 +32590,7 @@ input ProjectV2Order {
   """
   The direction in which to order projects by the specified field.
   """
-  NUMBER
+  TITLE
 
   """
   The field in which to order projects by.
@@ -32605,23 +32605,17 @@ enum ProjectV2OrderField {
   """
   The project's date and time of creation
   """
-  TITLE
-
-  """
-  The project's number
-  """
-  NUMBER
-
-"""
-Represents an owner of a project (beta).
-"""
-interface ProjectV2Owner {
-  id: ID!
+  CREATED_AT
 
 """
 The possible roles of a collaborator on a project.
 """
 enum ProjectV2Roles {
+  """
+  The project's number
+  """
+  NUMBER
+
   """
   The project's title
   """
@@ -32640,9 +32634,9 @@ interface ProjectV2Owner {
   id: ID!
 
 """
-Recent projects for the owner.
+The possible roles of a collaborator on a project.
 """
-interface ProjectV2Recent {
+enum ProjectV2Roles {
   """
   Find a project by number.
   """
@@ -32654,9 +32648,9 @@ interface ProjectV2Recent {
   ): ProjectV2
 
 """
-The possible roles of a collaborator on a project.
+Recent projects for the owner.
 """
-enum ProjectV2Roles {
+interface ProjectV2Recent {
   """
   A list of projects under the owner.
   """
@@ -32741,15 +32735,15 @@ type ProjectV2SingleSelectField implements Node & ProjectV2FieldCommon {
   """
   NONE
 
-"""
-A single select field inside a project.
-"""
-type ProjectV2SingleSelectField implements Node & ProjectV2FieldCommon {
   """
   The collaborator can view the project
   """
   READER
 
+"""
+A single select field inside a project.
+"""
+type ProjectV2SingleSelectField implements Node & ProjectV2FieldCommon {
   """
   The collaborator can view and edit the project
   """
@@ -32796,10 +32790,6 @@ type ProjectV2SingleSelectField implements Node & ProjectV2FieldCommon {
   """
   project: ProjectV2!
 
-"""
-The display color of a single-select field option.
-"""
-enum ProjectV2SingleSelectFieldOptionColor {
   """
   Identifies the date and time when the object was last updated.
   """
@@ -33244,6 +33234,10 @@ type ProjectV2View implements Node {
       reason: "The `ProjectV2View#vertical_group_by` API is deprecated in favour of the more capable `ProjectV2View#vertical_group_by_fields` API. Check out the `ProjectV2View#vertical_group_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC."
     )
 
+"""
+The layout of a project v2 view.
+"""
+enum ProjectV2ViewLayout {
   """
   The view's vertical-group-by field.
   """
@@ -33274,6 +33268,10 @@ type ProjectV2View implements Node {
     orderBy: ProjectV2FieldOrder = {field: POSITION, direction: ASC}
   ): ProjectV2FieldConfigurationConnection
 
+"""
+An edge in a connection.
+"""
+type ProjectV2ViewEdge {
   """
   The view's visible fields.
   """
@@ -33428,8 +33426,7 @@ type ProjectV2Workflow implements Node {
   """
   Identifies the primary key from the database.
   """
-  enabled: Boolean!
-  id: ID!
+  number: Int!
 
   """
   The workflows' enabled state.
@@ -33446,11 +33443,6 @@ type ProjectV2Workflow implements Node {
   The workflows' number.
   """
   number: Int!
-
-  """
-  The project that contains this workflow.
-  """
-  project: ProjectV2!
 
   """
   The project that contains this workflow.
@@ -33512,10 +33504,14 @@ Ordering options for project v2 workflows connections
 """
 input ProjectV2WorkflowOrder {
   """
-  The workflows' date and time of creation
+  The workflows' name
   """
-  CREATED_AT
+  NAME
 
+"""
+The connection type for PublicKey.
+"""
+type PublicKeyConnection {
   """
   The field to order the project v2 workflows by.
   """
@@ -34516,15 +34512,15 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
     """
     after: String
 
-  """
-  Indicates if the object can be reopened by the viewer.
-  """
-  viewerCanReopen: Boolean!
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
 
-  """
-  Check if the viewer is able to change their subscription status for the repository.
-  """
-  viewerCanSubscribe: Boolean!
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Filter timeline items by type.
@@ -34535,6 +34531,7 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
     Returns the last _n_ elements from the list.
     """
     last: Int
+  ): UserContentEditConnection
 
     """
     Filter timeline items by a `since` timestamp.
@@ -34581,15 +34578,19 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+"""
+The possible subject types of a pull request review comment.
+"""
+enum PullRequestReviewThreadSubjectType {
+  """
+  Whether or not the viewer can enable auto-merge
+  """
+  viewerCanEnableAutoMerge: Boolean!
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  Indicates whether the viewer can bypass branch protections and merge the pull request immediately
+  """
+  viewerCanMergeAsAdmin: Boolean!
 
     """
     Returns the last _n_ elements from the list.
@@ -34622,10 +34623,6 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
   """
   viewerCanEditFiles: Boolean!
 
-"""
-The possible subject types of a pull request review comment.
-"""
-enum PullRequestReviewThreadSubjectType {
   """
   Whether or not the viewer can enable auto-merge
   """
@@ -34637,9 +34634,9 @@ enum PullRequestReviewThreadSubjectType {
   viewerCanMergeAsAdmin: Boolean!
 
 """
-Represents the latest point in the pull request timeline for which the viewer has seen the pull request's commits.
+A review object for a given pull request.
 """
-type PullRequestRevisionMarker {
+type PullRequestReview implements Comment & Deletable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
   """
   Can user react to this subject
   """
@@ -34660,509 +34657,15 @@ type PullRequestRevisionMarker {
   """
   viewerCanUpdate: Boolean!
 
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
   """
   Whether or not the viewer can update the head ref of this PR, by merging or rebasing the base ref.
   If the head ref is up to date or unable to be updated by this user, this will return false.
   """
   viewerCanUpdateBranch: Boolean!
-
-  """
-  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
-  """
-  requireLastPushApproval: Boolean!
-
-  """
-  The number of approving reviews that are required before a pull request can be merged.
-  """
-  requiredApprovingReviewCount: Int!
-
-  """
-  All conversations on code must be resolved before a pull request can be merged.
-  """
-  requiredReviewThreadResolution: Boolean!
-}
-
-"""
-A review object for a given pull request.
-"""
-type PullRequestReview implements Comment & Deletable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
-  """
-  The actor who authored the comment.
-  """
-  author: Actor
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseOrganizationInput {
-  """
-  The level at which the comments in the corresponding thread are targeted, can be a diff line or a file
-  """
-  subjectType: PullRequestReviewThreadSubjectType!
-
-  """
-  Indicates whether the current viewer can reply to this thread.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemovedFromProjectEvent implements Node {
-  """
-  The HTTP URL for this repository
-  """
-  url: URI!
-
-  """
-  Whether this repository has a custom image to use with Open Graph as opposed to being represented by the owner's avatar.
-  """
-  usesCustomOpenGraphImage: Boolean!
-
-  """
-  Indicates whether the viewer has admin permissions on this repository.
-  """
-  viewerCanAdminister: Boolean!
-
-  """
-  Can the current viewer create new projects on this owner.
-  """
-  viewerCanCreateProjects: Boolean!
-
-  """
-  Check if the viewer is able to change their subscription status for the repository.
-  """
-  viewerCanSubscribe: Boolean!
-
-    """
-    The login of one specific collaborator.
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    query: String
-  ): RepositoryCollaboratorConnection
-
-  """
-  The last commit email for the viewer.
-  """
-  viewerDefaultCommitEmail: String
-
-"""
-The possible subject types of a pull request review comment.
-"""
-enum PullRequestReviewThreadSubjectType {
-  """
-  A comment that has been made against the file of a pull request
-  """
-  FILE
-
-  """
-  A comment that has been made against the line of a pull request
-  """
-  LINE
-}
-
-"""
-Represents the latest point in the pull request timeline for which the viewer has seen the pull request's commits.
-"""
-type PullRequestRevisionMarker {
-  """
-  The last used merge method by the viewer or the default for the repository.
-  """
-  viewerDefaultMergeMethod: PullRequestMergeMethod!
-
-  """
-  Returns a boolean indicating whether the viewing user has starred this starrable.
-  """
-  viewerHasStarred: Boolean!
-
-  """
-  The users permission level on the repository. Will return null if authenticated as an GitHub App.
-  """
-  viewerPermission: RepositoryPermission
-
-  """
-  A list of emails this viewer can commit with.
-  """
-  viewerPossibleCommitEmails: [String!]
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  viewerSubscription: SubscriptionState
-
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  ID of the discussion to be reopened.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-A threaded list of comments for a given pull request.
-"""
-type PullRequestThread implements Node {
-  """
-  A list of pull request comments associated with the thread.
-  """
-  comments(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Skips the first _n_ elements in the list.
-    """
-    skip: Int
-  ): PullRequestReviewCommentConnection!
-
-  """
-  The side of the diff on which this thread was placed.
-  """
-  diffSide: DiffSide!
-  id: ID!
-
-  """
-  Whether or not the thread has been collapsed (resolved)
-  """
-  isCollapsed: Boolean!
-
-  """
-  Indicates whether this thread was outdated by newer changes.
-  """
-  isOutdated: Boolean!
-
-  """
-  Whether this thread has been resolved
-  """
-  isResolved: Boolean!
-
-  """
-  The line in the file to which this thread refers
-  """
-  line: Int
-
-  """
-  Identifies the pull request associated with this thread.
-  """
-  pullRequest: PullRequest!
-
-  """
-  Identifies the repository associated with this thread.
-  """
-  repository: Repository!
-
-  """
-  The user who resolved this thread
-  """
-  resolvedBy: User
-
-  """
-  The side of the diff that the first line of the thread starts on (multi-line only)
-  """
-  startDiffSide: DiffSide
-
-  """
-  The line of the first file diff in the thread.
-  """
-  startLine: Int
-
-  """
-  Indicates whether the current viewer can reply to this thread.
-  """
-  viewerCanReply: Boolean!
-
-  """
-  Whether or not the viewer can resolve this thread
-  """
-  viewerCanResolve: Boolean!
-
-  """
-  Whether or not the viewer can unresolve this thread
-  """
-  viewerCanUnresolve: Boolean!
-}
-
-"""
-The connection type for PullRequestTimelineItem.
-"""
-type ReopenDiscussionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The discussion that was reopened.
-  """
-  discussion: Discussion
-}
-
-"""
-Require all commits be made to a non-target branch and submitted via a pull request before they can be merged.
-"""
-type PullRequestParameters {
-  """
-  New, reviewable commits pushed will dismiss previous pull request review approvals.
-  """
-  dismissStaleReviewsOnPush: Boolean!
-
-  """
-  Require an approving review in pull requests that modify files that have a designated code owner.
-  """
-  requireCodeOwnerReview: Boolean!
-
-  """
-  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
-  """
-  requireLastPushApproval: Boolean!
-
-  """
-  The number of approving reviews that are required before a pull request can be merged.
-  """
-  requiredApprovingReviewCount: Int!
-
-  """
-  All conversations on code must be resolved before a pull request can be merged.
-  """
-  requiredReviewThreadResolution: Boolean!
-}
-
-"""
-Require all commits be made to a non-target branch and submitted via a pull request before they can be merged.
-"""
-input PullRequestParametersInput {
-  """
-  New, reviewable commits pushed will dismiss previous pull request review approvals.
-  """
-  dismissStaleReviewsOnPush: Boolean!
-
-  """
-  Require an approving review in pull requests that modify files that have a designated code owner.
-  """
-  requireCodeOwnerReview: Boolean!
-
-  """
-  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
-  """
-  requireLastPushApproval: Boolean!
-
-  """
-  The number of approving reviews that are required before a pull request can be merged.
-  """
-  requiredApprovingReviewCount: Int!
-
-  """
-  All conversations on code must be resolved before a pull request can be merged.
-  """
-  requiredReviewThreadResolution: Boolean!
-}
-
-"""
-A review object for a given pull request.
-"""
-type PullRequestReview implements Comment & Deletable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
-  """
-  The actor who authored the comment.
-  """
-  author: Actor
-
-  """
-  Returns a single vulnerability alert from the current repository by number.
-  """
-  vulnerabilityAlert(
-    """
-    The number for the vulnerability alert to be returned.
-    """
-    number: Int!
-  ): RepositoryVulnerabilityAlert
-
-  """
-  Workaround for re-exposing the root query object. (Refer to
-  https://github.com/facebook/relay/issues/112 for more information.)
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  node: PullRequestTimelineItem
-}
-
-  """
-  The end line number on the file to which the comment applies
-  """
-  line: Int
-
-  """
-  Returns why the comment was minimized. One of `abuse`, `off-topic`,
-  `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and
-  formatting of these values differs from the inputs to the `MinimizeComment` mutation.
-  """
-  minimizedReason: String
-
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-  """
-  The end line number on the file to which the comment applied when it was first created
-  """
-  originalLine: Int
 
   """
   The original line index in the diff to which the comment applies.
@@ -35569,13 +35072,73 @@ type ReopenDiscussionPayload {
 }
 
 """
-Autogenerated input type of ReopenIssue
+Require all commits be made to a non-target branch and submitted via a pull request before they can be merged.
 """
-input ReopenIssueInput {
+type PullRequestParameters {
   """
-  PullRequest referenced by event.
+  New, reviewable commits pushed will dismiss previous pull request review approvals.
   """
-  pullRequest: PullRequest
+  dismissStaleReviewsOnPush: Boolean!
+
+  """
+  Require an approving review in pull requests that modify files that have a designated code owner.
+  """
+  requireCodeOwnerReview: Boolean!
+
+  """
+  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
+  """
+  requireLastPushApproval: Boolean!
+
+  """
+  The number of approving reviews that are required before a pull request can be merged.
+  """
+  requiredApprovingReviewCount: Int!
+
+  """
+  All conversations on code must be resolved before a pull request can be merged.
+  """
+  requiredReviewThreadResolution: Boolean!
+}
+
+"""
+Require all commits be made to a non-target branch and submitted via a pull request before they can be merged.
+"""
+input PullRequestParametersInput {
+  """
+  New, reviewable commits pushed will dismiss previous pull request review approvals.
+  """
+  dismissStaleReviewsOnPush: Boolean!
+
+  """
+  Require an approving review in pull requests that modify files that have a designated code owner.
+  """
+  requireCodeOwnerReview: Boolean!
+
+  """
+  Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
+  """
+  requireLastPushApproval: Boolean!
+
+  """
+  The number of approving reviews that are required before a pull request can be merged.
+  """
+  requiredApprovingReviewCount: Int!
+
+  """
+  All conversations on code must be resolved before a pull request can be merged.
+  """
+  requiredReviewThreadResolution: Boolean!
+}
+
+"""
+A review object for a given pull request.
+"""
+type PullRequestReview implements Comment & Deletable & Node & Reactable & RepositoryNode & Updatable & UpdatableComment {
+  """
+  The actor who authored the comment.
+  """
+  author: Actor
 
   """
   The reason this pull request was removed from the queue.
@@ -35851,7 +35414,14 @@ type RepositoryCodeownersError {
   mergeCommitTitle: MergeCommitTitle!
 
   """
-  The merge queue for a specified branch, otherwise the default branch if not provided.
+  The end line number on the file to which the comment applies
+  """
+  line: Int
+
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`,
+  `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and
+  formatting of these values differs from the inputs to the `MinimizeComment` mutation.
   """
   mergeQueue(
     """
@@ -35866,9 +35436,20 @@ type RepositoryCodeownersError {
   kind: String!
 
   """
-  The line number where the error occurs.
+  The end line number on the file to which the comment applied when it was first created
   """
-  line: Int!
+  originalLine: Int
+
+  """
+  The original line index in the diff to which the comment applies.
+  """
+  originalPosition: Int!
+    @deprecated(reason: "We are phasing out diff-relative positioning for PR comments Removal on 2023-10-01 UTC.")
+
+  """
+  The start line number on the file to which the comment applied when it was first created
+  """
+  originalStartLine: Int
 
 """
 Autogenerated input type of ResolveReviewThread
@@ -35885,14 +35466,82 @@ input ResolveReviewThreadInput {
   path: String!
 
   """
-  A discussion category by slug.
+  The line index in the diff to which the comment applies.
+  """
+  position: Int
+    @deprecated(
+      reason: "We are phasing out diff-relative positioning for PR comments Use the `line` and `startLine` fields instead, which are file line numbers instead of diff line numbers Removal on 2023-10-01 UTC."
+    )
+
+  """
+  Identifies when the comment was published at.
+  """
+  publishedAt: DateTime
+
+  """
+  The pull request associated with this review comment.
+  """
+  pullRequest: PullRequest!
+
+  """
+  The pull request review associated with this review comment.
+  """
+  pullRequestReview: PullRequestReview
+
+  """
+  A list of reactions grouped by content left on the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  A list of Reactions left on the Issue.
   """
   discussionCategory(
     """
     The slug of the discussion category to be returned.
     """
-    slug: String!
-  ): DiscussionCategory
+    orderBy: ReactionOrder
+  ): ReactionConnection!
+
+  """
+  The comment this is a reply to.
+  """
+  replyTo: PullRequestReviewComment
+
+  """
+  The repository associated with this node.
+  """
+  repository: Repository!
+
+  """
+  The HTTP path permalink for this review comment.
+  """
+  resourcePath: URI!
+
+  """
+  The start line number on the file to which the comment applies
+  """
+  startLine: Int
+
+  """
+  Identifies the state of the comment.
+  """
+  state: PullRequestReviewCommentState!
+
+  """
+  The level at which the comments in the corresponding thread are targeted, can be a diff line or a file
+  """
+  subjectType: PullRequestReviewThreadSubjectType!
+
+  """
+  Identifies when the comment was last updated.
+  """
+  updatedAt: DateTime!
+
+  """
+  The HTTP URL permalink for this review comment.
+  """
+  url: URI!
 
 """
 A threaded list of comments for a given pull request.
@@ -36201,6 +35850,11 @@ type PullRequestThread implements Node {
   startLine: Int
 
   """
+  The level at which the comments in the corresponding thread are targeted, can be a diff line or a file
+  """
+  subjectType: PullRequestReviewThreadSubjectType!
+
+  """
   Indicates whether the current viewer can reply to this thread.
   """
   viewerCanReply: Boolean!
@@ -36217,7 +35871,62 @@ type PullRequestThread implements Node {
 }
 
 """
-The connection type for PullRequestTimelineItem.
+Review comment threads for a pull request review.
+"""
+type PullRequestReviewThreadConnection {
+  """
+  A list of edges.
+  """
+  edges: [PullRequestReviewThreadEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [PullRequestReviewThread]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  Identifies the total count of items in the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type PullRequestReviewThreadEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: PullRequestReviewThread
+}
+
+"""
+The possible subject types of a pull request review comment.
+"""
+enum PullRequestReviewThreadSubjectType {
+  """
+  A comment that has been made against the file of a pull request
+  """
+  FILE
+
+  """
+  A comment that has been made against the line of a pull request
+  """
+  LINE
+}
+
+"""
+Represents the latest point in the pull request timeline for which the viewer has seen the pull request's commits.
 """
 type PullRequestTimelineConnection {
   """
@@ -36261,6 +35970,205 @@ type PullRequestTimelineConnection {
   https://github.com/facebook/relay/issues/112 for more information.)
   """
   hasDiscussionsEnabled: Boolean!
+
+"""
+A repository pull request template.
+"""
+type PullRequestTemplate {
+  """
+  The body of the template
+  """
+  body: String
+
+  """
+  The filename of the template
+  """
+  filename: String
+
+  """
+  The repository the template belongs to
+  """
+  repository: Repository!
+}
+
+"""
+A threaded list of comments for a given pull request.
+"""
+type PullRequestThread implements Node {
+  """
+  A list of pull request comments associated with the thread.
+  """
+  comments(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Skips the first _n_ elements in the list.
+    """
+    skip: Int
+  ): PullRequestReviewCommentConnection!
+
+  """
+  The side of the diff on which this thread was placed.
+  """
+  diffSide: DiffSide!
+  id: ID!
+
+  """
+  Whether or not the thread has been collapsed (resolved)
+  """
+  isCollapsed: Boolean!
+
+  """
+  Indicates whether this thread was outdated by newer changes.
+  """
+  isOutdated: Boolean!
+
+  """
+  Whether this thread has been resolved
+  """
+  isResolved: Boolean!
+
+  """
+  The line in the file to which this thread refers
+  """
+  line: Int
+
+  """
+  Identifies the pull request associated with this thread.
+  """
+  pullRequest: PullRequest!
+
+  """
+  Identifies the repository associated with this thread.
+  """
+  repository: Repository!
+
+  """
+  The user who resolved this thread
+  """
+  resolvedBy: User
+
+  """
+  The side of the diff that the first line of the thread starts on (multi-line only)
+  """
+  startDiffSide: DiffSide
+
+  """
+  The line of the first file diff in the thread.
+  """
+  startLine: Int
+
+  """
+  Indicates whether the current viewer can reply to this thread.
+  """
+  viewerCanReply: Boolean!
+
+  """
+  Whether or not the viewer can resolve this thread
+  """
+  viewerCanResolve: Boolean!
+
+  """
+  Whether or not the viewer can unresolve this thread
+  """
+  viewerCanUnresolve: Boolean!
+}
+
+"""
+The connection type for PullRequestTimelineItem.
+"""
+type PullRequestTimelineConnection {
+  """
+  A list of edges.
+  """
+  edges: [PullRequestTimelineItemEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [PullRequestTimelineItem]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  Identifies the total count of items in the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+An item in a pull request timeline
+"""
+union PullRequestTimelineItem =
+    AssignedEvent
+  | BaseRefDeletedEvent
+  | BaseRefForcePushedEvent
+  | ClosedEvent
+  | Commit
+  | CommitCommentThread
+  | CrossReferencedEvent
+  | DemilestonedEvent
+  | DeployedEvent
+  | DeploymentEnvironmentChangedEvent
+  | HeadRefDeletedEvent
+  | HeadRefForcePushedEvent
+  | HeadRefRestoredEvent
+  | IssueComment
+  | LabeledEvent
+  | LockedEvent
+  | MergedEvent
+  | MilestonedEvent
+  | PullRequestReview
+  | PullRequestReviewComment
+  | PullRequestReviewThread
+  | ReferencedEvent
+  | RenamedTitleEvent
+  | ReopenedEvent
+  | ReviewDismissedEvent
+  | ReviewRequestRemovedEvent
+  | ReviewRequestedEvent
+  | SubscribedEvent
+  | UnassignedEvent
+  | UnlabeledEvent
+  | UnlockedEvent
+  | UnsubscribedEvent
+  | UserBlockedEvent
+
+"""
+An edge in a connection.
+"""
+type PullRequestTimelineItemEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: PullRequestTimelineItem
+}
 
 """
 An item in a pull request timeline
@@ -36932,7 +36840,57 @@ input RemoveEnterpriseOrganizationInput {
   """
   Perform a search across resources, returning a maximum of 1,000 results.
   """
-  rebaseMergeAllowed: Boolean!
+  repositoryOwner(
+    """
+    The username to lookup the owner by.
+    """
+    login: String!
+  ): RepositoryOwner
+
+  """
+  Lookup resource by a URL.
+  """
+  resource(
+    """
+    The URL.
+    """
+    url: URI!
+  ): UniformResourceLocatable
+
+  """
+  Perform a search across resources, returning a maximum of 1,000 results.
+  """
+  search(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    The search string to look for.
+    """
+    query: String!
+
+    """
+    The types of search items to search within.
+    """
+    type: SearchType!
+  ): SearchResultItemConnection!
 
   """
   Perform a search across resources, returning a maximum of 1,000 results.
@@ -37514,6 +37472,17 @@ input ReopenIssueInput {
   id: ID!
 
   """
+  Compares the current ref as a base ref to another head ref, if the comparison can be made.
+  """
+  compare(
+    """
+    The head ref to compare against.
+    """
+    headRef: String!
+  ): Comparison
+  id: ID!
+
+  """
   Indicates if the repository has the Discussions feature enabled.
   """
   hasDiscussionsEnabled: Boolean!
@@ -37571,6 +37540,40 @@ input ReopenIssueInput {
 
 """
 Parameters to be used for the ref_name condition
+"""
+type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+input RefNameConditionTargetInput {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Ways in which lists of git refs can be ordered upon return.
 """
 type RefNameConditionTarget {
   """
@@ -38689,6 +38692,51 @@ type RemoveEnterpriseMemberPayload {
 """
 Autogenerated input type of RemoveEnterpriseOrganization
 """
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
+  user: User
+
+  """
+  The viewer performing the mutation.
+  """
+  viewer: User
+}
+
+"""
+Autogenerated input type of RemoveEnterpriseOrganization
+"""
 input RemoveEnterpriseOrganizationInput {
   """
   A unique identifier for the client performing the mutation.
@@ -38740,7 +38788,17 @@ input ReopenDiscussionInput {
   clientMutationId: String
 
   """
-  ID of the discussion to be reopened.
+  The reaction object.
+  """
+  reaction: Reaction
+
+  """
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
   """
   discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
 }
@@ -38794,6 +38852,51 @@ input ReopenIssueInput {
   """
   viewerDefaultCommitEmail: String
 
+"""
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
+
+  """
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  """
+  beforeCommit: Commit
+
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
+}
+
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
+"""
+type RemovedFromProjectEvent implements Node {
   """
   The last used merge method by the viewer or the default for the repository.
   """
@@ -38851,7 +38954,42 @@ input ReopenIssueInput {
 }
 
 """
-The reasons a piece of content can be reported or minimized.
+An object which has a renamable title
+"""
+union RenamedTitleSubject = Issue | PullRequest
+
+"""
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
 """
 enum ReportedContentClassifiers {
   """
@@ -42678,6 +42816,16 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
   ): DiscussionCategory
 
   """
+  A discussion category by slug.
+  """
+  discussionCategory(
+    """
+    The slug of the discussion category to be returned.
+    """
+    slug: String!
+  ): DiscussionCategory
+
+  """
   A list of discussions that have been opened in the repository.
   """
   discussions(
@@ -43125,6 +43273,26 @@ interface RequirableByPullRequest {
   ): MergeQueue
 
   """
+  How the default commit message will be generated when merging a pull request.
+  """
+  mergeCommitMessage: MergeCommitMessage!
+
+  """
+  How the default commit title will be generated when merging a pull request.
+  """
+  mergeCommitTitle: MergeCommitTitle!
+
+  """
+  The merge queue for a specified branch, otherwise the default branch if not provided.
+  """
+  mergeQueue(
+    """
+    The name of the branch to get the merge queue for. Case sensitive.
+    """
+    branch: String
+  ): MergeQueue
+
+  """
   Returns a single milestone from the current repository by number.
   """
   ruleset(
@@ -43319,12 +43487,7 @@ interface RequirableByPullRequest {
   templateRepository: Repository
 
   """
-  Identifies the date and time when the object was last updated.
-  """
-  updatedAt: DateTime!
-
-  """
-  The HTTP URL for this repository
+  Finds and returns the Project according to the provided Project number.
   """
   url: URI!
 
@@ -43362,46 +43525,6 @@ interface RequirableByPullRequest {
   Returns a boolean indicating whether the viewing user has starred this starrable.
   """
   viewerHasStarred: Boolean!
-
-  """
-  The users permission level on the repository. Will return null if authenticated as an GitHub App.
-  """
-  viewerPermission: RepositoryPermission
-
-  """
-  A list of emails this viewer can commit with.
-  """
-  viewerPossibleCommitEmails: [String!]
-
-  """
-  Identifies if the viewer is watching, not watching, or ignoring the subscribable entity.
-  """
-  viewerSubscription: SubscriptionState
-
-  """
-  Indicates the repository's visibility level.
-  """
-  visibility: RepositoryVisibility!
-
-  """
-  How the default commit message will be generated when merging a pull request.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
-  How the default commit title will be generated when merging a pull request.
-  """
-  mergeCommitTitle: MergeCommitTitle!
-
-  """
-  Finds and returns the Project according to the provided Project number.
-  """
-  vulnerabilityAlert(
-    """
-    The number for the vulnerability alert to be returned.
-    """
-    number: Int!
-  ): RepositoryVulnerabilityAlert
 
   """
   The HTTP path listing the repository's projects
@@ -43568,10 +43691,10 @@ interface RequirableByPullRequest {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  A list of emails this viewer can commit with.
+  """
+  viewerPossibleCommitEmails: [String!]
 
     """
     DEPRECATED: use orderBy. The ordering direction.
@@ -43583,10 +43706,10 @@ interface RequirableByPullRequest {
     """
     first: Int
 
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
+  """
+  Indicates the repository's visibility level.
+  """
+  visibility: RepositoryVisibility!
 
     """
     Ordering options for refs returned from the connection.
@@ -43598,6 +43721,10 @@ interface RequirableByPullRequest {
     """
     query: String
 
+  """
+  Finds and returns the Project according to the provided Project number.
+  """
+  vulnerabilityAlert(
     """
     A ref name prefix like `refs/heads/`, `refs/tags/`, etc.
     """
@@ -43757,10 +43884,6 @@ interface RequirableByPullRequest {
       reason: "`squashPrTitleUsedAsDefault` will be removed. Use `Repository.squashMergeCommitTitle` instead. Removal on 2023-04-01 UTC."
     )
 
-"""
-Represents a type that can be required by a pull request for merging.
-"""
-interface RequirableByPullRequest {
   """
   The SSH URL to clone this repository
   """
@@ -43941,10 +44064,18 @@ interface RequirableByPullRequest {
     """
     first: Int
 
+"""
+Represents a type that can be required by a pull request for merging.
+"""
+interface RequirableByPullRequest {
+  """
+  Whether this is required to pass before merging for a specific pull request.
+  """
+  isRequired(
     """
-    Returns the last _n_ elements from the list.
+    The id of the pull request this is required for
     """
-    last: Int
+    pullRequestId: ID
 
     """
     Filter by the state of the alert
@@ -43953,30 +44084,29 @@ interface RequirableByPullRequest {
   ): RepositoryVulnerabilityAlertConnection
 
 """
-Represents a type that can be required by a pull request for merging.
+Choose which environments must be successfully deployed to before branches can
+be merged into a branch that matches this rule.
 """
-interface RequirableByPullRequest {
+type RequiredDeploymentsParameters {
   """
   A list of users watching the repository.
   """
   watchers(
     """
-    The id of the pull request this is required for
+    Returns the elements in the list that come after the specified cursor.
     """
-    pullRequestId: ID
+    after: String
 
     """
-    The number of the pull request this is required for
+    Returns the elements in the list that come before the specified cursor.
     """
-    pullRequestNumber: Int
-  ): Boolean!
-}
+    before: String
 
 """
 Choose which environments must be successfully deployed to before branches can
 be merged into a branch that matches this rule.
 """
-type RequiredDeploymentsParameters {
+input RequiredDeploymentsParametersInput {
   """
   The environments that must be successfully deployed to before branches can be merged.
   """
@@ -43989,10 +44119,6 @@ type RequiredDeploymentsParameters {
     last: Int
   ): UserConnection!
 
-"""
-Represents a required status check for a protected branch, but not any specific run of that check.
-"""
-type RequiredStatusCheckDescription {
   """
   Whether contributors are required to sign off on web-based commits in this repository.
   """
@@ -44008,16 +44134,19 @@ enum RepositoryAffiliation {
   """
   COLLABORATOR
 
-"""
-Specifies the attributes for a new or updated required status check.
-"""
-input RequiredStatusCheckInput {
   """
   Repositories that the user has access to through being a member of an
   organization. This includes every repository on every team that the user is on.
   """
   ORGANIZATION_MEMBER
 
+"""
+Choose which status checks must pass before branches can be merged into a branch
+that matches this rule. When enabled, commits must first be pushed to another
+branch, then merged or pushed directly to a branch that matches this rule after
+status checks have passed.
+"""
+type RequiredStatusChecksParameters {
   """
   Repositories that are owned by the authenticated user.
   """
@@ -44033,11 +44162,6 @@ interface RepositoryAuditEntryData {
   """
   repository: Repository
 
-  """
-  The name of the repository
-  """
-  repositoryName: String
-
 """
 Choose which status checks must pass before branches can be merged into a branch
 that matches this rule. When enabled, commits must first be pushed to another
@@ -44046,10 +44170,19 @@ status checks have passed.
 """
 input RequiredStatusChecksParametersInput {
   """
+  The name of the repository
+  """
+  repositoryName: String
+
+  """
   The HTTP path for the repository
   """
   repositoryResourcePath: URI
 
+"""
+Autogenerated input type of RerequestCheckSuite
+"""
+input RerequestCheckSuiteInput {
   """
   The HTTP URL for the repository
   """
@@ -44085,6 +44218,10 @@ type RepositoryCodeownersError {
   """
   line: Int!
 
+"""
+Autogenerated input type of ResolveReviewThread
+"""
+input ResolveReviewThreadInput {
   """
   A complete description of the error, combining information from other fields.
   """
@@ -44115,10 +44252,6 @@ type RepositoryCollaboratorConnection {
   """
   edges: [RepositoryCollaboratorEdge]
 
-"""
-Represents a private contribution a user made on GitHub.
-"""
-type RestrictedContribution implements Contribution {
   """
   A list of nodes.
   """
@@ -47132,9 +47265,9 @@ type SearchResultItemConnection {
   edges: [SearchResultItemEdge]
 
 """
-Represents the individual results of a search.
+An edge in a connection.
 """
-enum SearchType {
+type SearchResultItemEdge {
   """
   The total number of issues that matched the search query. Regardless of the
   total number of matches, a maximum of 1,000 results will be available across all types.
@@ -47158,6 +47291,10 @@ enum SearchType {
   """
   repositoryCount: Int!
 
+"""
+Represents the individual results of a search.
+"""
+enum SearchType {
   """
   The total number of users that matched the search query. Regardless of the
   total number of matches, a maximum of 1,000 results will be available across all types.
@@ -47176,9 +47313,6 @@ enum SearchType {
 An edge in a connection.
 """
 type SearchResultItemEdge {
-  """
-  ISSUE
-
   """
   Returns results matching repositories.
   """
@@ -48068,10 +48202,6 @@ enum SocialAccountProvider {
   """
   HOMETOWN
 
-"""
-The connection type for Sponsor.
-"""
-type SponsorConnection {
   """
   Social media website with a focus on photo and video sharing.
   """
@@ -48087,6 +48217,10 @@ type SponsorConnection {
   """
   MASTODON
 
+"""
+The connection type for Sponsor.
+"""
+type SponsorConnection {
   """
   Social news aggregation and discussion website.
   """
@@ -48098,9 +48232,9 @@ type SponsorConnection {
   TWITCH
 
 """
-Represents a user or organization who is sponsoring someone in GitHub Sponsors.
+Properties by which sponsor connections can be ordered.
 """
-type SponsorEdge {
+enum SponsorOrderField {
   """
   Microblogging website.
   """
@@ -48122,28 +48256,28 @@ The connection type for Sponsor.
 """
 type SponsorConnection {
   """
-  The ordering direction.
+  The estimated next GitHub Sponsors payout for this user/organization in cents (USD).
   """
   edges: [SponsorEdge]
 
   """
-  The field to order sponsor entities by.
+  True if this user/organization has a GitHub Sponsors listing.
   """
   nodes: [Sponsor]
 
 """
-Properties by which sponsor connections can be ordered.
+Ordering options for connections to get sponsor entities for GitHub Sponsors.
 """
-enum SponsorOrderField {
+input SponsorOrder {
   """
-  Order sponsorable entities by login (username).
+  The ordering direction.
   """
-  LOGIN
+  direction: OrderDirection!
 
   """
-  Order sponsors by their relevance to the viewer.
+  The field to order sponsor entities by.
   """
-  RELEVANCE
+  field: SponsorOrderField!
 }
 
 """
@@ -48151,12 +48285,12 @@ Represents a user or organization who is sponsoring someone in GitHub Sponsors.
 """
 type SponsorEdge {
   """
-  The estimated next GitHub Sponsors payout for this user/organization in cents (USD).
+  Order sponsorable entities by login (username).
   """
-  estimatedNextSponsorsPayoutInCents: Int!
+  LOGIN
 
   """
-  True if this user/organization has a GitHub Sponsors listing.
+  Order sponsors by their relevance to the viewer.
   """
   node: Sponsor
 }
