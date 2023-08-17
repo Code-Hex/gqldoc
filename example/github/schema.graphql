@@ -27655,6 +27655,41 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     last: Int
 
     """
+    Filter mannequins by login.
+    """
+    login: String
+
+    """
+    Ordering options for mannequins returned from the connection.
+    """
+    orderBy: MannequinOrder = {field: CREATED_AT, direction: ASC}
+  ): MannequinConnection!
+
+  """
+  Get the status messages members of this entity have set that are either public or visible only to the organization.
+  """
+  mannequins(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
     Filter the types of pinned items that are returned.
     """
     types: [PinnableItemType!]
@@ -27719,15 +27754,6 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     """
     orderBy: MannequinOrder = {field: CREATED_AT, direction: ASC}
   ): MannequinConnection!
-
-  """
-  Get the status messages members of this entity have set that are either public or visible only to the organization.
-  """
-  mannequins(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
 
   """
   The HTTP path listing organization's projects
@@ -28140,6 +28166,49 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   ): RepositoryRulesetConnection
 
   """
+  The Organization's SAML identity provider. Visible to (1) organization owners,
+  (2) organization owners' personal access tokens (classic) with read:org or
+  admin:org scope, (3) GitHub App with an installation token with read or write
+  access to members.
+  """
+  ruleset(
+    """
+    The ID of the ruleset to be returned.
+    """
+    databaseId: Int!
+  ): RepositoryRuleset
+
+  """
+  A list of rulesets for this organization.
+  """
+  rulesets(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Return rulesets configured at higher levels that apply to this organization
+    """
+    includeParents: Boolean = true
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): RepositoryRulesetConnection
+
+  """
   Returns a single ruleset from the current organization by ID.
   """
   ruleset(
@@ -28153,6 +28222,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   A list of rulesets for this organization.
   """
   rulesets(
+    """
+    Filter activities to only the specified actions.
+    """
+    actions: [SponsorsActivityAction!] = []
+
     """
     Filter activities to only the specified actions.
     """
@@ -28318,6 +28392,12 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     activeOnly: Boolean = true
 
     """
+    Whether to include only sponsorships that are active right now, versus all
+    sponsorships this maintainer has ever received.
+    """
+    activeOnly: Boolean = true
+
+    """
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
@@ -28421,6 +28501,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     activeOnly: Boolean = true
 
     """
+    Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
+    """
+    activeOnly: Boolean = true
+
+    """
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
@@ -28439,6 +28524,13 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     Return rulesets configured at higher levels that apply to this organization
     """
     includeParents: Boolean = true
+
+    """
+    Filter sponsorships returned to those for the specified maintainers. That
+    is, the recipient of the sponsorship is a user or organization with one of
+    the given logins.
+    """
+    maintainerLogins: [String!]
 
     """
     Filter sponsorships returned to those for the specified maintainers. That
@@ -28535,6 +28627,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     notificationSetting: TeamNotificationSetting
 
     """
+    If non-null, filters teams according to notification setting
+    """
+    notificationSetting: TeamNotificationSetting
+
+    """
     Ordering options for teams returned from the connection
     """
     actions: [SponsorsActivityAction!] = []
@@ -28573,6 +28670,28 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
+
+  """
+  The amount in United States cents (e.g., 500 = $5.00 USD) that this entity has
+  spent on GitHub to fund sponsorships. Only returns a value when viewed by the
+  user themselves or by a user who can manage sponsorships for the requested organization.
+  """
+  totalSponsorshipAmountAsSponsorInCents(
+    """
+    Filter payments to those that occurred on or after this time.
+    """
+    since: DateTime
+
+    """
+    Filter payments to those made to the users or organizations with the specified usernames.
+    """
+    sponsorableLogins: [String!] = []
+
+    """
+    Filter payments to those that occurred before this time.
+    """
+    until: DateTime
+  ): Int
 
   """
   The amount in United States cents (e.g., 500 = $5.00 USD) that this entity has
@@ -28723,6 +28842,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     """
     databaseId: Int!
   ): RepositoryRuleset
+
+  """
+  Whether contributors are required to sign off on web-based commits for repositories in this organization.
+  """
+  webCommitSignoffRequired: Boolean!
 
   """
   Whether contributors are required to sign off on web-based commits for repositories in this organization.
@@ -29053,6 +29177,11 @@ type OrganizationIdentityProvider implements Node {
   invitationSource: OrganizationInvitationSource!
 
   """
+  The source of the invitation.
+  """
+  invitationSource: OrganizationInvitationSource!
+
+  """
   The type of invitation that was sent (e.g. email, user).
   """
   invitationType: OrganizationInvitationType!
@@ -29157,10 +29286,34 @@ type OrganizationIdentityProvider implements Node {
     """
     notificationSetting: TeamNotificationSetting
 
-    """
-    Ordering options for teams returned from the connection
-    """
-    actions: [SponsorsActivityAction!] = []
+"""
+The possible organization invitation sources.
+"""
+enum OrganizationInvitationSource {
+  """
+  The invitation was created from the web interface or from API
+  """
+  MEMBER
+
+  """
+  The invitation was created from SCIM
+  """
+  SCIM
+
+  """
+  The invitation was sent before this feature was added
+  """
+  UNKNOWN
+}
+
+"""
+The possible organization invitation types.
+"""
+enum OrganizationInvitationType {
+  """
+  The invitation was to an email address.
+  """
+  EMAIL
 
     """
     Filter activities to only the specified actions.
@@ -29260,11 +29413,116 @@ type OrganizationIdentityProvider implements Node {
     """
     sponsorableLogins: [String!] = []
 
-    """
-    Filter payments to those that occurred before this time.
-    """
-    until: DateTime
-  ): Int
+"""
+A GitHub Enterprise Importer (GEI) organization migration.
+"""
+type OrganizationMigration implements Node {
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  Identifies the primary key from the database.
+  """
+  databaseId: String
+
+  """
+  The reason the organization migration failed.
+  """
+  failureReason: String
+  id: ID!
+
+  """
+  The remaining amount of repos to be migrated.
+  """
+  remainingRepositoriesCount: Int
+
+  """
+  The name of the source organization to be migrated.
+  """
+  sourceOrgName: String!
+
+  """
+  The URL of the source organization to migrate.
+  """
+  sourceOrgUrl: URI!
+
+  """
+  The migration state.
+  """
+  state: OrganizationMigrationState!
+
+  """
+  The name of the target organization.
+  """
+  targetOrgName: String!
+
+  """
+  The total amount of repositories to be migrated.
+  """
+  totalRepositoriesCount: Int
+}
+
+"""
+The Octoshift Organization migration state.
+"""
+enum OrganizationMigrationState {
+  """
+  The Octoshift migration has failed.
+  """
+  FAILED
+
+  """
+  The Octoshift migration has invalid credentials.
+  """
+  FAILED_VALIDATION
+
+  """
+  The Octoshift migration is in progress.
+  """
+  IN_PROGRESS
+
+  """
+  The Octoshift migration has not started.
+  """
+  NOT_STARTED
+
+  """
+  The Octoshift migration needs to have its credentials validated.
+  """
+  PENDING_VALIDATION
+
+  """
+  The Octoshift migration is performing post repository migrations.
+  """
+  POST_REPO_MIGRATION
+
+  """
+  The Octoshift migration is performing pre repository migrations.
+  """
+  PRE_REPO_MIGRATION
+
+  """
+  The Octoshift migration has been queued.
+  """
+  QUEUED
+
+  """
+  The Octoshift org migration is performing repository migrations.
+  """
+  REPO_MIGRATION
+
+  """
+  The Octoshift migration has succeeded.
+  """
+  SUCCEEDED
+}
+
+"""
+Used for argument of CreateProjectV2 mutation.
+"""
+union OrganizationOrUser = Organization | User
 
 """
 The possible organization invitation sources.
@@ -29403,7 +29661,13 @@ enum OrganizationInvitationType {
     """
     Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
     """
-    activeOnly: Boolean = true
+    last: Int
+
+    """
+    Ordering options for the User's organizations.
+    """
+    orderBy: OrganizationOrder = null
+  ): OrganizationConnection!
 
   """
   Whether contributors are required to sign off on web-based commits for repositories in this organization.
@@ -29809,20 +30073,29 @@ type OrganizationIdentityProvider implements Node {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  A maven package.
+  """
+  MAVEN
+    @deprecated(
+      reason: "MAVEN will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2023-02-10 UTC."
+    )
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  An npm package.
+  """
+  NPM
+    @deprecated(
+      reason: "NPM will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-11-21 UTC."
+    )
 
-    """
-    Return rulesets configured at higher levels that apply to this organization
-    """
-    includeParents: Boolean = true
+  """
+  A nuget package.
+  """
+  NUGET
+    @deprecated(
+      reason: "NUGET will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-11-21 UTC."
+    )
 
     """
     Returns the last _n_ elements from the list.
@@ -29841,12 +30114,11 @@ type OrganizationIdentityProvider implements Node {
   admin:org scope, (3) GitHub App with an installation token with read or write
   access to members.
   """
-  ruleset(
-    """
-    The ID of the ruleset to be returned.
-    """
-    databaseId: Int!
-  ): RepositoryRuleset
+  RUBYGEMS
+    @deprecated(
+      reason: "RUBYGEMS will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-12-28 UTC."
+    )
+}
 
 """
 An Identity Provider configured to provision SAML and SCIM identities for
@@ -30616,7 +30888,13 @@ enum OrganizationMigrationState {
   """
   The Octoshift migration has failed.
   """
-  FAILED
+  databaseId: Int
+
+  """
+  Identifies the primary key from the database as a BigInt.
+  """
+  fullDatabaseId: BigInt
+  id: ID!
 
   """
   The Octoshift migration has invalid credentials.
@@ -31168,7 +31446,7 @@ The possible organization invitation types.
 """
 enum OrganizationInvitationType {
   """
-  Whether contributors are required to sign off on web-based commits for repositories in this organization.
+  Indicates if the object is closed (definition of closed may depend on type)
   """
   webCommitSignoffRequired: Boolean!
 
@@ -31400,7 +31678,17 @@ type OrganizationMigration implements Node {
   sourceOrgName: String!
 
   """
-  The URL of the source organization to migrate.
+  Indicates if the object can be closed by the viewer.
+  """
+  viewerCanClose: Boolean!
+
+  """
+  Indicates if the object can be reopened by the viewer.
+  """
+  viewerCanReopen: Boolean!
+
+  """
+  Check if the current viewer can update this object.
   """
   sourceOrgUrl: URI!
 
@@ -31868,65 +32156,6 @@ enum OrganizationInvitationType {
   id: ID!
 
 """
-The possible organization invitation sources.
-"""
-enum OrganizationInvitationSource {
-  """
-  The invitation was created from the web interface or from API
-  """
-  MEMBER
-
-  """
-  The source of the invitation.
-  """
-  invitationSource: OrganizationInvitationSource!
-
-  """
-  The source of the invitation.
-  """
-  invitationSource: OrganizationInvitationSource!
-
-  """
-  The source of the invitation.
-  """
-  invitationSource: OrganizationInvitationSource!
-
-"""
-The possible organization invitation sources.
-"""
-enum OrganizationInvitationSource {
-  """
-  The invitation was created from the web interface or from API
-  """
-  MEMBER
-
-  """
-  The invitation was created from SCIM
-  """
-  SCIM
-
-  """
-  The invitation was sent before this feature was added
-  """
-  UNKNOWN
-}
-
-"""
-The possible organization invitation types.
-"""
-enum OrganizationInvitationType {
-  """
-  The type of invitation that was sent (e.g. email, user).
-  """
-  SCIM
-
-  """
-  The invitation was sent before this feature was added
-  """
-  UNKNOWN
-}
-
-"""
 Ways in which lists of projects can be ordered upon return.
 """
 input ProjectOrder {
@@ -32114,34 +32343,42 @@ enum ProjectTemplate {
 }
 
 """
-A GitHub Enterprise Importer (GEI) organization migration.
+The possible organization invitation sources.
 """
 type ProjectV2 implements Closable & Node & Updatable {
   """
-  Identifies the date and time when the object was created.
+  The invitation was created from the web interface or from API
   """
   closed: Boolean!
 
   """
-  Identifies the primary key from the database.
+  The invitation was created from SCIM
   """
-  databaseId: String
+  SCIM
 
   """
-  The reason the organization migration failed.
+  The invitation was sent before this feature was added
   """
   createdAt: DateTime!
 
+"""
+The possible organization invitation types.
+"""
+enum OrganizationInvitationType {
   """
-  The remaining amount of repos to be migrated.
+  The type of invitation that was sent (e.g. email, user).
   """
   creator: Actor
 
   """
-  Identifies the primary key from the database.
+  The invitation was sent before this feature was added
   """
   databaseId: Int
 
+"""
+Ways in which lists of projects can be ordered upon return.
+"""
+input ProjectOrder {
   """
   A field of the project
   """
@@ -32155,7 +32392,25 @@ type ProjectV2 implements Closable & Node & Updatable {
   """
   List of fields and their constraints in the project
   """
-  fields(
+  field: ProjectOrderField!
+}
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for project v2 fields returned from the connection
+    """
+    orderBy: ProjectV2FieldOrder = {field: POSITION, direction: ASC}
+  ): ProjectV2FieldConfigurationConnection!
+  id: ID!
+
+  """
+  Order projects by name
+  """
+  items(
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -32177,45 +32432,23 @@ type ProjectV2 implements Closable & Node & Updatable {
     last: Int
 
     """
-    Ordering options for project v2 fields returned from the connection
-    """
-    orderBy: ProjectV2FieldOrder = {field: POSITION, direction: ASC}
-  ): ProjectV2FieldConfigurationConnection!
-  id: ID!
-
-  """
-  The remaining amount of repos to be migrated.
-  """
-  remainingRepositoriesCount: Int
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
     Ordering options for project v2 items returned from the connection
     """
     orderBy: ProjectV2ItemOrder = {field: POSITION, direction: ASC}
   ): ProjectV2ItemConnection!
 
   """
-  The URL of the source organization to migrate.
+  Order projects by update time
   """
   number: Int!
 
   """
-  The migration state.
+  The project's owner. Currently limited to organizations and users.
   """
   owner: ProjectV2Owner!
 
   """
-  The name of the target organization.
+  Find project by number.
   """
   public: Boolean!
 
@@ -32224,24 +32457,24 @@ type ProjectV2 implements Closable & Node & Updatable {
   """
   readme: String
 
-"""
-The Octoshift Organization migration state.
-"""
-enum OrganizationMigrationState {
   """
-  The Octoshift migration has failed.
+  A list of projects under the owner.
   """
-  FAILED
+  projects(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
 
-  """
-  The Octoshift migration has invalid credentials.
-  """
-  FAILED_VALIDATION
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
 
-  """
-  The Octoshift migration is in progress.
-  """
-  IN_PROGRESS
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -32255,12 +32488,12 @@ enum OrganizationMigrationState {
   ): RepositoryConnection!
 
   """
-  The Octoshift migration needs to have its credentials validated.
+  The HTTP path for this project
   """
   resourcePath: URI!
 
   """
-  The Octoshift migration is performing post repository migrations.
+  The HTTP path listing owners projects
   """
   shortDescription: String
 
@@ -32300,17 +32533,21 @@ enum OrganizationMigrationState {
   template: Boolean!
 
   """
-  The Octoshift migration is performing pre repository migrations.
+  The HTTP URL listing owners projects
   """
   title: String!
 
   """
-  The Octoshift migration has been queued.
+  Can the current viewer create new projects on this owner.
   """
   updatedAt: DateTime!
 
+"""
+Project progress stats.
+"""
+type ProjectProgress {
   """
-  The Octoshift org migration is performing repository migrations.
+  The number of done cards.
   """
   url: URI!
 
@@ -32335,30 +32572,28 @@ enum OrganizationMigrationState {
   viewerCanReopen: Boolean!
 
   """
-  The Octoshift migration has succeeded.
+  The percentage of done cards.
   """
-  SUCCEEDED
-}
-
-"""
-Used for argument of CreateProjectV2 mutation.
-"""
-union OrganizationOrUser = Organization | User
+  donePercentage: Float!
 
   """
-  The URL of the source organization to migrate.
+  Whether progress tracking is enabled and cards with purpose exist for this project
   """
-  sourceOrgUrl: URI!
+  views(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
 
-  """
-  The migration state.
-  """
-  state: OrganizationMigrationState!
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
 
-  """
-  The name of the target organization.
-  """
-  targetOrgName: String!
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -32482,54 +32717,24 @@ The connection type for ProjectV2.
 """
 type ProjectV2Connection {
   """
-  The Octoshift migration has failed.
+  The number of in-progress cards.
   """
   edges: [ProjectV2Edge]
 
   """
-  The Octoshift migration has invalid credentials.
+  The percentage of in-progress cards.
   """
   nodes: [ProjectV2]
 
   """
-  Indicates if the object is closed (definition of closed may depend on type)
+  The number of to do cards.
   """
-  IN_PROGRESS
+  todoCount: Int!
 
   """
-  The Octoshift migration has not started.
+  The percentage of to do cards.
   """
-  NOT_STARTED
-
-  """
-  The Octoshift migration needs to have its credentials validated.
-  """
-  PENDING_VALIDATION
-
-  """
-  The Octoshift migration is performing post repository migrations.
-  """
-  POST_REPO_MIGRATION
-
-  """
-  The Octoshift migration is performing pre repository migrations.
-  """
-  PRE_REPO_MIGRATION
-
-  """
-  The Octoshift migration has been queued.
-  """
-  QUEUED
-
-  """
-  The Octoshift org migration is performing repository migrations.
-  """
-  REPO_MIGRATION
-
-  """
-  The Octoshift migration has succeeded.
-  """
-  SUCCEEDED
+  todoPercentage: Float!
 }
 
 """
@@ -32562,63 +32767,48 @@ An edge in a connection.
 """
 type ProjectV2Edge {
   """
-  The invitation was created from the web interface or from API
+  The project is closed.
   """
-  MEMBER
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Ordering options for the User's organizations.
-    """
-    orderBy: OrganizationOrder = null
-  ): OrganizationConnection!
+  CLOSED
 
   """
-  The invitation was sent before this feature was added
+  The project is open.
   """
   node: ProjectV2
 }
 
 """
-The possible organization invitation sources.
+GitHub-provided templates for Projects
 """
 type ProjectV2Field implements Node & ProjectV2FieldCommon {
   """
-  The invitation was created from the web interface or from API
+  Identifies the date and time when the object was created.
   """
   createdAt: DateTime!
 
   """
-  The invitation was created from SCIM
+  Create a board with v2 triggers to automatically move cards across To do, In progress and Done columns.
   """
   dataType: ProjectV2FieldType!
 
   """
-  The invitation was sent before this feature was added
+  Create a board with triggers to automatically move cards across columns with review automation.
   """
   databaseId: Int
   id: ID!
 
-"""
-The possible organization invitation sources.
-"""
-enum OrganizationInvitationSource {
   """
-  The invitation was created from the web interface or from API
+  Create a board with columns for To do, In progress and Done.
   """
   name: String!
 
   """
-  The invitation was created from SCIM
+  Create a board to triage and prioritize bugs with To do, priority, and Done columns.
   """
   project: ProjectV2!
 
   """
-  Indicates if the object can be reopened by the viewer.
+  Identifies the primary key from the database.
   """
   updatedAt: DateTime!
 }
@@ -32628,28 +32818,28 @@ Common fields across different project field types
 """
 interface ProjectV2FieldCommon {
   """
-  Identifies the date and time when the object was created.
+  The reason the organization migration failed.
   """
   createdAt: DateTime!
 
   """
-  Identifies the primary key from the database.
+  The remaining amount of repos to be migrated.
   """
   dataType: ProjectV2FieldType!
 
   """
-  Identifies the primary key from the database as a BigInt.
+  Identifies the primary key from the database.
   """
   databaseId: Int
   id: ID!
 
   """
-  The reason the organization migration failed.
+  A field of the project
   """
   name: String!
 
   """
-  The remaining amount of repos to be migrated.
+  List of fields and their constraints in the project
   """
   project: ProjectV2!
 
@@ -32709,36 +32899,36 @@ The connection type for ProjectV2Field.
 """
 type ProjectV2FieldConnection {
   """
-  The Octoshift migration has failed.
+  The URL of the source organization to migrate.
   """
   edges: [ProjectV2FieldEdge]
 
   """
-  Identifies the primary key from the database as a BigInt.
+  The migration state.
   """
   nodes: [ProjectV2Field]
 
   """
-  The Octoshift migration has invalid credentials.
+  The name of the target organization.
   """
-  FAILED_VALIDATION
+  public: Boolean!
 
   """
-  The Octoshift migration is in progress.
+  The project's readme.
   """
-  IN_PROGRESS
+  readme: String
 
 """
-An edge in a connection.
+The Octoshift Organization migration state.
 """
 type ProjectV2FieldEdge {
   """
-  The Octoshift migration has not started.
+  The Octoshift migration has failed.
   """
-  NOT_STARTED
+  FAILED
 
   """
-  The Octoshift migration needs to have its credentials validated.
+  The Octoshift migration has invalid credentials.
   """
   node: ProjectV2Field
 }
@@ -32783,74 +32973,62 @@ The type of a project field.
 """
 enum ProjectV2FieldType {
   """
-  The Octoshift migration is performing post repository migrations.
+  The Octoshift migration is in progress.
   """
   ASSIGNEES
 
   """
-  The Octoshift migration is performing pre repository migrations.
+  Date
   """
   DATE
 
   """
-  The Octoshift migration has been queued.
+  The Octoshift migration needs to have its credentials validated.
   """
   ITERATION
 
   """
-  The Octoshift org migration is performing repository migrations.
+  The Octoshift migration is performing post repository migrations.
   """
   LABELS
 
   """
-  The Octoshift migration has succeeded.
+  The teams the project is linked to.
   """
   LINKED_PULL_REQUESTS
 
-"""
-Used for argument of CreateProjectV2 mutation.
-"""
-enum OrganizationInvitationSource {
   """
-  The invitation was created from the web interface or from API
+  Returns true if this project is a template.
   """
   MILESTONE
 
   """
-  The invitation was created from SCIM
+  The Octoshift migration is performing pre repository migrations.
   """
   NUMBER
 
   """
-  The invitation was sent before this feature was added
+  The Octoshift migration has been queued.
   """
   REPOSITORY
 
-"""
-The possible organization invitation types.
-"""
-enum OrganizationInvitationSource {
   """
-  The invitation was created from the web interface or from API
+  The Octoshift org migration is performing repository migrations.
   """
   REVIEWERS
 
   """
-  The invitation was created from SCIM
+  A view of the project
   """
   SINGLE_SELECT
 
   """
-  Indicates if the object is closed (definition of closed may depend on type)
+  Indicates if the object can be closed by the viewer.
   """
   TEXT
 
-"""
-The possible organization invitation sources.
-"""
-enum OrganizationInvitationSource {
   """
-  The invitation was created from the web interface or from API
+  Indicates if the object can be reopened by the viewer.
   """
   TITLE
 
@@ -32860,7 +33038,7 @@ enum OrganizationInvitationSource {
   TRACKED_BY
 
   """
-  The invitation was created from SCIM
+  The Octoshift migration has succeeded.
   """
   TRACKS
 }
@@ -32910,26 +33088,22 @@ An item within a Project.
 """
 type ProjectV2Item implements Node {
   """
-  The invitation was to an email address.
+  The URL of the source organization to migrate.
   """
   content: ProjectV2ItemContent
 
-"""
-A GitHub Enterprise Importer (GEI) organization migration.
-"""
-type OrganizationMigration implements Node {
   """
-  Identifies the date and time when the object was created.
+  The migration state.
   """
   createdAt: DateTime!
 
   """
-  Identifies the primary key from the database.
+  The name of the target organization.
   """
   creator: Actor
 
   """
-  The reason the organization migration failed.
+  A workflow of the project
   """
   databaseId: Int
 
@@ -32946,12 +33120,7 @@ type OrganizationMigration implements Node {
   """
   The field values that are set on the item.
   """
-  remainingRepositoriesCount: Int
-
-  """
-  The name of the source organization to be migrated.
-  """
-  relevantOrganizations(
+  workflows(
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -32995,7 +33164,7 @@ type OrganizationMigration implements Node {
   type: ProjectV2ItemType!
 
   """
-  The URL of the source organization to migrate.
+  Identifies the date and time when the object was last updated.
   """
   updatedAt: DateTime!
 }
@@ -33015,12 +33184,12 @@ type ProjectV2ItemConnection {
   nodes: [ProjectV2Item]
 
   """
-  Identifies the date and time when the object was created.
+  Information to aid in pagination.
   """
-  createdAt: DateTime!
+  pageInfo: PageInfo!
 
   """
-  Identifies the primary key from the database.
+  Identifies the total count of items in the connection.
   """
   totalCount: Int!
 }
@@ -33035,13 +33204,12 @@ An edge in a connection.
 """
 type ProjectV2ItemEdge {
   """
-  The reason the organization migration failed.
+  A cursor for use in pagination.
   """
-  failureReason: String
-  id: ID!
+  cursor: String!
 
   """
-  The remaining amount of repos to be migrated.
+  The item at the end of the edge.
   """
   node: ProjectV2Item
 }
@@ -33051,17 +33219,17 @@ The value of a date field in a Project item.
 """
 type ProjectV2ItemFieldDateValue implements Node & ProjectV2ItemFieldValueCommon {
   """
-  Indicates if the object can be closed by the viewer.
+  The role to grant the collaborator
   """
   createdAt: DateTime!
 
   """
-  Indicates if the object can be reopened by the viewer.
+  The ID of the team as a collaborator.
   """
   creator: Actor
 
   """
-  Check if the current viewer can update this object.
+  The ID of the user as a collaborator.
   """
   databaseId: Int
 
@@ -33070,19 +33238,23 @@ type ProjectV2ItemFieldDateValue implements Node & ProjectV2ItemFieldValueCommon
   """
   date: Date
 
+"""
+The connection type for ProjectV2.
+"""
+type ProjectV2Connection {
   """
-  An npm package.
+  The Octoshift migration has failed.
   """
   field: ProjectV2FieldConfiguration!
   id: ID!
 
   """
-  The URL of the source organization to migrate.
+  The Octoshift migration has invalid credentials.
   """
   item: ProjectV2Item!
 
   """
-  The migration state.
+  Indicates if the object is closed (definition of closed may depend on type)
   """
   updatedAt: DateTime!
 }
@@ -33101,10 +33273,6 @@ type ProjectV2ItemFieldIterationValue implements Node & ProjectV2ItemFieldValueC
   """
   creator: Actor
 
-"""
-Ways in which lists of projects can be ordered upon return.
-"""
-input ProjectOrder {
   """
   Identifies the primary key from the database.
   """
@@ -33261,20 +33429,21 @@ type ProjectV2ItemFieldPullRequestValue {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  Identifies the primary key from the database as a BigInt.
+  """
+  databaseId: Int
+  id: ID!
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The reason the organization migration failed.
+  """
+  name: String!
 
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
+  """
+  The remaining amount of repos to be migrated.
+  """
+  project: ProjectV2!
 
     """
     Ordering options for pull requests.
@@ -33352,6 +33521,10 @@ type ProjectV2ItemFieldSingleSelectValue implements Node & ProjectV2ItemFieldVal
   """
   creator: Actor
 
+"""
+An edge in a connection.
+"""
+type ProjectV2FieldEdge {
   """
   Identifies the primary key from the database.
   """
@@ -33404,24 +33577,24 @@ The value of a text field in a Project item.
 """
 type ProjectV2ItemFieldTextValue implements Node & ProjectV2ItemFieldValueCommon {
   """
-  The name of the target organization.
+  The Octoshift migration has been queued.
   """
-  createdAt: DateTime!
+  ITERATION
 
   """
   The actor who created the item.
   """
-  creator: Actor
+  LABELS
+
+  """
+  The Octoshift migration has succeeded.
+  """
+  LINKED_PULL_REQUESTS
 
 """
-The Octoshift Organization migration state.
+Used for argument of CreateProjectV2 mutation.
 """
-enum OrganizationMigrationState {
-  """
-  The Octoshift migration has failed.
-  """
-  databaseId: Int
-
+enum OrganizationInvitationSource {
   """
   The project field that contains this value.
   """
@@ -33462,15 +33635,15 @@ type ProjectV2ItemFieldUserValue {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  The number to set on the field.
+  """
+  number: Float
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The id of the single select option to set on the field.
+  """
+  singleSelectOptionId: String
 
     """
     Returns the last _n_ elements from the list.
@@ -33514,10 +33687,6 @@ interface ProjectV2ItemFieldValueCommon {
   """
   databaseId: Int
 
-"""
-Used for argument of CreateProjectV2 mutation.
-"""
-type OrganizationMigration implements Node {
   """
   The project field that contains this value.
   """
@@ -33550,27 +33719,33 @@ type ProjectV2ItemFieldValueConnection {
   nodes: [ProjectV2ItemFieldValue]
 
   """
-  Information to aid in pagination.
+  Identifies the date and time when the object was created.
   """
-  pageInfo: PageInfo!
+  createdAt: DateTime!
 
   """
-  Identifies the total count of items in the connection.
+  Identifies the primary key from the database.
   """
   totalCount: Int!
 }
+
+"""
+Types that can be inside Project Items.
+"""
+union ProjectV2ItemContent = DraftIssue | Issue | PullRequest
 
 """
 An edge in a connection.
 """
 type ProjectV2ItemFieldValueEdge {
   """
-  A cursor for use in pagination.
+  The reason the organization migration failed.
   """
-  cursor: String!
+  failureReason: String
+  id: ID!
 
   """
-  The item at the end of the edge.
+  The remaining amount of repos to be migrated.
   """
   node: ProjectV2ItemFieldValue
 }
@@ -33681,7 +33856,7 @@ type ProjectV2IterationField implements Node & ProjectV2FieldCommon {
   name: String!
 
   """
-  The name of the source organization to be migrated.
+  The project that contains this field.
   """
   project: ProjectV2!
 
@@ -34008,10 +34183,6 @@ enum ProjectV2SingleSelectFieldOptionColor {
   """
   PURPLE
 
-"""
-Properties by which project connections can be ordered.
-"""
-enum ProjectOrderField {
   """
   RED
   """
@@ -34565,6 +34736,10 @@ type ProjectV2Workflow implements Node {
   """
   databaseId: Int
 
+"""
+Used for argument of CreateProjectV2 mutation.
+"""
+type OrganizationMigration implements Node {
   """
   The workflows' enabled state.
   """
@@ -34615,31 +34790,6 @@ type ProjectV2WorkflowConnection {
   Identifies the total count of items in the connection.
   """
   totalCount: Int!
-}
-
-"""
-The type of a project field.
-"""
-enum ProjectV2CustomFieldType {
-  """
-  Date
-  """
-  DATE
-
-  """
-  Number
-  """
-  NUMBER
-
-  """
-  Single Select
-  """
-  SINGLE_SELECT
-
-  """
-  Text
-  """
-  TEXT
 }
 
 """
@@ -34870,10 +35020,6 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
   """
   baseRefName: String!
 
-"""
-Project progress stats.
-"""
-type ProjectProgress {
   """
   Identifies the oid of the base ref associated with the pull request, even if the ref has been deleted.
   """
@@ -34899,10 +35045,6 @@ type ProjectProgress {
   """
   bodyText: String!
 
-"""
-Ways in which lists of projects can be ordered upon return.
-"""
-input ProjectOrder {
   """
   Whether or not the pull request is rebaseable.
   """
@@ -35133,48 +35275,6 @@ input ProjectOrder {
   A list of labels associated with the object.
   """
   labels(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-  """
-  Identifies the date and time when the object was last updated.
-  """
-  updatedAt: DateTime!
-}
-
-"""
-The value of a pull request field in a Project item.
-"""
-type ProjectV2ItemFieldPullRequestValue {
-  """
-  The field that contains this value.
-  """
-  field: ProjectV2FieldConfiguration!
-
-  """
-  The pull requests for this field
-  """
-  pullRequests(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    last: Int
-  ): ProjectV2SortByConnection
-    @deprecated(
-      reason: "The `ProjectV2View#sort_by` API is deprecated in favour of the more capable `ProjectV2View#sort_by_fields` API. Check out the `ProjectV2View#sort_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC."
-    )
-
-  """
-  The view's sort-by config.
-  """
-  sortByFields(
     """
     Returns the elements in the list that come after the specified cursor.
     """
@@ -35464,19 +35564,15 @@ type ProjectV2ItemFieldPullRequestValue {
   """
   publishedAt: DateTime
 
-"""
-Recent projects for the owner.
-"""
-interface ProjectV2Recent {
   """
   A list of reactions grouped by content left on the subject.
   """
   reactionGroups: [ReactionGroup!]
 
 """
-The possible roles of a collaborator on a project.
+Project progress stats.
 """
-enum ProjectV2Roles {
+type ProjectProgress {
   """
   A list of Reactions left on the Issue.
   """
@@ -35672,6 +35768,48 @@ enum ProjectV2Roles {
     """
     after: String
 
+  """
+  Identifies the date and time when the object was last updated.
+  """
+  updatedAt: DateTime!
+}
+
+"""
+The value of a pull request field in a Project item.
+"""
+type ProjectV2ItemFieldPullRequestValue {
+  """
+  The field that contains this value.
+  """
+  field: ProjectV2FieldConfiguration!
+
+  """
+  The pull requests for this field
+  """
+  pullRequests(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    last: Int
+  ): ProjectV2SortByConnection
+    @deprecated(
+      reason: "The `ProjectV2View#sort_by` API is deprecated in favour of the more capable `ProjectV2View#sort_by_fields` API. Check out the `ProjectV2View#sort_by_fields` API as an example for the more capable alternative. Removal on 2023-04-01 UTC."
+    )
+
+  """
+  The view's sort-by config.
+  """
+  sortByFields(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
     """
     Returns the elements in the list that come before the specified cursor.
     """
@@ -35782,15 +35920,6 @@ enum ProjectV2Roles {
   Whether or not the viewer can enable auto-merge
   """
   viewerCanEnableAutoMerge: Boolean!
-
-"""
-The value of a user field in a Project item.
-"""
-type ProjectV2ItemFieldUserValue {
-  """
-  Roadmap layout
-  """
-  ROADMAP_LAYOUT
 
   """
   Indicates whether the viewer can bypass branch protections and merge the pull request immediately
@@ -36391,6 +36520,10 @@ type PullRequestReview implements Comment & Deletable & Node & Reactable & Repos
   """
   publishedAt: DateTime
 
+"""
+Recent projects for the owner.
+"""
+interface ProjectV2Recent {
   """
   Identifies the pull request associated with this pull request review.
   """
@@ -36401,6 +36534,10 @@ type PullRequestReview implements Comment & Deletable & Node & Reactable & Repos
   """
   reactionGroups: [ReactionGroup!]
 
+"""
+The possible roles of a collaborator on a project.
+"""
+enum ProjectV2Roles {
   """
   A list of Reactions left on the Issue.
   """
@@ -36575,6 +36712,15 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   Identifies when the comment was created in a draft state.
   """
   draftedAt: DateTime!
+
+"""
+The value of a user field in a Project item.
+"""
+type ProjectV2ItemFieldUserValue {
+  """
+  Roadmap layout
+  """
+  ROADMAP_LAYOUT
 
   """
   The actor who edited the comment.
@@ -37144,10 +37290,6 @@ type PullRequestReviewThreadConnection {
   """
   nodes: [PullRequestReviewThread]
 
-"""
-Represents a commit comment thread part of a pull request.
-"""
-type PullRequestCommitCommentThread implements Node & RepositoryNode {
   """
   Information to aid in pagination.
   """
@@ -38949,7 +39091,18 @@ type RemoveEnterpriseMemberPayload {
   """
   The reaction groups for the subject.
   """
-  reactionGroups: [ReactionGroup!]
+  branchProtectionRule: BranchProtectionRule
+
+  """
+  Compares the current ref as a base ref to another head ref, if the comparison can be made.
+  """
+  compare(
+    """
+    The head ref to compare against.
+    """
+    headRef: String!
+  ): Comparison
+  id: ID!
 
   """
   The reactable subject.
@@ -38986,6 +39139,40 @@ input RemoveEnterpriseMemberInput {
 Parameters to be used for the ref_name condition
 """
 type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+input RefNameConditionTargetInput {
   """
   Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
   """
@@ -39992,6 +40179,51 @@ type RemoveEnterpriseMemberPayload {
 """
 Autogenerated input type of RemoveEnterpriseOrganization
 """
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
+  user: User
+
+  """
+  The viewer performing the mutation.
+  """
+  viewer: User
+}
+
+"""
+Autogenerated input type of RemoveEnterpriseOrganization
+"""
 type RemovedFromMergeQueueEvent implements Node {
   """
   Identifies the actor who performed the event.
@@ -40061,7 +40293,12 @@ type RemovedFromMergeQueueEvent implements Node {
   mergeQueue: MergeQueue
 
   """
-  PullRequest referenced by event.
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
   """
   pullRequest: PullRequest
 
@@ -40146,7 +40383,48 @@ type ReopenDiscussionPayload {
 }
 
 """
-Autogenerated input type of ReopenIssue
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
+
+  """
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  """
+  beforeCommit: Commit
+
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
+}
+
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
 """
 input ReopenDiscussionInput {
   """
@@ -40233,6 +40511,36 @@ union RenamedTitleSubject = Issue | PullRequest
 
 """
 Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
 """
 input ReopenDiscussionInput {
   """
@@ -43371,6 +43679,11 @@ input RemoveEnterpriseMemberInput {
   archivedAt: DateTime
 
   """
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
+
+  """
   A list of users that can be assigned to issues in this repository.
   """
   assignableUsers(
@@ -43521,7 +43834,12 @@ type RemovedFromMergeQueueEvent implements Node {
     login: String
 
     """
-    Filters users with query on user name and login.
+    The login of one specific collaborator.
+    """
+    login: String
+
+    """
+    Filters users with query on user name and login
     """
     query: String
   ): RepositoryCollaboratorConnection
@@ -43764,7 +44082,17 @@ type RemovedFromMergeQueueEvent implements Node {
   ): RefConnection
 
   """
-  Lookup a single release given various criteria.
+  A discussion category by slug.
+  """
+  discussionCategory(
+    """
+    The slug of the discussion category to be returned.
+    """
+    slug: String!
+  ): DiscussionCategory
+
+  """
+  A list of discussions that have been opened in the repository.
   """
   release(
     """
@@ -44360,6 +44688,26 @@ interface RepositoryAuditEntryData {
   """
   Returns a single milestone from the current repository by number.
   """
+  mergeCommitMessage: MergeCommitMessage!
+
+  """
+  How the default commit title will be generated when merging a pull request.
+  """
+  mergeCommitTitle: MergeCommitTitle!
+
+  """
+  The merge queue for a specified branch, otherwise the default branch if not provided.
+  """
+  mergeQueue(
+    """
+    The name of the branch to get the merge queue for. Case sensitive.
+    """
+    branch: String
+  ): MergeQueue
+
+  """
+  Returns a single milestone from the current repository by number.
+  """
   repositoryUrl: URI
 }
 
@@ -44544,41 +44892,6 @@ A repository contact link.
 """
 type RepositoryContactLink {
   """
-  The contact link purpose.
-  """
-  about: String!
-
-  """
-  The contact link name.
-  """
-  name: String!
-
-  """
-  The contact link URL.
-  """
-  url: URI!
-}
-
-"""
-The reason a repository is listed as 'contributed'.
-"""
-enum RepositoryContributionType {
-  """
-  Created a commit
-  """
-  COMMIT
-
-  """
-  Created an issue
-  """
-  ISSUE
-
-  """
-  Created a pull request
-  """
-  PULL_REQUEST
-
-  """
   Finds and returns the Project according to the provided Project number.
   """
   REPOSITORY
@@ -44639,16 +44952,6 @@ interface RepositoryDiscussionAuthor {
 Represents an author of discussion comments in repositories.
 """
 interface RepositoryDiscussionCommentAuthor {
-  """
-  The HTTP path listing the repository's projects
-  """
-  projectsResourcePath: URI!
-
-  """
-  The HTTP URL listing the repository's projects
-  """
-  projectsUrl: URI!
-
   """
   The HTTP path listing the repository's projects
   """
@@ -45033,10 +45336,9 @@ interface RepositoryDiscussionCommentAuthor {
     first: Int
 
     """
-    A list of states to filter the pull requests by.
+    Returns the last _n_ elements from the list.
     """
-    states: [PullRequestState!]
-  ): PullRequestConnection!
+    last: Int
 
     """
     Order for connection
@@ -45241,10 +45543,6 @@ enum RepositoryAffiliation {
   """
   ORGANIZATION_MEMBER
 
-"""
-The connection type for RequestedReviewer.
-"""
-type RequestedReviewerConnection {
   """
   Repositories that are owned by the authenticated user.
   """
@@ -45270,10 +45568,6 @@ interface RepositoryAuditEntryData {
   """
   repositoryResourcePath: URI
 
-"""
-An edge in a connection.
-"""
-type RequestedReviewerEdge {
   """
   The HTTP URL for the repository
   """
@@ -45339,20 +45633,11 @@ type RepositoryCollaboratorConnection {
   """
   edges: [RepositoryCollaboratorEdge]
 
-"""
-Choose which environments must be successfully deployed to before branches can
-be merged into a branch that matches this rule.
-"""
-input RequiredDeploymentsParametersInput {
   """
   A list of nodes.
   """
   nodes: [User]
 
-"""
-Represents a required status check for a protected branch, but not any specific run of that check.
-"""
-type RequiredStatusCheckDescription {
   """
   Information to aid in pagination.
   """
@@ -45379,13 +45664,6 @@ type RepositoryCollaboratorEdge {
   """
   permission: RepositoryPermission!
 
-"""
-Choose which status checks must pass before branches can be merged into a branch
-that matches this rule. When enabled, commits must first be pushed to another
-branch, then merged or pushed directly to a branch that matches this rule after
-status checks have passed.
-"""
-type RequiredStatusChecksParameters {
   """
   A list of sources for the user's access to the repository.
   """
@@ -45401,13 +45679,6 @@ type RepositoryConnection {
   """
   edges: [RepositoryEdge]
 
-"""
-Choose which status checks must pass before branches can be merged into a branch
-that matches this rule. When enabled, commits must first be pushed to another
-branch, then merged or pushed directly to a branch that matches this rule after
-status checks have passed.
-"""
-input RequiredStatusChecksParametersInput {
   """
   A list of nodes.
   """
@@ -45418,10 +45689,6 @@ input RequiredStatusChecksParametersInput {
   """
   pageInfo: PageInfo!
 
-"""
-Autogenerated input type of RerequestCheckSuite
-"""
-input RerequestCheckSuiteInput {
   """
   Identifies the total count of items in the connection.
   """
@@ -45442,10 +45709,6 @@ type RepositoryContactLink {
   """
   about: String!
 
-"""
-Autogenerated return type of RerequestCheckSuite
-"""
-type RerequestCheckSuitePayload {
   """
   The contact link name.
   """
@@ -45466,10 +45729,6 @@ enum RepositoryContributionType {
   """
   COMMIT
 
-"""
-Autogenerated input type of ResolveReviewThread
-"""
-input ResolveReviewThreadInput {
   """
   Created an issue
   """
@@ -47849,15 +48108,15 @@ type ReviewDismissedEvent implements Node & UniformResourceLocatable {
   dismissalMessageHTML: String
   id: ID!
 
-"""
-Autogenerated input type of RetireSponsorsTier
-"""
-input RetireSponsorsTierInput {
   """
   Identifies the previous state of the review with the 'review_dismissed' event.
   """
   previousReviewState: PullRequestReviewState!
 
+"""
+An edge in a connection.
+"""
+type RequestedReviewerEdge {
   """
   PullRequest referenced by event.
   """
@@ -47899,10 +48158,6 @@ type ReviewRequest implements Node {
   databaseId: Int
   id: ID!
 
-"""
-Autogenerated return type of RevertPullRequest
-"""
-type RevertPullRequestPayload {
   """
   Identifies the pull request associated with this review request.
   """
@@ -47923,11 +48178,20 @@ type ReviewRequestConnection {
   """
   edges: [ReviewRequestEdge]
 
+"""
+Choose which environments must be successfully deployed to before branches can
+be merged into a branch that matches this rule.
+"""
+input RequiredDeploymentsParametersInput {
   """
   A list of nodes.
   """
   nodes: [ReviewRequest]
 
+"""
+Represents a required status check for a protected branch, but not any specific run of that check.
+"""
+type RequiredStatusCheckDescription {
   """
   Information to aid in pagination.
   """
@@ -47948,6 +48212,13 @@ type ReviewRequestEdge {
   """
   cursor: String!
 
+"""
+Choose which status checks must pass before branches can be merged into a branch
+that matches this rule. When enabled, commits must first be pushed to another
+branch, then merged or pushed directly to a branch that matches this rule after
+status checks have passed.
+"""
+type RequiredStatusChecksParameters {
   """
   The item at the end of the edge.
   """
@@ -47969,6 +48240,10 @@ type ReviewRequestRemovedEvent implements Node {
   createdAt: DateTime!
   id: ID!
 
+"""
+Autogenerated input type of RerequestCheckSuite
+"""
+input RerequestCheckSuiteInput {
   """
   PullRequest referenced by event.
   """
@@ -47989,6 +48264,10 @@ type ReviewRequestedEvent implements Node {
   """
   actor: Actor
 
+"""
+Autogenerated return type of RerequestCheckSuite
+"""
+type RerequestCheckSuitePayload {
   """
   Identifies the date and time when the object was created.
   """
@@ -48016,6 +48295,10 @@ type ReviewStatusHovercardContext implements HovercardContext {
   """
   message: String!
 
+"""
+Autogenerated input type of ResolveReviewThread
+"""
+input ResolveReviewThreadInput {
   """
   An octicon to accompany this context
   """
@@ -48186,10 +48469,6 @@ input RuleParametersInput {
   """
   branchNamePattern: BranchNamePatternParametersInput
 
-"""
-Represents an 'review_requested' event on a given pull request.
-"""
-type ReviewRequestedEvent implements Node {
   """
   Parameters used for the `commit_author_email_pattern` rule type
   """
@@ -48210,11 +48489,6 @@ type ReviewRequestedEvent implements Node {
   """
   pullRequest: PullRequestParametersInput
 
-"""
-A hovercard context with a message describing the current code review state of the pull
-request.
-"""
-type ReviewStatusHovercardContext implements HovercardContext {
   """
   Parameters used for the `required_deployments` rule type
   """
@@ -48225,19 +48499,11 @@ type ReviewStatusHovercardContext implements HovercardContext {
   """
   requiredStatusChecks: RequiredStatusChecksParametersInput
 
-"""
-Autogenerated input type of RevertPullRequest
-"""
-input RevertPullRequestInput {
   """
   Parameters used for the `tag_name_pattern` rule type
   """
   tagNamePattern: TagNamePatternParametersInput
 
-"""
-Autogenerated input type of RevokeEnterpriseOrganizationsMigratorRole
-"""
-input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   Parameters used for the `update` rule type
   """
@@ -48263,10 +48529,6 @@ enum SamlDigestAlgorithm {
   """
   SHA256
 
-"""
-Autogenerated return type of RevokeEnterpriseOrganizationsMigratorRole
-"""
-type RevokeEnterpriseOrganizationsMigratorRolePayload {
   """
   SHA384
   """
@@ -48317,10 +48579,6 @@ type SavedReply implements Node {
   """
   bodyHTML: HTML!
 
-"""
-Possible roles a user may have in relation to an organization.
-"""
-enum RoleInOrganization {
   """
   Identifies the primary key from the database.
   """
@@ -48347,10 +48605,6 @@ type SavedReplyConnection {
   """
   edges: [SavedReplyEdge]
 
-"""
-The level of enforcement for a rule or ruleset.
-"""
-enum RuleEnforcement {
   """
   A list of nodes.
   """
@@ -48437,10 +48691,6 @@ type SearchResultItemConnection {
   """
   edges: [SearchResultItemEdge]
 
-"""
-Autogenerated input type of RevokeEnterpriseOrganizationsMigratorRole
-"""
-input RevokeEnterpriseOrganizationsMigratorRoleInput {
   """
   The total number of issues that matched the search query. Regardless of the
   total number of matches, a maximum of 1,000 results will be available across all types.
@@ -48487,10 +48737,6 @@ type SearchResultItemEdge {
   """
   cursor: String!
 
-"""
-The possible digest algorithms used to sign SAML requests for an identity provider.
-"""
-enum SamlDigestAlgorithm {
   """
   The item at the end of the edge.
   """
@@ -48516,10 +48762,6 @@ enum SearchType {
   """
   ISSUE
 
-"""
-Autogenerated return type of RevokeEnterpriseOrganizationsMigratorRole
-"""
-type RevokeEnterpriseOrganizationsMigratorRolePayload {
   """
   Returns results matching repositories.
   """
@@ -48575,10 +48817,6 @@ type SecurityAdvisory implements Node {
   """
   databaseId: Int
 
-"""
-A Saved Reply is text a user can use to reply quickly.
-"""
-type SavedReply implements Node {
   """
   This is a long plaintext description of the advisory
   """
@@ -48590,10 +48828,6 @@ type SavedReply implements Node {
   ghsaId: String!
   id: ID!
 
-"""
-Possible roles a user may have in relation to an organization.
-"""
-enum RoleInOrganization {
   """
   A list of identifiers for this advisory
   """
@@ -48614,10 +48848,6 @@ enum RoleInOrganization {
   """
   permalink: URI
 
-"""
-The level of enforcement for a rule or ruleset.
-"""
-enum RuleEnforcement {
   """
   When the advisory was published
   """
@@ -48723,12 +48953,6 @@ type SecurityAdvisoryConnection {
   """
   edges: [SecurityAdvisoryEdge]
 
-"""
-A list of results that matched against a search query. Regardless of the number
-of matches, a maximum of 1,000 results will be available across all types,
-potentially split across many pages.
-"""
-type SearchResultItemConnection {
   """
   A list of nodes.
   """
@@ -48784,10 +49008,6 @@ enum SecurityAdvisoryEcosystem {
   """
   NUGET
 
-"""
-An edge in a connection.
-"""
-type SearchResultItemEdge {
   """
   Python packages hosted at PyPI.org
   """
@@ -48803,10 +49023,6 @@ type SearchResultItemEdge {
   """
   RUBYGEMS
 
-"""
-Represents the individual results of a search.
-"""
-enum SearchType {
   """
   Rust crates
   """
@@ -48823,12 +49039,12 @@ An edge in a connection.
 """
 type SecurityAdvisoryEdge {
   """
-  Returns results matching repositories.
+  A cursor for use in pagination.
   """
-  REPOSITORY
+  cursor: String!
 
   """
-  Returns results matching users and organizations on GitHub.
+  The item at the end of the edge.
   """
   node: SecurityAdvisory
 }
@@ -48883,9 +49099,9 @@ Ordering options for security advisory connections
 """
 input SecurityAdvisoryOrder {
   """
-  A list of identifiers for this advisory
+  The ordering direction.
   """
-  identifiers: [SecurityAdvisoryIdentifier!]!
+  direction: OrderDirection!
 
   """
   The field to order security advisories by.
@@ -48905,7 +49121,8 @@ enum SecurityAdvisoryOrderField {
   """
   Order advisories by update time
   """
-  severity: SecurityAdvisorySeverity!
+  UPDATED_AT
+}
 
 """
 An individual package
@@ -48939,22 +49156,7 @@ type SecurityAdvisoryReference {
   """
   A publicly accessible reference
   """
-  nodes: [SecurityAdvisory]
-
-"""
-A hovercard context with a message describing the current code review state of the pull
-request.
-"""
-type ReviewStatusHovercardContext implements HovercardContext {
-  """
-  Information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-
-  """
-  Identifies the total count of items in the connection.
-  """
-  totalCount: Int!
+  url: URI!
 }
 
 """
@@ -49006,10 +49208,6 @@ type SecurityVulnerability {
   """
   severity: SecurityAdvisorySeverity!
 
-"""
-A GitHub Security Advisory Identifier
-"""
-type SecurityAdvisoryIdentifier {
   """
   When the vulnerability was last updated
   """
@@ -49032,41 +49230,37 @@ The connection type for SecurityVulnerability.
 """
 type SecurityVulnerabilityConnection {
   """
-  The identifier type.
+  A list of edges.
   """
   edges: [SecurityVulnerabilityEdge]
 
   """
-  The identifier string. Supports exact or partial matching.
+  A list of nodes.
   """
   nodes: [SecurityVulnerability]
 
-"""
-Identifier formats available for advisories.
-"""
-enum SecurityAdvisoryIdentifierType {
   """
-  Common Vulnerabilities and Exposures Identifier.
+  Information to aid in pagination.
   """
-  CVE
+  pageInfo: PageInfo!
 
   """
-  GitHub Security Advisory ID.
+  Identifies the total count of items in the connection.
   """
-  GHSA
+  totalCount: Int!
 }
 
 """
-Ordering options for security advisory connections
+An edge in a connection.
 """
 type SecurityVulnerabilityEdge {
   """
-  The ordering direction.
+  A cursor for use in pagination.
   """
-  direction: OrderDirection!
+  cursor: String!
 
   """
-  The field to order security advisories by.
+  The item at the end of the edge.
   """
   node: SecurityVulnerability
 }
@@ -49080,10 +49274,6 @@ input SecurityVulnerabilityOrder {
   """
   direction: OrderDirection!
 
-"""
-An individual package
-"""
-type SecurityAdvisoryPackage {
   """
   The field to order security vulnerabilities by.
   """
@@ -49109,12 +49299,6 @@ input SetEnterpriseIdentityProviderInput {
   """
   clientMutationId: String
 
-"""
-A list of results that matched against a search query. Regardless of the number
-of matches, a maximum of 1,000 results will be available across all types,
-potentially split across many pages.
-"""
-type SearchResultItemConnection {
   """
   The digest algorithm used to sign SAML requests for the identity provider.
   """
@@ -49130,10 +49314,6 @@ type SearchResultItemConnection {
   """
   idpCertificate: String!
 
-"""
-Severity of the vulnerability.
-"""
-enum SecurityAdvisorySeverity {
   """
   The Issuer Entity ID for the SAML identity provider
   """
@@ -49159,10 +49339,6 @@ type SetEnterpriseIdentityProviderPayload {
   """
   clientMutationId: String
 
-"""
-An individual vulnerability within an Advisory
-"""
-type SecurityVulnerability {
   """
   The identity provider for the enterprise.
   """
@@ -49188,10 +49364,6 @@ input SetOrganizationInteractionLimitInput {
   """
   limit: RepositoryInteractionLimit!
 
-"""
-A GitHub Security Advisory Identifier
-"""
-type SecurityAdvisoryIdentifier {
   """
   The ID of the organization to set a limit for.
   """
@@ -49207,10 +49379,6 @@ type SetOrganizationInteractionLimitPayload {
   """
   clientMutationId: String
 
-"""
-The connection type for SecurityVulnerability.
-"""
-type SecurityVulnerabilityConnection {
   """
   The organization that the interaction limit was set for.
   """
@@ -49231,10 +49399,6 @@ input SetRepositoryInteractionLimitInput {
   """
   expiry: RepositoryInteractionLimitExpiry
 
-"""
-Ordering options for security advisory connections
-"""
-type SecurityVulnerabilityEdge {
   """
   The limit to set.
   """
@@ -49275,10 +49439,6 @@ input SetUserInteractionLimitInput {
   """
   expiry: RepositoryInteractionLimitExpiry
 
-"""
-Autogenerated return type of SetEnterpriseIdentityProvider
-"""
-type SetEnterpriseIdentityProviderPayload {
   """
   The limit to set.
   """
@@ -49319,10 +49479,6 @@ type SmimeSignature implements GitSignature {
   """
   isValid: Boolean!
 
-"""
-Autogenerated return type of SetOrganizationInteractionLimit
-"""
-type SetOrganizationInteractionLimitPayload {
   """
   Payload for GPG signing object. Raw ODB object without the signature header.
   """
@@ -49333,10 +49489,6 @@ type SetOrganizationInteractionLimitPayload {
   """
   signature: String!
 
-"""
-Autogenerated input type of SetRepositoryInteractionLimit
-"""
-input SetRepositoryInteractionLimitInput {
   """
   GitHub user corresponding to the email signing this commit.
   """
@@ -49348,10 +49500,6 @@ input SetRepositoryInteractionLimitInput {
   """
   state: GitSignatureState!
 
-"""
-Ordering options for security advisory connections
-"""
-type SecurityVulnerabilityEdge {
   """
   True if the signature was made with GitHub's signing key.
   """
@@ -49367,10 +49515,6 @@ type SocialAccount {
   """
   displayName: String!
 
-"""
-Autogenerated return type of SetRepositoryInteractionLimit
-"""
-type SetRepositoryInteractionLimitPayload {
   """
   Software or company that hosts the social media account.
   """
@@ -49396,10 +49540,6 @@ type SocialAccountConnection {
   """
   nodes: [SocialAccount]
 
-"""
-Autogenerated return type of SetEnterpriseIdentityProvider
-"""
-type SetEnterpriseIdentityProviderPayload {
   """
   Information to aid in pagination.
   """
@@ -49440,10 +49580,6 @@ enum SocialAccountProvider {
   """
   GENERIC
 
-"""
-Autogenerated return type of SetOrganizationInteractionLimit
-"""
-type SetOrganizationInteractionLimitPayload {
   """
   Fork of Mastodon with a greater focus on local posting.
   """
@@ -49454,10 +49590,6 @@ type SetOrganizationInteractionLimitPayload {
   """
   INSTAGRAM
 
-"""
-Autogenerated input type of SetRepositoryInteractionLimit
-"""
-input SetRepositoryInteractionLimitInput {
   """
   Professional networking website.
   """
@@ -49468,37 +49600,21 @@ input SetRepositoryInteractionLimitInput {
   """
   MASTODON
 
-"""
-Ordering options for security advisory connections
-"""
-type SecurityVulnerabilityEdge {
   """
   Social news aggregation and discussion website.
   """
   REDDIT
 
-"""
-Social media profile associated with a user.
-"""
-type SocialAccount {
   """
   Live-streaming service.
   """
   TWITCH
 
-"""
-Autogenerated return type of SetRepositoryInteractionLimit
-"""
-type SetRepositoryInteractionLimitPayload {
   """
   Microblogging website.
   """
   TWITTER
 
-"""
-Severity of the vulnerability.
-"""
-enum SecurityAdvisorySeverity {
   """
   Online video platform.
   """
@@ -49524,19 +49640,11 @@ type SponsorConnection {
   """
   nodes: [Sponsor]
 
-"""
-Autogenerated return type of SetEnterpriseIdentityProvider
-"""
-type SetEnterpriseIdentityProviderPayload {
   """
   Information to aid in pagination.
   """
   pageInfo: PageInfo!
 
-"""
-An individual vulnerability within an Advisory
-"""
-type SecurityVulnerability {
   """
   Identifies the total count of items in the connection.
   """
@@ -49582,10 +49690,6 @@ enum SponsorOrderField {
   """
   LOGIN
 
-"""
-Autogenerated input type of SetRepositoryInteractionLimit
-"""
-input SetRepositoryInteractionLimitInput {
   """
   Order sponsors by their relevance to the viewer.
   """
@@ -49601,19 +49705,11 @@ interface Sponsorable {
   """
   estimatedNextSponsorsPayoutInCents: Int!
 
-"""
-An individual package version
-"""
-type SecurityAdvisoryPackageVersion {
   """
   True if this user/organization has a GitHub Sponsors listing.
   """
   hasSponsorsListing: Boolean!
 
-"""
-Social media profile associated with a user.
-"""
-type SocialAccount {
   """
   Whether the given account is sponsoring this user/organization.
   """
@@ -49624,10 +49720,6 @@ type SocialAccount {
     accountLogin: String!
   ): Boolean!
 
-"""
-Autogenerated return type of SetRepositoryInteractionLimit
-"""
-type SetRepositoryInteractionLimitPayload {
   """
   True if the viewer is sponsored by this user/organization.
   """
@@ -49668,10 +49760,6 @@ type SetRepositoryInteractionLimitPayload {
     orderBy: SponsorOrder = {field: RELEVANCE, direction: DESC}
   ): SponsorConnection!
 
-"""
-Represents a user or organization who is sponsoring someone in GitHub Sponsors.
-"""
-type SponsorEdge {
   """
   List of sponsors for this user or organization.
   """
@@ -49772,19 +49860,11 @@ type SponsorEdge {
     until: DateTime
   ): SponsorsActivityConnection!
 
-"""
-Entities that can sponsor or be sponsored through GitHub Sponsors.
-"""
-interface Sponsorable {
   """
   The GitHub Sponsors listing for this user or organization.
   """
   sponsorsListing: SponsorsListing
 
-"""
-Ordering options for security vulnerability connections
-"""
-input SecurityVulnerabilityOrder {
   """
   The sponsorship from the viewer to this user/organization; that is, the sponsorship where you're the sponsor.
   """
@@ -49796,10 +49876,6 @@ input SecurityVulnerabilityOrder {
     activeOnly: Boolean = true
   ): Sponsorship
 
-"""
-Social media profile associated with a user.
-"""
-type SocialAccount {
   """
   The sponsorship from this user/organization to the viewer; that is, the sponsorship you're receiving.
   """
@@ -59880,31 +59956,6 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectOwner &
     """
     types: [PinnableItemType!]
   ): PinnableItemConnection!
-
-  """
-  Returns how many more items this profile owner can pin to their profile.
-  """
-  pinnedItemsRemaining: Int!
-
-  """
-  Find project by number.
-  """
-  project(
-    """
-    The project number to find.
-    """
-    number: Int!
-  ): Project
-
-  """
-  Find a project by number.
-  """
-  projectV2(
-    """
-    The project number.
-    """
-    number: Int!
-  ): ProjectV2
 
   """
   The HTTP path listing user's projects
