@@ -27764,6 +27764,40 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     """
     after: String
 
+  """
+  Find a project by number.
+  """
+  projectV2(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Filter mannequins by login.
+    """
+    login: String
+
+    """
+    Ordering options for mannequins returned from the connection.
+    """
+    orderBy: MannequinOrder = {field: CREATED_AT, direction: ASC}
+  ): MannequinConnection!
+
+  """
+  Get the status messages members of this entity have set that are either public or visible only to the organization.
+  """
+  mannequins(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
     """
     Returns the elements in the list that come before the specified cursor.
     """
@@ -27804,41 +27838,6 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   Find a project by number.
   """
   projectV2(
-    """
-    Ordering options for mannequins returned from the connection.
-    """
-    orderBy: MannequinOrder = {field: CREATED_AT, direction: ASC}
-  ): MannequinConnection!
-
-  """
-  Get the status messages members of this entity have set that are either public or visible only to the organization.
-  """
-  mannequins(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Filter mannequins by login.
-    """
-    login: String
-
     """
     Ordering options for mannequins returned from the connection.
     """
@@ -28213,6 +28212,46 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   ): RepositoryRulesetConnection
 
   """
+  Returns a single ruleset from the current organization by ID.
+  """
+  ruleset(
+    """
+    The ID of the ruleset to be returned.
+    """
+    databaseId: Int!
+  ): RepositoryRuleset
+
+  """
+  A list of rulesets for this organization.
+  """
+  rulesets(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Return rulesets configured at higher levels that apply to this organization
+    """
+    includeParents: Boolean = true
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): RepositoryRulesetConnection
+
+  """
   The Organization's SAML identity provider. Visible to (1) organization owners,
   (2) organization owners' personal access tokens (classic) with read:org or
   admin:org scope, (3) GitHub App with an installation token with read or write
@@ -28312,6 +28351,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
   A list of rulesets for this organization.
   """
   rulesets(
+    """
+    Filter activities to only the specified actions.
+    """
+    actions: [SponsorsActivityAction!] = []
+
     """
     Filter activities to only the specified actions.
     """
@@ -28488,6 +28532,12 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     activeOnly: Boolean = true
 
     """
+    Whether to include only sponsorships that are active right now, versus all
+    sponsorships this maintainer has ever received.
+    """
+    activeOnly: Boolean = true
+
+    """
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
@@ -28596,6 +28646,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     activeOnly: Boolean = true
 
     """
+    Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
+    """
+    activeOnly: Boolean = true
+
+    """
     Returns the elements in the list that come after the specified cursor.
     """
     after: String
@@ -28614,6 +28669,13 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     Return rulesets configured at higher levels that apply to this organization
     """
     includeParents: Boolean = true
+
+    """
+    Filter sponsorships returned to those for the specified maintainers. That
+    is, the recipient of the sponsorship is a user or organization with one of
+    the given logins.
+    """
+    maintainerLogins: [String!]
 
     """
     Filter sponsorships returned to those for the specified maintainers. That
@@ -28717,6 +28779,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     notificationSetting: TeamNotificationSetting
 
     """
+    Ordering options for teams returned from the connection
+    """
+    notificationSetting: TeamNotificationSetting
+
+    """
     If non-null, filters teams according to notification setting
     """
     notificationSetting: TeamNotificationSetting
@@ -28751,10 +28818,32 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     """
     activeOnly: Boolean = true
 
+  """
+  The amount in United States cents (e.g., 500 = $5.00 USD) that this entity has
+  spent on GitHub to fund sponsorships. Only returns a value when viewed by the
+  user themselves or by a user who can manage sponsorships for the requested organization.
+  """
+  totalSponsorshipAmountAsSponsorInCents(
     """
-    Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
+    Filter payments to those that occurred on or after this time.
     """
-    activeOnly: Boolean = true
+    since: DateTime
+
+    """
+    Filter payments to those made to the users or organizations with the specified usernames.
+    """
+    sponsorableLogins: [String!] = []
+
+    """
+    Filter payments to those that occurred before this time.
+    """
+    until: DateTime
+  ): Int
+
+  """
+  The organization's Twitter username.
+  """
+  twitterUsername: String
 
     """
     Returns the elements in the list that come after the specified cursor.
@@ -28932,6 +29021,11 @@ type Organization implements Actor & AnnouncementBanner & MemberStatusable & Nod
     """
     databaseId: Int!
   ): RepositoryRuleset
+
+  """
+  Whether contributors are required to sign off on web-based commits for repositories in this organization.
+  """
+  webCommitSignoffRequired: Boolean!
 
   """
   Whether contributors are required to sign off on web-based commits for repositories in this organization.
@@ -29307,6 +29401,13 @@ type OrganizationIdentityProvider implements Node {
     activeOnly: Boolean = true
   ): Sponsorship
 
+"""
+An Identity Provider configured to provision SAML and SCIM identities for
+Organizations. Visible to (1) organization owners, (2) organization owners'
+personal access tokens (classic) with read:org or admin:org scope, (3) GitHub
+App with an installation token with read or write access to members.
+"""
+type OrganizationIdentityProvider implements Node {
   """
   Whether contributors are required to sign off on web-based commits for repositories in this organization.
   """
@@ -29456,9 +29557,12 @@ enum OrganizationInvitationType {
   ): Int
 
   """
-  The amount in United States cents (e.g., 500 = $5.00 USD) that this entity has
-  spent on GitHub to fund sponsorships. Only returns a value when viewed by the
-  user themselves or by a user who can manage sponsorships for the requested organization.
+  The source of the invitation.
+  """
+  invitationSource: OrganizationInvitationSource!
+
+  """
+  The type of invitation that was sent (e.g. email, user).
   """
   totalSponsorshipAmountAsSponsorInCents(
     """
@@ -29588,7 +29692,27 @@ type OrganizationMigration implements Node {
 }
 
 """
-The Octoshift Organization migration state.
+The possible organization invitation sources.
+"""
+enum OrganizationInvitationSource {
+  """
+  The invitation was created from the web interface or from API
+  """
+  MEMBER
+
+  """
+  The invitation was created from SCIM
+  """
+  SCIM
+
+  """
+  The invitation was sent before this feature was added
+  """
+  UNKNOWN
+}
+
+"""
+The possible organization invitation types.
 """
 enum OrganizationMigrationState {
   """
@@ -29668,7 +29792,148 @@ enum OrganizationInvitationSource {
 }
 
 """
-The possible organization invitation types.
+A GitHub Enterprise Importer (GEI) organization migration.
+"""
+type OrganizationMigration implements Node {
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  Identifies the primary key from the database.
+  """
+  databaseId: String
+
+  """
+  The reason the organization migration failed.
+  """
+  failureReason: String
+  id: ID!
+
+  """
+  The remaining amount of repos to be migrated.
+  """
+  remainingRepositoriesCount: Int
+
+  """
+  The name of the source organization to be migrated.
+  """
+  sourceOrgName: String!
+
+  """
+  The URL of the source organization to migrate.
+  """
+  sourceOrgUrl: URI!
+
+  """
+  The migration state.
+  """
+  state: OrganizationMigrationState!
+
+  """
+  The name of the target organization.
+  """
+  targetOrgName: String!
+
+  """
+  The total amount of repositories to be migrated.
+  """
+  totalRepositoriesCount: Int
+}
+
+"""
+The Octoshift Organization migration state.
+"""
+enum OrganizationMigrationState {
+  """
+  The Octoshift migration has failed.
+  """
+  FAILED
+
+  """
+  The Octoshift migration has invalid credentials.
+  """
+  FAILED_VALIDATION
+
+  """
+  The Octoshift migration is in progress.
+  """
+  IN_PROGRESS
+
+  """
+  The Octoshift migration has not started.
+  """
+  NOT_STARTED
+
+  """
+  The Octoshift migration needs to have its credentials validated.
+  """
+  PENDING_VALIDATION
+
+  """
+  The Octoshift migration is performing post repository migrations.
+  """
+  POST_REPO_MIGRATION
+
+  """
+  The Octoshift migration is performing pre repository migrations.
+  """
+  PRE_REPO_MIGRATION
+
+  """
+  The Octoshift migration has been queued.
+  """
+  QUEUED
+
+  """
+  The Octoshift org migration is performing repository migrations.
+  """
+  REPO_MIGRATION
+
+  """
+  The Octoshift migration has succeeded.
+  """
+  SUCCEEDED
+}
+
+"""
+Used for argument of CreateProjectV2 mutation.
+"""
+union OrganizationOrUser = Organization | User
+
+"""
+Ordering options for organization connections.
+"""
+input OrganizationOrder {
+  """
+  The ordering direction.
+  """
+  direction: OrderDirection!
+
+  """
+  The field to order organizations by.
+  """
+  field: OrganizationOrderField!
+}
+
+"""
+Properties by which organization connections can be ordered.
+"""
+enum OrganizationOrderField {
+  """
+  Order organizations by creation time
+  """
+  CREATED_AT
+
+  """
+  Order organizations by login
+  """
+  LOGIN
+}
+
+"""
+An organization teams hovercard context
 """
 enum OrganizationInvitationType {
   """
@@ -29734,7 +29999,13 @@ enum OrganizationInvitationType {
     """
     Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
     """
-    activeOnly: Boolean = true
+    last: Int
+
+    """
+    Ordering options for the User's organizations.
+    """
+    orderBy: OrganizationOrder = null
+  ): OrganizationConnection!
 
   """
   Whether contributors are required to sign off on web-based commits for repositories in this organization.
@@ -31453,7 +31724,7 @@ enum OrganizationMigrationState {
   POST_REPO_MIGRATION
 
   """
-  The Octoshift migration is performing pre repository migrations.
+  Indicates if the object is closed (definition of closed may depend on type)
   """
   PRE_REPO_MIGRATION
 
@@ -31517,6 +31788,16 @@ type OrganizationMigration implements Node {
   The name of the target organization.
   """
   targetOrgName: String!
+
+  """
+  Indicates if the object can be closed by the viewer.
+  """
+  viewerCanClose: Boolean!
+
+  """
+  Indicates if the object can be reopened by the viewer.
+  """
+  viewerCanReopen: Boolean!
 
   """
   Indicates if the object can be closed by the viewer.
@@ -32040,6 +32321,21 @@ input ProjectOrder {
 }
 
 """
+Ways in which lists of projects can be ordered upon return.
+"""
+input ProjectOrder {
+  """
+  The direction in which to order projects by the specified field.
+  """
+  direction: OrderDirection!
+
+  """
+  The field in which to order projects by.
+  """
+  field: ProjectOrderField!
+}
+
+"""
 Properties by which project connections can be ordered.
 """
 enum ProjectOrderField {
@@ -32341,6 +32637,11 @@ type ProjectV2 implements Closable & Node & Updatable {
   readme: String
 
   """
+  The project's readme.
+  """
+  readme: String
+
+  """
   The organization's public profile URL.
   """
   rulesets(
@@ -32380,6 +32681,46 @@ type ProjectV2 implements Closable & Node & Updatable {
 
   """
   The type of invitation that was sent (e.g. email, user).
+  """
+  shortDescription: String
+
+  """
+  The teams the project is linked to.
+  """
+  teams(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for repositories returned from the connection
+    """
+    orderBy: RepositoryOrder = {field: CREATED_AT, direction: DESC}
+  ): RepositoryConnection!
+
+  """
+  The HTTP path for this project
+  """
+  resourcePath: URI!
+
+  """
+  Returns true if this project is a template.
   """
   shortDescription: String
 
@@ -32456,20 +32797,6 @@ type ProjectV2 implements Closable & Node & Updatable {
   """
   The type of invitation that was sent (e.g. email, user).
   """
-  invitationSource: OrganizationInvitationSource!
-
-  """
-  The source of the invitation.
-  """
-  RUBYGEMS
-    @deprecated(
-      reason: "RUBYGEMS will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2022-12-28 UTC."
-    )
-}
-
-  """
-  The type of invitation that was sent (e.g. email, user).
-  """
   invitationType: OrganizationInvitationType!
 
     """
@@ -32486,6 +32813,46 @@ type ProjectV2 implements Closable & Node & Updatable {
     Return rulesets configured at higher levels that apply to this organization
     """
     includeParents: Boolean = true
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for project v2 views returned from the connection
+    """
+    orderBy: ProjectV2ViewOrder = {field: POSITION, direction: ASC}
+  ): ProjectV2ViewConnection!
+
+  """
+  A workflow of the project
+  """
+  workflow(
+    """
+    The number of a workflow belonging to the project
+    """
+    number: Int!
+  ): ProjectV2Workflow
+
+  """
+  List of the workflows in the project
+  """
+  workflows(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -32609,24 +32976,25 @@ The connection type for ProjectV2.
 """
 type ProjectV2Connection {
   """
-  Returns a single ruleset from the current organization by ID.
+  A list of edges.
   """
   edges: [ProjectV2Edge]
 
   """
-  The sponsorships where this user or organization is the funder.
+  A list of nodes.
   """
   nodes: [ProjectV2]
 
-    """
-    Ordering options for teams returned from the connection
-    """
-    notificationSetting: TeamNotificationSetting
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
 
-    """
-    If non-null, filters teams according to notification setting
-    """
-    notificationSetting: TeamNotificationSetting
+  """
+  Identifies the total count of items in the connection.
+  """
+  totalCount: Int!
+}
 
 """
 The type of a project field.
@@ -32669,9 +33037,49 @@ type ProjectV2Edge {
 }
 
 """
-A field inside a project.
+A collaborator to update on a project. Only one of the userId or teamId should be provided.
 """
 type ProjectV2Field implements Node & ProjectV2FieldCommon {
+  """
+  The role to grant the collaborator
+  """
+  createdAt: DateTime!
+
+  """
+  The ID of the team as a collaborator.
+  """
+  dataType: ProjectV2FieldType!
+
+  """
+  The ID of the user as a collaborator.
+  """
+  databaseId: Int
+  id: ID!
+
+"""
+The connection type for ProjectV2.
+"""
+type ProjectV2Connection {
+  """
+  Returns a single ruleset from the current organization by ID.
+  """
+  name: String!
+
+  """
+  The sponsorships where this user or organization is the funder.
+  """
+  project: ProjectV2!
+
+  """
+  Single Select
+  """
+  updatedAt: DateTime!
+}
+
+"""
+Common fields across different project field types
+"""
+interface ProjectV2FieldCommon {
   """
   Identifies the date and time when the object was created.
   """
@@ -32681,11 +33089,6 @@ type ProjectV2Field implements Node & ProjectV2FieldCommon {
   The field's type.
   """
   dataType: ProjectV2FieldType!
-
-    """
-    Whether to include only sponsorships that are active right now, versus all sponsorships this sponsor has ever made.
-    """
-    activeOnly: Boolean = true
 
 """
 The possible organization invitation sources.
@@ -32708,10 +33111,24 @@ enum OrganizationInvitationSource {
   project: ProjectV2!
 
   """
-  The invitation was sent before this feature was added
+  Identifies the date and time when the object was last updated.
   """
   updatedAt: DateTime!
 }
+
+"""
+Configurations for project fields.
+"""
+union ProjectV2FieldConfiguration = ProjectV2Field | ProjectV2IterationField | ProjectV2SingleSelectField
+
+"""
+The connection type for ProjectV2FieldConfiguration.
+"""
+type ProjectV2FieldConfigurationConnection {
+  """
+  A list of edges.
+  """
+  edges: [ProjectV2FieldConfigurationEdge]
 
 """
 Common fields across different project field types
@@ -32756,26 +33173,6 @@ Properties by which project connections can be ordered.
 """
 enum ProjectOrderField {
   """
-  Identifies the date and time when the object was last updated.
-  """
-  updatedAt: DateTime!
-}
-
-"""
-Configurations for project fields.
-"""
-union ProjectV2FieldConfiguration = ProjectV2Field | ProjectV2IterationField | ProjectV2SingleSelectField
-
-"""
-The connection type for ProjectV2FieldConfiguration.
-"""
-type ProjectV2FieldConfigurationConnection {
-  """
-  A list of edges.
-  """
-  edges: [ProjectV2FieldConfigurationEdge]
-
-  """
   A list of nodes.
   """
   nodes: [ProjectV2FieldConfiguration]
@@ -32816,66 +33213,32 @@ type ProjectV2FieldConnection {
   edges: [ProjectV2FieldEdge]
 
   """
-  Find project by number.
+  A list of nodes.
   """
   nodes: [ProjectV2Field]
 
   """
-  A list of projects under the owner.
+  Information to aid in pagination.
   """
-  projects(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Ordering options for projects returned from the connection
-    """
-    orderBy: ProjectOrder
-
-    """
-    Query to search projects by, currently only searching by name.
-    """
-    search: String
-
-    """
-    A list of states to filter the projects by.
-    """
-    states: [ProjectState!]
-  ): ProjectConnection!
+  pageInfo: PageInfo!
 
   """
-  The HTTP path listing owners projects
+  Identifies the total count of items in the connection.
   """
-  projectsResourcePath: URI!
+  totalCount: Int!
+}
 
 """
 An edge in a connection.
 """
 type ProjectV2FieldEdge {
   """
-  The HTTP URL listing owners projects
+  A cursor for use in pagination.
   """
-  projectsUrl: URI!
+  cursor: String!
 
   """
-  Can the current viewer create new projects on this owner.
+  The item at the end of the edge.
   """
   node: ProjectV2Field
 }
@@ -32920,17 +33283,17 @@ The type of a project field.
 """
 enum ProjectV2FieldType {
   """
-  The number of done cards.
+  A list of edges.
   """
   ASSIGNEES
 
   """
-  The percentage of done cards.
+  Find project by number.
   """
   DATE
 
   """
-  Whether progress tracking is enabled and cards with purpose exist for this project
+  A list of projects under the owner.
   """
   ITERATION
 
@@ -32993,6 +33356,11 @@ enum ProjectTemplate {
   TRACKED_BY
 
   """
+  Tracked by
+  """
+  TRACKED_BY
+
+  """
   Create a board to triage and prioritize bugs with To do, priority, and Done columns.
   """
   TRACKS
@@ -33006,6 +33374,46 @@ input ProjectV2FieldValue {
   The ISO 8601 date to set on the field.
   """
   date: Date
+
+  """
+  The id of the iteration to set on the field.
+  """
+  iterationId: String
+
+  """
+  The number to set on the field.
+  """
+  number: Float
+
+  """
+  The id of the single select option to set on the field.
+  """
+  singleSelectOptionId: String
+
+  """
+  The text to set on the field.
+  """
+  text: String
+}
+
+"""
+Ways in which to filter lists of projects.
+"""
+input ProjectV2Filters {
+  """
+  List project v2 filtered by the state given.
+  """
+  state: ProjectV2State
+}
+
+"""
+An item within a Project.
+"""
+type ProjectV2Item implements Node {
+  """
+  The ISO 8601 date to set on the field.
+  """
+  content: ProjectV2ItemContent
 
   """
   The id of the iteration to set on the field.
@@ -33533,24 +33941,19 @@ The value of a text field in a Project item.
 """
 type ProjectV2ItemFieldTextValue implements Node & ProjectV2ItemFieldValueCommon {
   """
-  A view of the project
+  The name of the selected single select option.
   """
-  view(
-    """
-    The number of a view belonging to the project
-    """
-    number: Int!
-  ): ProjectV2View
+  name: String
 
   """
   The actor who created the item.
   """
-  viewerCanClose: Boolean!
+  nameHTML: String
 
   """
-  Indicates if the object can be reopened by the viewer.
+  The id of the selected single select option.
   """
-  viewerCanReopen: Boolean!
+  optionId: String
 
   """
   The project field that contains this value.
@@ -33649,9 +34052,9 @@ interface ProjectV2ItemFieldValueCommon {
   databaseId: Int
 
 """
-The connection type for ProjectV2.
+The connection type for ProjectV2ItemFieldValue.
 """
-type ProjectV2Connection {
+type ProjectV2ItemFieldValueConnection {
   """
   The project field that contains this value.
   """
@@ -33674,37 +34077,41 @@ The connection type for ProjectV2ItemFieldValue.
 """
 type ProjectV2ItemFieldValueConnection {
   """
-  Date
+  Indicates if the object can be reopened by the viewer.
   """
   edges: [ProjectV2ItemFieldValueEdge]
 
   """
-  Number
+  Check if the current viewer can update this object.
   """
   nodes: [ProjectV2ItemFieldValue]
 
+"""
+Ordering options for project v2 item field value connections
+"""
+input ProjectV2ItemFieldValueOrder {
   """
-  Single Select
+  The ordering direction.
   """
-  SINGLE_SELECT
+  direction: OrderDirection!
 
   """
-  Text
+  The field to order the project v2 item field values by.
   """
-  TEXT
+  field: ProjectV2ItemFieldValueOrderField!
 }
 
 """
-An edge in a connection.
+Properties by which project v2 item field value connections can be ordered.
 """
 type ProjectV2ItemFieldValueEdge {
   """
-  Indicates if the object can be reopened by the viewer.
+  A cursor for use in pagination.
   """
-  viewerCanReopen: Boolean!
+  cursor: String!
 
   """
-  Check if the current viewer can update this object.
+  Order project v2 item field values by the their position in the project
   """
   node: ProjectV2ItemFieldValue
 }
@@ -33778,10 +34185,6 @@ enum ProjectV2ItemType {
   """
   PULL_REQUEST
 
-"""
-The Octoshift Organization migration state.
-"""
-enum OrganizationMigrationState {
   """
   Redacted Item
   """
@@ -34056,12 +34459,6 @@ type ProjectV2SingleSelectField implements Node & ProjectV2FieldCommon {
   """
   name: String!
 
-"""
-A GitHub Enterprise Importer (GEI) organization migration.
-"""
-type OrganizationMigration implements Node {
-  """
-  Identifies the date and time when the object was created.
   """
   Options for the single select field
   """
@@ -34097,6 +34494,10 @@ type ProjectV2SingleSelectFieldOption {
   """
   description: String!
 
+"""
+Recent projects for the owner.
+"""
+interface ProjectV2Recent {
   """
   The option's description, possibly containing HTML.
   """
@@ -34177,6 +34578,10 @@ input ProjectV2SingleSelectFieldOptionInput {
   """
   description: String!
 
+"""
+A GitHub Enterprise Importer (GEI) organization migration.
+"""
+type OrganizationMigration implements Node {
   """
   The name of the option
   """
@@ -34203,24 +34608,24 @@ The connection type for ProjectV2SortBy.
 """
 type ProjectV2SortByConnection {
   """
-  The Octoshift migration is performing pre repository migrations.
+  The option's display color.
   """
   edges: [ProjectV2SortByEdge]
 
   """
-  The Octoshift migration has been queued.
+  The option's plain-text description.
   """
   nodes: [ProjectV2SortBy]
 
   """
-  The Octoshift org migration is performing repository migrations.
+  The option's description, possibly containing HTML.
   """
-  REPO_MIGRATION
+  descriptionHTML: String!
 
   """
-  The Octoshift migration has succeeded.
+  The option's ID.
   """
-  SUCCEEDED
+  totalCount: Int!
 }
 
 """
@@ -34228,12 +34633,12 @@ An edge in a connection.
 """
 type ProjectV2SortByEdge {
   """
-  Identifies the date and time when the object was created.
+  The option's name.
   """
-  createdAt: DateTime!
+  name: String!
 
   """
-  Identifies the primary key from the database.
+  The option's html name.
   """
   node: ProjectV2SortBy
 }
@@ -34317,6 +34722,10 @@ type ProjectV2View implements Node {
   """
   createdAt: DateTime!
 
+"""
+Represents a sort by field and direction.
+"""
+type ProjectV2SortBy {
   """
   Identifies the primary key from the database.
   """
@@ -34421,6 +34830,10 @@ type ProjectV2View implements Node {
   ): ProjectV2FieldConfigurationConnection
   id: ID!
 
+"""
+An edge in a connection.
+"""
+type ProjectV2SortByFieldEdge {
   """
   The project view's layout.
   """
@@ -34431,6 +34844,10 @@ type ProjectV2View implements Node {
   """
   name: String!
 
+"""
+The possible states of a project v2.
+"""
+enum ProjectV2State {
   """
   The project view's number.
   """
@@ -34696,9 +35113,13 @@ A workflow inside a project.
 """
 type ProjectV2Workflow implements Node {
   """
-  Identifies the date and time when the object was created.
+  The view's vertical-group-by field.
   """
-  createdAt: DateTime!
+  verticalGroupByFields(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
 
   """
   Identifies the primary key from the database.
@@ -34727,9 +35148,37 @@ type ProjectV2Workflow implements Node {
   project: ProjectV2!
 
   """
-  Identifies the date and time when the object was last updated.
+  The view's visible fields.
   """
-  updatedAt: DateTime!
+  visibleFields(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Ordering options for the project v2 fields returned from the connection.
+    """
+    orderBy: ProjectV2FieldOrder = {field: POSITION, direction: ASC}
+  ): ProjectV2FieldConnection
+    @deprecated(
+      reason: "The `ProjectV2View#visibleFields` API is deprecated in favour of the more capable `ProjectV2View#fields` API. Check out the `ProjectV2View#fields` API as an example for the more capable alternative. Removal on 2023-01-01 UTC."
+    )
 }
 
 """
@@ -34833,6 +35282,10 @@ type PublicKey implements Node {
   fingerprint: String!
   id: ID!
 
+"""
+An edge in a connection.
+"""
+type ProjectV2WorkflowEdge {
   """
   Whether this PublicKey is read-only or not. Values will be null for keys not owned by the user.
   """
@@ -34843,6 +35296,10 @@ type PublicKey implements Node {
   """
   key: String!
 
+"""
+Ordering options for project v2 workflows connections
+"""
+input ProjectV2WorkflowOrder {
   """
   Identifies the date and time when the key was updated. Keys created before
   March 5th, 2014 may have inaccurate values. Values will be null for keys not
@@ -34985,10 +35442,6 @@ type PullRequest implements Assignable & Closable & Comment & Labelable & Lockab
   """
   baseRefName: String!
 
-"""
-The Octoshift Organization migration state.
-"""
-enum OrganizationMigrationState {
   """
   Identifies the oid of the base ref associated with the pull request, even if the ref has been deleted.
   """
@@ -35284,15 +35737,15 @@ enum OrganizationMigrationState {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+  """
+  Identifies the primary key from the database.
+  """
+  databaseId: Int
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The number of deletions in this pull request.
+  """
+  deletions: Int!
 
     """
     Returns the last _n_ elements from the list.
@@ -35633,6 +36086,11 @@ enum OrganizationMigrationState {
     after: String
 
     """
+    A list of archived states to filter the cards by
+    """
+    archivedStates: [ProjectCardArchivedState] = [ARCHIVED, NOT_ARCHIVED]
+
+    """
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
@@ -35673,9 +36131,7 @@ enum OrganizationMigrationState {
     first: Int
 
     """
-    Whether to include those events where this sponsorable acted as the sponsor.
-    Defaults to only including events where this sponsorable was the recipient
-    of a sponsorship.
+    Returns the last _n_ elements from the list.
     """
     last: Int
 
@@ -35846,15 +36302,6 @@ enum OrganizationMigrationState {
   """
   viewerCanEnableAutoMerge: Boolean!
 
-"""
-The value of the labels field in a Project item.
-"""
-type ProjectV2ItemFieldLabelValue {
-  """
-  Roadmap layout
-  """
-  ROADMAP_LAYOUT
-
   """
   Indicates whether the viewer can bypass branch protections and merge the pull request immediately
   """
@@ -35896,10 +36343,6 @@ type ProjectV2ItemFieldLabelValue {
   """
   viewerDidAuthor: Boolean!
 
-"""
-The value of a reviewers field in a Project item.
-"""
-type ProjectV2ItemFieldReviewerValue {
   """
   The latest review given from the viewer.
   """
@@ -36643,6 +37086,15 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   """
   draftedAt: DateTime!
 
+"""
+The value of the labels field in a Project item.
+"""
+type ProjectV2ItemFieldLabelValue {
+  """
+  Roadmap layout
+  """
+  ROADMAP_LAYOUT
+
   """
   The actor who edited the comment.
   """
@@ -36676,6 +37128,10 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   """
   minimizedReason: String
 
+"""
+The value of a reviewers field in a Project item.
+"""
+type ProjectV2ItemFieldReviewerValue {
   """
   Identifies the original commit associated with the comment.
   """
@@ -39576,6 +40032,17 @@ type RefNameConditionTarget {
   id: ID!
 
   """
+  Compares the current ref as a base ref to another head ref, if the comparison can be made.
+  """
+  compare(
+    """
+    The head ref to compare against.
+    """
+    headRef: String!
+  ): Comparison
+  id: ID!
+
+  """
   The ref name.
   """
   name: String!
@@ -39590,6 +40057,40 @@ type RefNameConditionTarget {
     headRef: String!
   ): Comparison
   id: ID!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+input RefNameConditionTargetInput {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
+
+  """
+  Array of ref names or patterns to include. One of these patterns must match
+  for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the
+  default branch or `~ALL` to include all branches.
+  """
+  include: [String!]!
+}
+
+"""
+Parameters to be used for the ref_name condition
+"""
+type RefNameConditionTarget {
+  """
+  Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.
+  """
+  exclude: [String!]!
 
   """
   Array of ref names or patterns to include. One of these patterns must match
@@ -40615,6 +41116,51 @@ type RemoveEnterpriseMemberPayload {
 }
 
 """
+Autogenerated input type of RemoveEnterpriseMember
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
+  user: User
+
+  """
+  The viewer performing the mutation.
+  """
+  viewer: User
+}
+
+"""
 Autogenerated input type of RemoveEnterpriseOrganization
 """
 input RemoveEnterpriseMemberInput {
@@ -40829,7 +41375,12 @@ type RemoveEnterpriseMemberPayload {
   enterprise: Enterprise
 
   """
-  The user that was removed from the enterprise.
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
   """
   user: User
 
@@ -40905,7 +41456,48 @@ input RemoveEnterpriseMemberInput {
 }
 
 """
-Autogenerated return type of RemoveEnterpriseMember
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
+
+  """
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  """
+  beforeCommit: Commit
+
+  """
+  Identifies the date and time when the object was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
+}
+
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
 """
 type RemoveEnterpriseMemberPayload {
   """
@@ -40960,7 +41552,42 @@ input RemoveEnterpriseMemberInput {
 }
 
 """
-Autogenerated return type of RemoveEnterpriseMember
+An object which has a renamable title
+"""
+union RenamedTitleSubject = Issue | PullRequest
+
+"""
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
 """
 type RemoveEnterpriseMemberPayload {
   """
@@ -43924,19 +44551,21 @@ type ReopenDiscussionPayload {
   clientMutationId: String
 
   """
-  The discussion that was reopened.
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
+
+  """
+  A list of users that can be assigned to issues in this repository.
   """
   discussion: Discussion
 }
 
-"""
-Autogenerated input type of ReopenIssue
-"""
-input ReopenIssueInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
+    """
+    Filters users with query on user name and login.
+    """
+    query: String
+  ): UserConnection!
 
   """
   The ID of the enterprise from which the user should be removed.
@@ -44013,252 +44642,6 @@ type RemoveEnterpriseMemberPayload {
   """
   viewer: User
 }
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-  """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
-  """
-  beforeCommit: Commit
-
-  """
-  Identifies the date and time when the object was created.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  A list of users that can be assigned to issues in this repository.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The discussion that was reopened.
-  """
-  discussion: Discussion
-}
-
-"""
-Autogenerated input type of ReopenIssue
-"""
-input ReopenIssueInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-    """
-    Filters users with query on user name and login.
-    """
-    query: String
-  ): UserConnection!
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  enterprise: Enterprise
-
-"""
-Autogenerated input type of RemoveEnterpriseMember
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
 
     """
     The login of one specific collaborator.
@@ -44272,153 +44655,6 @@ type RemovedFromMergeQueueEvent implements Node {
   ): RepositoryCollaboratorConnection
 
   """
-  Identifies the date and time when the object was created.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-  """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
-  """
-  beforeCommit: Commit
-
-  """
-  Identifies the date and time when the object was created.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
-Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemovedFromProjectEvent implements Node {
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-An object which has a renamable title
-"""
-union RenamedTitleSubject = Issue | PullRequest
-
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  ID of the discussion to be reopened.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The discussion that was reopened.
-  """
-  discussion: Discussion
-}
-
-"""
-Autogenerated input type of ReopenIssue
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
   The ID of the enterprise from which the user should be removed.
   """
   enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
@@ -44433,179 +44669,6 @@ input RemoveEnterpriseMemberInput {
   """
   userId: ID! @possibleTypes(concreteTypes: ["User"])
 }
-
-"""
-An object which has a renamable title
-"""
-union RenamedTitleSubject = Issue | PullRequest
-
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  ID of the discussion to be reopened.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  A list of users that can be assigned to issues in this repository.
-  """
-  assignableUsers(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Filters users with query on user name and login.
-    """
-    query: String
-  ): UserConnection!
-
-"""
-Autogenerated input type of ReopenIssue
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  collaborators(
-    """
-    Collaborators affiliation level with a repository.
-    """
-    affiliation: CollaboratorAffiliation
-
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    The login of one specific collaborator.
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    query: String
-  ): RepositoryCollaboratorConnection
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
 
 """
 Represents a 'removed_from_merge_queue' event on a given pull request.
@@ -44651,7 +44714,17 @@ type RemovedFromMergeQueueEvent implements Node {
 """
 Represents a 'removed_from_project' event on a given issue or pull request.
 """
-type RemovedFromProjectEvent implements Node {
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
   """
   The user that was removed from the enterprise.
   """
@@ -44668,34 +44741,14 @@ Autogenerated input type of RemoveEnterpriseOrganization
 """
 input RemoveEnterpriseMemberInput {
   """
-  A discussion category by slug.
+  A unique identifier for the client performing the mutation.
   """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
+  clientMutationId: String
 
   """
-  A discussion category by slug.
+  The ID of the enterprise from which the user should be removed.
   """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
-
-  """
-  A discussion category by slug.
-  """
-  discussionCategory(
-    """
-    The slug of the discussion category to be returned.
-    """
-    slug: String!
-  ): DiscussionCategory
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
   """
   A discussion category by slug.
@@ -44748,12 +44801,7 @@ input RemoveEnterpriseMemberInput {
   ): DiscussionConnection!
 
   """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
+  The reactable subject.
   """
   userId: ID! @possibleTypes(concreteTypes: ["User"])
 }
@@ -44761,9 +44809,16 @@ input RemoveEnterpriseMemberInput {
 """
 Autogenerated return type of RemoveEnterpriseMember
 """
-type RemoveEnterpriseMemberPayload {
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
   """
   A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Identifies the date and time when the repository was archived.
   """
   environments(
     """
@@ -44793,17 +44848,22 @@ type RemoveEnterpriseMemberPayload {
   ): EnvironmentConnection!
 
   """
-  The updated enterprise.
+  A list of users that can be assigned to issues in this repository.
   """
-  enterprise: Enterprise
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
 
   """
-  The user that was removed from the enterprise.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
+  The discussion that was reopened.
   """
   forks(
     """
@@ -44838,177 +44898,10 @@ type RemoveEnterpriseMemberPayload {
     """
     isLocked: Boolean
 
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Ordering options for repositories returned from the connection
-    """
-    orderBy: RepositoryOrder
-
-    """
-    Array of owner's affiliation options for repositories returned from the
-    connection. For example, OWNER will include only repositories that the
-    organization or user being viewed owns.
-    """
-    ownerAffiliations: [RepositoryAffiliation] = [OWNER, COLLABORATOR]
-
-"""
-An object which has a renamable title
-"""
-union RenamedTitleSubject = Issue | PullRequest
-
-"""
-Autogenerated input type of ReopenDiscussion
-"""
-input ReopenDiscussionInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Indicates if the repository has the Discussions feature enabled.
-  """
-  hasDiscussionsEnabled: Boolean!
-
-  """
-  Indicates if the repository has issues feature enabled.
-  """
-  hasDiscussionsEnabled: Boolean!
-
-  """
-  Indicates if the repository has the Discussions feature enabled.
-  """
-  hasDiscussionsEnabled: Boolean!
-
-  """
-  Indicates if the repository has issues feature enabled.
-  """
-  hasDiscussionsEnabled: Boolean!
-
-  """
-  Indicates if the repository has issues feature enabled.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
-}
-
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
-  """
-  Whether vulnerability alerts are enabled for the repository.
-  """
-  hasVulnerabilityAlertsEnabled: Boolean!
-
-  """
-  Whether vulnerability alerts are enabled for the repository.
-  """
-  hasVulnerabilityAlertsEnabled: Boolean!
-
-  """
-  Indicates if the repository has wiki feature enabled.
-  """
-  hasVulnerabilityAlertsEnabled: Boolean!
-
-  """
-  Indicates if the repository has wiki feature enabled.
-  """
-  clientMutationId: String
-
-  """
-  Whether vulnerability alerts are enabled for the repository.
-  """
-  hasVulnerabilityAlertsEnabled: Boolean!
-
-  """
-  Indicates if the repository has wiki feature enabled.
-  """
-  discussion: Discussion
-}
-
 """
 Autogenerated input type of ReopenIssue
 """
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The ID of the enterprise from which the user should be removed.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  The updated enterprise.
-  """
-  enterprise: Enterprise
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  user: User
-
-  """
-  The viewer performing the mutation.
-  """
-  viewer: User
-}
-
-"""
-Autogenerated input type of RemoveEnterpriseOrganization
-"""
-input RemoveEnterpriseMemberInput {
-  """
-  A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Identifies the date and time when the repository was archived.
-  """
-  archivedAt: DateTime
-
-  """
-  A list of users that can be assigned to issues in this repository.
-  """
-  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
-
-  """
-  The ID of the user to remove from the enterprise.
-  """
-  userId: ID! @possibleTypes(concreteTypes: ["User"])
-}
-
-"""
-Autogenerated return type of RemoveEnterpriseMember
-"""
-type RemoveEnterpriseMemberPayload {
+input ReopenIssueInput {
   """
   A unique identifier for the client performing the mutation.
   """
@@ -45028,6 +44921,55 @@ type RemoveEnterpriseMemberPayload {
   """
   The reactable subject.
   """
+  enterprise: Enterprise
+
+"""
+Autogenerated input type of RemoveEnterpriseMember
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Indicates if the repository has the Discussions feature enabled.
+  """
+  hasDiscussionsEnabled: Boolean!
+
+  """
+  Indicates if the repository has issues feature enabled.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  Whether vulnerability alerts are enabled for the repository.
+  """
+  hasVulnerabilityAlertsEnabled: Boolean!
+
+  """
+  Indicates if the repository has wiki feature enabled.
+  """
+  clientMutationId: String
+
+  """
+  The updated enterprise.
+  """
+  enterprise: Enterprise
+
+  """
+  The user that was removed from the enterprise.
+  """
   user: User
 
   """
@@ -45039,48 +44981,16 @@ type RemoveEnterpriseMemberPayload {
 """
 Autogenerated input type of RemoveEnterpriseOrganization
 """
-type RemovedFromMergeQueueEvent implements Node {
+input RemoveEnterpriseMemberInput {
   """
-  Identifies the actor who performed the event.
+  A unique identifier for the client performing the mutation.
   """
-  actor: Actor
+  clientMutationId: String
 
   """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  The ID of the enterprise from which the user should be removed.
   """
-  beforeCommit: Commit
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-  """
-  PullRequest referenced by event.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
 
 """
 Represents a 'removed_from_merge_queue' event on a given pull request.
@@ -45130,103 +45040,7 @@ type RemovedFromMergeQueueEvent implements Node {
 }
 
 """
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  Identifies the actor who performed the event.
-  """
-  actor: Actor
-
-  """
-  How the default commit message will be generated when merging a pull request.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
-  How the default commit title will be generated when merging a pull request.
-  """
-  mergeCommitTitle: MergeCommitTitle!
-
-  """
-  The merge queue for a specified branch, otherwise the default branch if not provided.
-  """
-  mergeQueue(
-    """
-    The name of the branch to get the merge queue for. Case sensitive.
-    """
-    branch: String
-  ): MergeQueue
-
-  """
-  Returns a single milestone from the current repository by number.
-  """
-  archivedAt: DateTime
-
-  """
-  A list of users that can be assigned to issues in this repository.
-  """
-  beforeCommit: Commit
-
-  """
-  Identifies the date and time when the object was created.
-  """
-  createdAt: DateTime!
-
-  """
-  The user who removed this Pull Request from the merge queue
-  """
-  enqueuer: User
-  id: ID!
-
-  """
-  The merge queue where this pull request was removed from.
-  """
-  mergeQueue: MergeQueue
-
-    """
-    Filters users with query on user name and login.
-    """
-    query: String
-  ): UserConnection!
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
-}
-
-"""
 Represents a 'removed_from_project' event on a given issue or pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
-  """
-  How the default commit message will be generated when merging a pull request.
-  """
-  mergeCommitMessage: MergeCommitMessage!
-
-  """
-  How the default commit title will be generated when merging a pull request.
-  """
-  mergeCommitTitle: MergeCommitTitle!
-
-  """
-  The merge queue for a specified branch, otherwise the default branch if not provided.
-  """
-  mergeQueue(
-    """
-    The name of the branch to get the merge queue for. Case sensitive.
-    """
-    branch: String
-  ): MergeQueue
-
-  """
-  Returns a single milestone from the current repository by number.
-  """
-  actor: Actor
-
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
 """
 type RemovedFromMergeQueueEvent implements Node {
   """
@@ -45271,51 +45085,34 @@ Represents a 'removed_from_project' event on a given issue or pull request.
 """
 type RemovedFromProjectEvent implements Node {
   """
-  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
+  The ID of the user to remove from the enterprise.
   """
-  beforeCommit: Commit
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
 
   """
-  Identifies the date and time when the object was created.
+  The updated enterprise.
   """
-  createdAt: DateTime!
+  enterprise: Enterprise
 
   """
-  The user who removed this Pull Request from the merge queue
+  The user that was removed from the enterprise.
   """
-  enqueuer: User
-  id: ID!
-
-    """
-    The login of one specific collaborator.
-    """
-    login: String
-
-    """
-    Filters users with query on user name and login
-    """
-    query: String
-  ): RepositoryCollaboratorConnection
+  user: User
 
   """
-  The reaction groups for the subject.
+  The viewer performing the mutation.
   """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reaction groups for the subject.
-  """
-  reactionGroups: [ReactionGroup!]
-
-  """
-  The reactable subject.
-  """
-  pullRequest: PullRequest
-
-  """
-  The reason this pull request was removed from the queue.
-  """
-  reason: String
+  viewer: User
 }
 
 """
@@ -45346,6 +45143,71 @@ type ReopenDiscussionPayload {
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
+
+  """
+  The discussion that was reopened.
+  """
+  discussion: Discussion
+}
+
+"""
+Autogenerated input type of ReopenIssue
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  The ID of the enterprise from which the user should be removed.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
+
+  """
+  The reactable subject.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+An object which has a renamable title
+"""
+union RenamedTitleSubject = Issue | PullRequest
+
+"""
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  ID of the discussion to be reopened.
+  """
+  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+}
+
+"""
+Autogenerated return type of ReopenDiscussion
+"""
+type ReopenDiscussionPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
 
   """
   Identifies the date and time when the repository was archived.
@@ -45390,16 +45252,16 @@ type ReopenDiscussionPayload {
 """
 Autogenerated input type of ReopenIssue
 """
-input ReopenDiscussionInput {
+type RemoveEnterpriseMemberPayload {
   """
   A unique identifier for the client performing the mutation.
   """
   clientMutationId: String
 
   """
-  How the default commit message will be generated when merging a pull request.
+  The updated enterprise.
   """
-  mergeCommitMessage: MergeCommitMessage!
+  enterprise: Enterprise
 
   """
   How the default commit message will be generated when merging a pull request.
@@ -45424,35 +45286,20 @@ input ReopenDiscussionInput {
   """
   Returns a single milestone from the current repository by number.
   """
-  mergeCommitTitle: MergeCommitTitle!
+  user: User
 
   """
-  The merge queue for a specified branch, otherwise the default branch if not provided.
+  The viewer performing the mutation.
   """
-  mergeQueue(
-    """
-    The name of the branch to get the merge queue for. Case sensitive.
-    """
-    branch: String
-  ): MergeQueue
-
-  """
-  Returns a single milestone from the current repository by number.
-  """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+  viewer: User
 }
 
 """
-Autogenerated return type of ReopenDiscussion
+Autogenerated input type of RemoveEnterpriseOrganization
 """
-type ReopenDiscussionPayload {
+input RemoveEnterpriseMemberInput {
   """
   A unique identifier for the client performing the mutation.
-  """
-  clientMutationId: String
-
-  """
-  Finds and returns the Project according to the provided Project number.
   """
   collaborators(
     """
@@ -45488,46 +45335,82 @@ type ReopenDiscussionPayload {
     """
     Filters users with query on user name and login
     """
+    login: String
+
+    """
+    Filters users with query on user name and login
+    """
     query: String
   ): RepositoryCollaboratorConnection
 
   """
-  ID of the discussion to be reopened.
+  The ID of the enterprise from which the user should be removed.
   """
-  discussionId: ID! @possibleTypes(concreteTypes: ["Discussion"])
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
 }
 
 """
-Autogenerated return type of ReopenDiscussion
+Autogenerated return type of RemoveEnterpriseMember
 """
-type ReopenDiscussionPayload {
+type RemoveEnterpriseMemberPayload {
   """
-  The HTTP path listing the repository's projects
+  A unique identifier for the client performing the mutation.
   """
-  projectsResourcePath: URI!
+  clientMutationId: String
 
   """
-  The HTTP URL listing the repository's projects
+  The updated enterprise.
   """
-  projectsUrl: URI!
+  enterprise: Enterprise
+
+"""
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
+  """
+  Identifies the actor who performed the event.
+  """
+  actor: Actor
 
   """
-  List of projects linked to this repository.
+  Identifies the before commit SHA for the 'removed_from_merge_queue' event.
   """
-  projectsV2(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
+  beforeCommit: Commit
 
   """
-  The discussion that was reopened.
+  Identifies the date and time when the object was created.
   """
-  discussion: Discussion
+  createdAt: DateTime!
+
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
+
+  """
+  The merge queue where this pull request was removed from.
+  """
+  mergeQueue: MergeQueue
+
+  """
+  PullRequest referenced by event.
+  """
+  pullRequest: PullRequest
+
+  """
+  The reason this pull request was removed from the queue.
+  """
+  reason: String
 }
 
 """
-Autogenerated input type of ReopenIssue
+Represents a 'removed_from_project' event on a given issue or pull request.
 """
 type RemovedFromProjectEvent implements Node {
   """
@@ -45538,194 +45421,42 @@ type RemovedFromProjectEvent implements Node {
   """
   Finds and returns the Project according to the provided Project number.
   """
-  pullRequest(
+  discussionCategory(
     """
-    The number for the pull request to be returned.
+    The slug of the discussion category to be returned.
     """
-    number: Int!
-  ): PullRequest
+    slug: String!
+  ): DiscussionCategory
 
   """
-  Returns a list of pull request templates associated to the repository
+  A discussion category by slug.
   """
-  pullRequestTemplates: [PullRequestTemplate!]
-
-  """
-  A list of pull requests that have been opened in the repository.
-  """
-  pullRequests(
+  discussionCategory(
     """
-    Returns the elements in the list that come after the specified cursor.
+    The slug of the discussion category to be returned.
     """
-    after: String
-
-    """
-    The base ref name to filter the pull requests by.
-    """
-    baseRefName: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    The head ref name to filter the pull requests by.
-    """
-    headRefName: String
-
-    """
-    A list of label names to filter the pull requests by.
-    """
-    labels: [String!]
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Ordering options for pull requests returned from the connection.
-    """
-    orderBy: IssueOrder
-
-    """
-    A list of states to filter the pull requests by.
-    """
-    states: [PullRequestState!]
-  ): PullRequestConnection!
+    slug: String!
+  ): DiscussionCategory
 
   """
-  Identifies the date and time when the repository was last pushed to.
+  A discussion category by slug.
   """
-  pushedAt: DateTime
-
-  """
-  Whether or not rebase-merging is enabled on this repository.
-  """
-  rebaseMergeAllowed: Boolean!
-
-  """
-  Recent projects that this user has modified in the context of the owner.
-  """
-  recentProjects(
+  discussionCategory(
     """
-    Returns the elements in the list that come after the specified cursor.
+    The slug of the discussion category to be returned.
     """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-  ): ProjectV2Connection!
+    slug: String!
+  ): DiscussionCategory
 
   """
-  Fetch a given ref from the repository
+  A discussion category by slug.
   """
-  ref(
+  discussionCategory(
     """
-    The ref to retrieve. Fully qualified matches are checked in order
-    (`refs/heads/master`) before falling back onto checks for short name matches (`master`).
+    The slug of the discussion category to be returned.
     """
-    qualifiedName: String!
-  ): Ref
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-  ): PinnedIssueConnection
-
-  """
-  The primary language of the repository's code.
-  """
-  primaryLanguage: Language
-
-  """
-  Find project by number.
-  """
-  project(
-    """
-    The project number to find.
-    """
-    number: Int!
-  ): Project
-
-  """
-  Finds and returns the Project according to the provided Project number.
-  """
-  projectV2(
-    """
-    The Project number.
-    """
-    number: Int!
-  ): ProjectV2
-
-  """
-  A list of projects under the owner.
-  """
-  projects(
-    """
-    Returns the elements in the list that come after the specified cursor.
-    """
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
-
-    """
-    Ordering options for projects returned from the connection
-    """
-    orderBy: ProjectOrder
-
-    """
-    Query to search projects by, currently only searching by name.
-    """
-    search: String
-
-    """
-    A list of states to filter the projects by.
-    """
-    states: [ProjectState!]
-  ): ProjectConnection!
+    slug: String!
+  ): DiscussionCategory
 
   """
   The HTTP path listing the repository's projects
@@ -45750,6 +45481,11 @@ type RemovedFromProjectEvent implements Node {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
+
+    """
+    Only include discussions that belong to the category with this ID.
+    """
+    categoryId: ID = null
 
     """
     Returns the first _n_ elements from the list.
@@ -46091,6 +45827,10 @@ type RemovedFromProjectEvent implements Node {
   """
   stargazerCount: Int!
 
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
   """
   A list of users who have starred this starrable.
   """
@@ -46104,11 +45844,6 @@ type RemovedFromProjectEvent implements Node {
     Returns the elements in the list that come before the specified cursor.
     """
     before: String
-
-    """
-    DEPRECATED: use orderBy. The ordering direction.
-    """
-    direction: OrderDirection
 
     """
     Returns the first _n_ elements from the list.
@@ -46132,9 +45867,11 @@ type RemovedFromProjectEvent implements Node {
   """
   submodules(
     """
-    Returns the elements in the list that come after the specified cursor.
+    Array of viewer's affiliation options for repositories returned from the
+    connection. For example, OWNER will include only repositories that the
+    current viewer owns.
     """
-    after: String
+    affiliations: [RepositoryAffiliation]
 
     """
     Returns the elements in the list that come before the specified cursor.
@@ -46157,6 +45894,10 @@ type RemovedFromProjectEvent implements Node {
   """
   tempCloneToken: String
 
+"""
+Autogenerated input type of ReopenDiscussion
+"""
+input ReopenDiscussionInput {
   """
   The repository from which this repository was generated, if any.
   """
@@ -46251,10 +45992,14 @@ type RemovedFromProjectEvent implements Node {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
 
     """
     Filter by the scope of the alert's dependency
@@ -46266,10 +46011,10 @@ type RemovedFromProjectEvent implements Node {
     """
     first: Int
 
-    """
-    Returns the last _n_ elements from the list.
-    """
-    last: Int
+  """
+  The reaction groups for the subject.
+  """
+  reactionGroups: [ReactionGroup!]
 
     """
     Filter by the state of the alert
@@ -46286,18 +46031,42 @@ type RemovedFromProjectEvent implements Node {
     """
     after: String
 
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
+"""
+Autogenerated input type of RemoveEnterpriseOrganization
+"""
+input RemoveEnterpriseMemberInput {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
+
+  """
+  Identifies the date and time when the repository was archived.
+  """
+  archivedAt: DateTime
+
+  """
+  A list of users that can be assigned to issues in this repository.
+  """
+  enterpriseId: ID! @possibleTypes(concreteTypes: ["Enterprise"])
+
+  """
+  The ID of the user to remove from the enterprise.
+  """
+  userId: ID! @possibleTypes(concreteTypes: ["User"])
+}
+
+"""
+Autogenerated return type of RemoveEnterpriseMember
+"""
+type RemoveEnterpriseMemberPayload {
+  """
+  A unique identifier for the client performing the mutation.
+  """
+  clientMutationId: String
 
     """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
-
-    """
-    Returns the last _n_ elements from the list.
+    Filters users with query on user name and login.
     """
     last: Int
   ): UserConnection!
@@ -46323,6 +46092,10 @@ enum RepositoryAffiliation {
   """
   ORGANIZATION_MEMBER
 
+"""
+Autogenerated input type of RemoveEnterpriseOrganization
+"""
+type RemovedFromMergeQueueEvent implements Node {
   """
   Repositories that are owned by the authenticated user.
   """
@@ -46413,10 +46186,6 @@ type RepositoryCollaboratorConnection {
   """
   edges: [RepositoryCollaboratorEdge]
 
-"""
-Autogenerated return type of ReopenDiscussion
-"""
-type ReopenDiscussionPayload {
   """
   A list of nodes.
   """
@@ -46427,10 +46196,6 @@ type ReopenDiscussionPayload {
   """
   pageInfo: PageInfo!
 
-"""
-Represents a 'removed_from_merge_queue' event on a given pull request.
-"""
-type RemovedFromMergeQueueEvent implements Node {
   """
   Identifies the total count of items in the connection.
   """
@@ -46452,6 +46217,10 @@ type RepositoryCollaboratorEdge {
   """
   permission: RepositoryPermission!
 
+"""
+Represents a 'removed_from_project' event on a given issue or pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
   """
   A list of sources for the user's access to the repository.
   """
@@ -46477,6 +46246,10 @@ type RepositoryConnection {
   """
   pageInfo: PageInfo!
 
+"""
+Represents a 'removed_from_merge_queue' event on a given pull request.
+"""
+type RemovedFromMergeQueueEvent implements Node {
   """
   Identifies the total count of items in the connection.
   """
@@ -46562,23 +46335,16 @@ interface RepositoryDiscussionAuthor {
     """
     before: String
 
-    """
-    Returns the first _n_ elements from the list.
-    """
-    first: Int
+  """
+  The user who removed this Pull Request from the merge queue
+  """
+  enqueuer: User
+  id: ID!
 
-"""
-Represents a type that can be required by a pull request for merging.
-"""
-interface RequirableByPullRequest {
-  """
-  Whether this is required to pass before merging for a specific pull request.
-  """
-  isRequired(
     """
-    The id of the pull request this is required for
+    The login of one specific collaborator.
     """
-    pullRequestId: ID
+    login: String
 
     """
     Ordering options for discussions returned from the connection.
@@ -46615,16 +46381,10 @@ interface RepositoryDiscussionCommentAuthor {
     """
     before: String
 
-"""
-Choose which environments must be successfully deployed to before branches can
-be merged into a branch that matches this rule.
-"""
-input RequiredDeploymentsParametersInput {
-  """
-  The environments that must be successfully deployed to before branches can be merged.
-  """
-  requiredDeploymentEnvironments: [String!]!
-}
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
 
     """
     Returns the last _n_ elements from the list.
@@ -48904,13 +48664,6 @@ type ReviewDismissedEvent implements Node & UniformResourceLocatable {
   """
   dismissalMessage: String
 
-"""
-Choose which status checks must pass before branches can be merged into a branch
-that matches this rule. When enabled, commits must first be pushed to another
-branch, then merged or pushed directly to a branch that matches this rule after
-status checks have passed.
-"""
-input RequiredStatusChecksParametersInput {
   """
   Identifies the optional message associated with the event, rendered to HTML.
   """
@@ -48922,10 +48675,6 @@ input RequiredStatusChecksParametersInput {
   """
   previousReviewState: PullRequestReviewState!
 
-"""
-Autogenerated input type of RerequestCheckSuite
-"""
-input RerequestCheckSuiteInput {
   """
   PullRequest referenced by event.
   """
@@ -60780,6 +60529,31 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectOwner &
     """
     types: [PinnableItemType!]
   ): PinnableItemConnection!
+
+  """
+  Returns how many more items this profile owner can pin to their profile.
+  """
+  pinnedItemsRemaining: Int!
+
+  """
+  Find project by number.
+  """
+  project(
+    """
+    The project number to find.
+    """
+    number: Int!
+  ): Project
+
+  """
+  Find a project by number.
+  """
+  projectV2(
+    """
+    The project number.
+    """
+    number: Int!
+  ): ProjectV2
 
   """
   The HTTP path listing user's projects
